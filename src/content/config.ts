@@ -14,26 +14,8 @@ export const collections = {
 		type: 'content',
 		schema: streamSchema,
 	}),
-  docs: defineCollection({
-    type: 'content',
-    schema: z.object({
-      title: z.string(),
-      description: z.string().optional()
-    })
-  })
 };
 
 // Export the stream schema type
 export type StreamSchema = z.infer<typeof streamSchema>;
 
-  })
-};
-
-// Export the stream schema type
-export type StreamSchema = z.infer<typeof streamSchema>;
-
-  })
-};
-
-// Export the stream schema type
-export type StreamSchema = z.infer<typeof streamSchema>;

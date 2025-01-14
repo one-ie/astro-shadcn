@@ -1,20 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getReadme } from "../lib/markdown";
-
-let readme = '';
-try {
-  readme = await getReadme();
-} catch (error) {
-  console.error('Error loading README:', error);
-  readme = '<p>Error: Unable to load README content</p>';
-}
+import ReadmeContent from '../../README.md';
 ---
-
-<Layout title="README - Astro + shadcn/ui">
-  <main class="container mx-auto px-4 py-8">
-    <div class="prose dark:prose-invert max-w-none">
-      <article set:html={readme} />
-    </div>
-  </main>
+<Layout title="README" description="Astro + Shadcn UI Documentation">
+<article>
+  <ReadmeContent />
+</article>
 </Layout>
