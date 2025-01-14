@@ -2,8 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import ReadmeContent from '../../README.md';
 ---
+
 <Layout title="README" description="Astro + Shadcn UI Documentation">
-<article>
-  <ReadmeContent />
-</article>
+  <div class="prose dark:prose-invert max-w-none">
+    <article>
+      <ReadmeContent />
+    </article>
+  </div>
 </Layout>
