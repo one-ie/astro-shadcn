@@ -72,6 +72,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16"
+    "@tailwindcss/typography": "^0.5.16",
+    "terser": "^5.37.0"
   }
 }

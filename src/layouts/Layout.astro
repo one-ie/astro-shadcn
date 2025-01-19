@@ -35,7 +35,7 @@ const {
   description = "A beautiful dashboard built with Astro and shadcn/ui",
 } = Astro.props;
 
-// Extract critical CSS variables
+// Critical CSS variables
 const criticalStyles = `
   :root {
     --background: 0 0% 100%;
@@ -43,76 +43,72 @@ const criticalStyles = `
     --radius: 0.5rem;
   }
   
-  /* Prevent layout shifts with minimum heights */
+  /* Core layout styles */
   body {
     margin: 0;
     min-height: 100vh;
+    opacity: 0;
+    animation: fadeIn 0.1s ease-in forwards;
   }
   
-  /* Ensure consistent main content height */
-  main {
-    min-height: calc(100vh - 2rem);
+  @keyframes fadeIn {
+    to { opacity: 1; }
   }
   
-  /* Critical above-the-fold styles */
-  .flex { display: flex; }
-  .min-h-screen { min-height: 100vh; }
-  .bg-background { background-color: hsl(var(--background)); }
+  /* Critical layout classes */
+  .flex { display: flex }
+  .min-h-screen { min-height: 100vh }
+  .bg-background { background-color: hsl(var(--background)) }
 `;
+
+// Resource hints
+const preconnectUrls = [
+  'https://fonts.googleapis.com',
+  'https://fonts.gstatic.com'
+];
+
+const preloadAssets = [
+  { url: '/icon.svg', as: 'image' },
+  { url: '/logo.png', as: 'image' }
+];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="/" crossorigin>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
-    <!-- Inline critical styles -->
-    <style is:inline set:html={criticalStyles}></style>
+    <!-- Resource hints -->
+    {preconnectUrls.map(url => (
+      <link rel="preconnect" href={url} crossorigin />
+    ))}
     
     <!-- Preload critical assets -->
-    <link rel="preload" href="/icon.svg" as="image" type="image/svg+xml">
+    {preloadAssets.map(({ url, as }) => (
+      <link rel="preload" href={url} as={as} fetchpriority="high" />
+    ))}
+    
+    <!-- Inline critical CSS -->
+    <style is:inline set:html={criticalStyles}></style>
     
     <title>{title}</title>
 
+    <!-- Defer non-critical JS -->
     <script is:inline>
-      const getThemePreference = () => {
-        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-          return localStorage.getItem("theme");
-        }
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-      };
-      const isDark = getThemePreference() === "dark";
-      document.documentElement.classList[isDark ? "add" : "remove"]("dark");
-
-      if (typeof localStorage !== "undefined") {
-        const observer = new MutationObserver(() => {
-          const isDark = document.documentElement.classList.contains("dark");
-          localStorage.setItem("theme", isDark ? "dark" : "light");
-        });
-        observer.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ["class"],
-        });
-      }
-    </script>
-    <script>
-      // Initialize layout
-      import { initLayout } from '../stores/layout'
-      initLayout()
+      // Theme initialization
+      const theme = localStorage.getItem('theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList[theme === 'dark' ? 'add' : 'remove']('dark');
     </script>
   </head>
   <body class="min-h-screen bg-background font-sans antialiased">
-    <div class="flex min-h-screen">
-      <Sidebar 
-        navigation={navigation} 
-        client:load 
-      />
-      
+    <div class="flex min-h-screen optimize-gpu">
+      <Sidebar navigation={navigation} client:load />
       <div id="main-content" class="flex-1 min-h-screen">
         <main class="py-6 min-h-[calc(100vh-3rem)]">
           <slot />

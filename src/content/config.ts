@@ -5,15 +5,19 @@ const streamSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	date: z.date(),
+	draft: z.boolean().optional(),
 	picture: z.string().optional(),
+	image: z.string().optional()
 });
 
 // Define the stream collection schema
+const stream = defineCollection({
+	type: 'content',
+	schema: streamSchema,
+});
+
 export const collections = {
-	'stream': defineCollection({
-		type: 'content',
-		schema: streamSchema,
-	}),
+	'stream': stream
 };
 
 // Export the stream schema type
