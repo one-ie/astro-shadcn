@@ -10,7 +10,22 @@ export default defineConfig({
   markdown: {
     // add markdown config here
   },
+  build: {
+    // Force all styles to be inlined to eliminate render-blocking CSS
+    inlineStylesheets: 'always',
+  },
   vite: {
-    assetsInclude: ['**/*.md']
+    build: {
+      // Reduce the size threshold for inlining assets
+      assetsInlineLimit: 4096, // 4kb
+      cssCodeSplit: true,
+    },
+    css: {
+      // Enable CSS code splitting
+      modules: {
+        // Generate more readable class names in development
+        generateScopedName: '[name]__[local]___[hash:base64:5]'
+      }
+    }
   }
 });

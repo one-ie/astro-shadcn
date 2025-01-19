@@ -102,6 +102,7 @@
 
 #main-content main {
   @apply flex-1 flex flex-col justify-center;
+  min-height: calc(100vh - 2rem); /* Accounting for py-6 padding */
 }
 
 /* Only add margin AND padding when in sidebar layout */

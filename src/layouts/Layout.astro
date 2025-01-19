@@ -34,6 +34,31 @@ const {
   title,
   description = "A beautiful dashboard built with Astro and shadcn/ui",
 } = Astro.props;
+
+// Extract critical CSS variables
+const criticalStyles = `
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --radius: 0.5rem;
+  }
+  
+  /* Prevent layout shifts with minimum heights */
+  body {
+    margin: 0;
+    min-height: 100vh;
+  }
+  
+  /* Ensure consistent main content height */
+  main {
+    min-height: calc(100vh - 2rem);
+  }
+  
+  /* Critical above-the-fold styles */
+  .flex { display: flex; }
+  .min-h-screen { min-height: 100vh; }
+  .bg-background { background-color: hsl(var(--background)); }
+`;
 ---
 
 <!doctype html>
@@ -43,6 +68,13 @@ const {
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Inline critical styles -->
+    <style is:inline set:html={criticalStyles}></style>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/icon.svg" as="image" type="image/svg+xml">
+    
     <title>{title}</title>
 
     <script is:inline>
@@ -81,8 +113,8 @@ const {
         client:load 
       />
       
-      <div id="main-content" class="flex-1">
-        <main class="py-6">
+      <div id="main-content" class="flex-1 min-h-screen">
+        <main class="py-6 min-h-[calc(100vh-3rem)]">
           <slot />
         </main>
       </div>
