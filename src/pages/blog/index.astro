@@ -6,8 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Grid, List } from "lucide-react";
 import type { CollectionEntry } from "astro:content";
 
-// Get all course entries
-const entries = await getCollection("course");
+// Get all Blog entries
+const entries = await getCollection("blog");
 
 // Get view mode from URL params, default to list
 const viewMode = Astro.url.searchParams.get("view") || "list";
@@ -23,29 +23,29 @@ function formatDate(date: Date) {
 ---
 
 <Layout
-	title="Course"
+	title="Blog"
 	description="Browse all available lessons"
 >
 	<div class="max-w-4xl mx-auto">
 		<div class="flex justify-between items-center mb-8">
-			<h1 class="text-4xl font-bold">Course</h1>
+			<h1 class="text-4xl font-bold">Blog</h1>
 			<div class="flex gap-2 items-center">
 				<a
-					href="/course?view=list"
+					href="/blog?view=list"
 					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'list' ? 'bg-accent' : ''}`}
 					title="List view"
 				>
 					<List className="w-5 h-5" />
 				</a>
 				<a
-					href="/course?view=grid&columns=2"
+					href="/blog?view=grid&columns=2"
 					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '2' ? 'bg-accent' : ''}`}
 					title="2 columns grid"
 				>
 					<Grid className="w-5 h-5" />
 				</a>
 				<a
-					href="/course?view=grid&columns=3"
+					href="/blog?view=grid&columns=3"
 					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '3' ? 'bg-accent' : ''}`}
 					title="3 columns grid"
 				>
@@ -56,7 +56,7 @@ function formatDate(date: Date) {
 					</div>
 				</a>
 				<a
-					href="/course?view=grid&columns=4"
+					href="/blog?view=grid&columns=4"
 					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '4' ? 'bg-accent' : ''}`}
 					title="4 columns grid"
 				>
@@ -74,9 +74,9 @@ function formatDate(date: Date) {
 			class={viewMode === 'grid' ? `grid gap-4 sm:gap-6 grid-cols-1 ${gridColumns === '2' ? 'sm:grid-cols-2' : gridColumns === '3' ? 'sm:grid-cols-3' : 'sm:grid-cols-4'}` : 'space-y-4 sm:space-y-6'}
 			transition:animate="slide"
 		>
-			{entries.map((entry: CollectionEntry<"course">) => (
+			{entries.map((entry: CollectionEntry<"Blog">) => (
 				<Card className={`overflow-hidden transition-all duration-200 hover:shadow-lg ${viewMode === 'list' ? 'flex' : 'hover:-translate-y-1'}`}>
-					<a href={`/course/${entry.slug}`} class={`block hover:opacity-80 transition-opacity ${viewMode === 'list' ? 'flex flex-1' : ''}`}>
+					<a href={`/blog/${entry.slug}`} class={`block hover:opacity-80 transition-opacity ${viewMode === 'list' ? 'flex flex-1' : ''}`}>
 						{entry.data.picture && viewMode === 'list' && (
 							<div class="w-48 shrink-0">
 								<img
@@ -89,7 +89,7 @@ function formatDate(date: Date) {
 						<div class="p-6 flex-1">
 							<div class="flex items-center gap-2 mb-4">
 								<Badge variant="secondary" client:load>
-									{entry.data.type || "Course"}
+									{entry.data.type || "Blog"}
 								</Badge>
 								<span class="text-sm text-muted-foreground flex items-center">
 									<Calendar className="w-4 h-4 mr-1" client:load />

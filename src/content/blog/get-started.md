@@ -1,7 +1,7 @@
 ---
 title: "Getting Started with Astro + Shadcn/UI"
 description: "Learn how to set up and customize your high-performance Astro site with Shadcn/UI components"
-slug: "/courses/getting-started"
+slug: "/Blogs/getting-started"
 date: 2024-03-21
 picture: ""
 images:

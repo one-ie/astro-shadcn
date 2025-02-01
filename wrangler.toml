@@ -1,0 +1,18 @@
+name = "astro-shadcn"
+compatibility_date = "2024-01-18"
+pages_build_output_dir = "dist"
+
+# Declare environment variables
+[vars]
+ENVIRONMENT = "development"
+
+# Define preview environment
+[env.preview]
+vars = { ENVIRONMENT = "preview" }
+
+# Define production environment
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+# Declare secrets (these must be set using `wrangler secret put`)
+# OPENAI_API_KEY - Required for OpenAI API access

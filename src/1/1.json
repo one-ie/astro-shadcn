@@ -1,0 +1,185 @@
+{
+  "business": {
+    "name": "ONE",
+    "description": "AI-Powered Solutions",
+    "contact": {
+      "email": "hello@one.ie",
+      "phone": "+353 1 234 5678",
+      "whatsapp": "+353 87 123 4567",
+      "website": "https://one.ie",
+      "telegram": "@onedotie",
+      "address": {
+        "street": "123 Main Street",
+        "area": "Silicon Docks",
+        "city": "Dublin",
+        "zip": "D02 X285",
+        "country": "Ireland"
+      },
+      "social": {
+        "github": "https://github.com/one",
+        "twitter": "https://twitter.com/onedotie",
+        "linkedin": "https://linkedin.com/company/one",
+        "instagram": "https://instagram.com/onedotie",
+        "youtube": "https://youtube.com/onedotie",
+        "discord": "https://discord.gg/one",
+        "medium": null,
+        "facebook": "https://facebook.com/onedotie",
+        "tiktok": null,
+        "threads": null,
+        "mastodon": null,
+        "slack": "https://one.slack.com",
+        "telegram_channel": "https://t.me/onedotie"
+      }
+    },
+    "seo": {
+      "canonical": "https://one.ie",
+      "title": "ONE - AI-Powered Solutions",
+      "metaTitle": "ONE - Transform Your Business with AI",
+      "metaDescription": "Transform your business with AI-powered solutions from ONE. We provide cutting-edge artificial intelligence solutions for modern enterprises.",
+      "metaKeywords": ["AI", "Machine Learning", "Business Solutions", "Digital Transformation"],
+      "metaRobots": "index, follow",
+      "openGraph": {
+        "type": "article",
+        "title": "ONE - AI-Powered Solutions",
+        "description": "Transform your business with AI-powered solutions from ONE.",
+        "image": {
+          "url": "https://one.ie/og-image.jpg",
+          "width": 1200,
+          "height": 630,
+          "alt": "ONE AI Solutions",
+          "type": "image/jpeg"
+        },
+        "locale": "en_IE",
+        "site_name": "ONE"
+      },
+      "twitter": {
+        "title": "ONE - AI-Powered Solutions",
+        "description": "Transform your business with AI-powered solutions from ONE.",
+        "image": "https://one.ie/twitter-card.jpg",
+        "card": "summary_large_image",
+        "site": "@onedotie",
+        "creator": "@tonyoconnell"
+      }
+    }
+  },
+  "page": {
+    "layout": {
+      "showLeft": true,
+      "showRight": true,
+      "showTop": true,
+      "showBottom": true,
+      "rightSize": "Quarter"
+    },
+    "navigation": {
+      "top": {
+        "logo": "/logo.svg",
+        "favicon": "/favicon.svg",
+        "items": [
+          {
+            "title": "Home",
+            "path": "/",
+            "icon": "Home"
+          },
+          {
+            "title": "Chat",
+            "path": "/chat",
+            "icon": "MessageSquare"
+          }
+        ],
+        "buttons": [
+          {
+            "title": "Get Started",
+            "path": "/get-started",
+            "icon": "ArrowRight"
+          }
+        ]
+      },
+      "sidebar": [
+        {
+          "title": "Dashboard",
+          "path": "/dashboard",
+          "icon": "Layout"
+        },
+        {
+          "title": "Chat",
+          "path": "/chat",
+          "icon": "MessageSquare"
+        }
+      ],
+      "footer": {
+        "columns": [
+          {
+            "title": "Product",
+            "links": [
+              {
+                "title": "Features",
+                "path": "/features",
+                "icon": "Star"
+              },
+              {
+                "title": "Pricing",
+                "path": "/pricing",
+                "icon": "CreditCard"
+              }
+            ]
+          },
+          {
+            "title": "Company",
+            "links": [
+              {
+                "title": "About",
+                "path": "/about",
+                "icon": "Info"
+              },
+              {
+                "title": "Blog",
+                "path": "/blog",
+                "icon": "FileText"
+              }
+            ]
+          }
+        ],
+        "bottom": {
+          "copyright": "© 2025 ONE. All rights reserved.",
+          "links": [
+            {
+              "title": "Privacy",
+              "path": "/privacy",
+              "icon": "Shield"
+            },
+            {
+              "title": "Terms",
+              "path": "/terms",
+              "icon": "FileText"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "ai": {
+    "provider": "openai",
+    "model": "gpt-4o-mini",
+    "apiEndpoint": "https://api.openai.com/v1",
+    "runtime": "edge",
+    "temperature": 0.7,
+    "maxTokens": 2000,
+    "systemPrompt": "You are a helpful AI assistant.",
+    "userPrompt": "src/1/1.md",
+    "welcome": {
+      "message": "How can I assist you today?",
+      "center": true,
+      "avatar": "/logo.svg",
+      "suggestions": [
+        {
+          "label": "Tell me about ONE",
+          "prompt": "What is ONE and how can it help me?"
+        },
+        {
+          "label": "Get Started",
+          "prompt": "How do I get started with ONE?"
+        }
+      ]
+    }
+  }
+}

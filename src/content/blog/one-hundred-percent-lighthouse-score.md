@@ -1,7 +1,7 @@
 ---
 title: "How to Get 100% Google Lighthouse Score"
 description: "Achieve perfect Lighthouse scores effortlessly with Astro's built-in optimizations"
-slug: "/courses/one-hundred-percent-lighthouse-score"
+slug: "/Blogs/one-hundred-percent-lighthouse-score"
 date: 2024-11-21
 picture: "/screenshots/lighthouse-desktop.png"
 images:

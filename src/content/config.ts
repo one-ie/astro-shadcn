@@ -1,25 +1,24 @@
 import { defineCollection, z } from 'astro:content';
 
-// Define the Course schema
-const CourseSchema = z.object({
-	title: z.string(),
-	description: z.string(),
-	date: z.date(),
-	draft: z.boolean().optional(),
-	picture: z.string().optional(),
-	image: z.string().optional()
+// Define the Blog schema
+const BlogSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  date: z.date(),
+  draft: z.boolean().optional(),
+  picture: z.string().optional(),
+  image: z.string().optional()
 });
 
-// Define the Course collection schema
-const Course = defineCollection({
-	type: 'content',
-	schema: CourseSchema,
+// Define the Blog collection schema
+const blog = defineCollection({
+  type: 'content',
+  schema: BlogSchema,
 });
 
 export const collections = {
-	'course': Course
+  'blog': blog
 };
 
-// Export the Course schema type
-export type CourseSchema = z.infer<typeof CourseSchema>;
-
+// Export the Blog schema type
+export type BlogSchema = z.infer<typeof BlogSchema>;

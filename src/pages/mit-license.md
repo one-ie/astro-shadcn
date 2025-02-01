@@ -6,7 +6,7 @@ description: A permissive license that allows for free use, modification, and di
 
 # MIT License
 
-Copyright (c) 2024 Agent C https://one.ie
+Copyright (c) 2025 ONE https://one.ie
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

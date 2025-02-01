@@ -1,0 +1,37 @@
+---
+// This component inlines the dark mode initializer script so that
+// the document’s <html> element gets the correct class before rendering.
+// This minimizes the flash-of-wrong-theme.
+---
+<script is:inline>
+  (function() {
+    function setDarkMode(doc) {
+      const getThemePreference = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+      const theme = getThemePreference();
+      if (theme === 'dark') {
+        doc.documentElement.classList.add('dark');
+      } else {
+        doc.documentElement.classList.remove('dark');
+      }
+      // Update localStorage whenever the class attribute changes
+      if (typeof localStorage !== 'undefined') {
+        const observer = new MutationObserver(() => {
+          const isDark = doc.documentElement.classList.contains('dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        observer.observe(doc.documentElement, { attributes: true, attributeFilter: ['class'] });
+      }
+    }
+    // Initialize on current document
+    setDarkMode(document);
+    // When Astro is about to swap the document (view transitions), set dark mode on the new document too.
+    document.addEventListener('astro:before-swap', (event) => {
+      setDarkMode(event.newDocument);
+    });
+  })();
+</script>

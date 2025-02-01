@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@1/*": ["src/1/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@lib/*": ["src/lib/*"],
@@ -13,7 +14,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "verbatimModuleSyntax": true,
-    "types": ["vite/client"],
+    "types": ["vite/client", "astro/client"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",

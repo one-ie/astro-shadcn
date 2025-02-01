@@ -1,0 +1,57 @@
+/* Right Panel States */
+.right-panel-full {
+  width: 100vw !important;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 40;
+  background-color: hsl(var(--background));
+}
+
+.right-panel-half {
+  width: 45vw !important;
+  background-color: hsl(var(--background));
+}
+
+.right-panel-quarter {
+  width: 400px !important;
+  background-color: hsl(var(--background));
+}
+
+.right-panel-closed {
+  width: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Transition Animations */
+.right-panel-enter {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.right-panel-exit {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}

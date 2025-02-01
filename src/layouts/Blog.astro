@@ -3,7 +3,7 @@ import Layout from './Layout.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  entry: CollectionEntry<'Course'>;
+  entry: CollectionEntry<'blog'>;
   children: any;
 }
 
@@ -43,12 +43,3 @@ const pageData = {
     </div>
   </article>
 </Layout>
-
-<style>
-  .prose {
-    @apply prose-headings:scroll-mt-20;
-    @apply prose-a:text-primary hover:prose-a:text-primary/80;
-    @apply prose-code:bg-muted prose-code:p-1 prose-code:rounded;
-    @apply prose-pre:bg-muted;
-  }
-</style>

@@ -2,6 +2,9 @@
 dist/
 # generated types
 .astro/
+.netlify/
+.vercel/
+.wrangler/
 
 # dependencies
 node_modules/
@@ -12,14 +15,24 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
 .env.production
 .env.local
+<<<<<<< HEAD
+=======
+.env*.local
+>>>>>>> chat
 
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
+
+# Local environment files
+*.local
+
+# Sensitive data
+.env.*
+!.env.example

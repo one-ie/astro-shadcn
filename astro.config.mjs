@@ -2,23 +2,37 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
-import partytown from '@astrojs/partytown';
-import cloudflare from '@astrojs/cloudflare';
+import netlify from '@astrojs/netlify';
 
-// https://astro.build/config
 export default defineConfig({
-  integrations: [react(), tailwind(), partytown()],
+  integrations: [react(), tailwind()],
   markdown: {
-    // add markdown config here
+    // markdown config
   },
   vite: {
     assetsInclude: ['**/*.md'],
     build: {
+      chunkSizeWarningLimit: 1800,
       rollupOptions: {
-        external: ['@astrojs/cloudflare']
+        output: {
+          manualChunks(id) {
+            if (id.includes('@assistant-ui/react')) {
+              return 'assistant-ui-chunk';
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+            if (id.includes('components/ui/')) {
+              return 'ui-components';
+            }
+          }
+        }
       }
+    },
+    ssr: {
+      noExternal: ['@assistant-ui/react']
     }
   },
   output: 'server',
-  adapter: cloudflare()
+  adapter: netlify()
 });
