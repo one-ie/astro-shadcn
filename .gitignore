@@ -1,5 +1,11 @@
 # build output
 dist/
+
+blocks/
+
+*.obsidian
+
+
 # generated types
 .astro/
 .netlify/
@@ -19,10 +25,7 @@ pnpm-debug.log*
 .env
 .env.production
 .env.local
-<<<<<<< HEAD
-=======
 .env*.local
->>>>>>> chat
 
 # macOS-specific files
 .DS_Store
