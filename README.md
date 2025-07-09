@@ -3,7 +3,7 @@
 A lightning-fast starter template combining Astro's performance with Shadcn's beautiful components.
 
 ### 🎨  Screenshots
-![Astro Shadcn UI](/screenshots/screenshot.png)
+![Astro Shadcn UI](https://astro-shadcn.one.ie/screenshots/screenshot.png)
 
 
 ## ⚡ Quick Start
