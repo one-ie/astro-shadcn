@@ -4,12 +4,7 @@ export default {
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
     plugins: [
         require("tailwindcss-animate"),
-        require("@tailwindcss/typography"),
-        require("@assistant-ui/react/tailwindcss")({ 
-            components: ["thread"],
-            shadcn: true 
-        }),
-        require("@assistant-ui/react-markdown/tailwindcss")
+        require("@tailwindcss/typography")
     ],
     theme: {
     	extend: {
