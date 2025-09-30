@@ -43,7 +43,7 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       return new Response(
         JSON.stringify({
           user: {
-            id: user._id,
+            id: user.id,
             email: user.email,
             name: user.name || null,
             emailVerified: false,
@@ -51,7 +51,7 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
           },
           session: {
             id: token,
-            userId: user._id,
+            userId: user.id,
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           },
         }),
@@ -105,18 +105,18 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
 
       return new Response(
         JSON.stringify({
-          user: {
-            id: user._id,
+          user: user ? {
+            id: user.id,
             email: user.email,
             name: user.name || null,
             emailVerified: false,
             image: null,
-          },
-          session: {
+          } : null,
+          session: user ? {
             id: result.token,
-            userId: user._id,
+            userId: user.id,
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          },
+          } : null,
         }),
         {
           status: 200,
@@ -148,18 +148,18 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
 
       return new Response(
         JSON.stringify({
-          user: {
-            id: user._id,
+          user: user ? {
+            id: user.id,
             email: user.email,
             name: user.name || null,
             emailVerified: false,
             image: null,
-          },
-          session: {
+          } : null,
+          session: user ? {
             id: result.token,
-            userId: user._id,
+            userId: user.id,
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          },
+          } : null,
         }),
         {
           status: 200,

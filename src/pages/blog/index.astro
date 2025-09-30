@@ -8,8 +8,10 @@ import { BlogSearch } from '@/components/BlogSearch';
 const entries = await getCollection('blog');
 
 // Get view mode from URL params, default to list
-const viewMode = Astro.url.searchParams.get('view') || 'list';
-const gridColumns = Astro.url.searchParams.get('columns') || '2';
+const viewModeParam = Astro.url.searchParams.get('view') || 'list';
+const viewMode = (viewModeParam === 'list' || viewModeParam === 'grid') ? viewModeParam : 'list';
+const gridColumnsParam = Astro.url.searchParams.get('columns') || '2';
+const gridColumns = (gridColumnsParam === '2' || gridColumnsParam === '3' || gridColumnsParam === '4') ? gridColumnsParam : '2';
 ---
 
 <Layout title="Blog" description="Browse all available lessons">

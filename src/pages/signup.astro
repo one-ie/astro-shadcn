@@ -34,7 +34,7 @@ if (Astro.locals.user) {
 
           <div class="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" name="password" type="password" placeholder="••••••••" required minlength="8" />
+            <Input id="password" name="password" type="password" placeholder="••••••••" required minLength={8} />
             <p class="text-xs text-muted-foreground">Minimum 8 characters</p>
           </div>
 
@@ -76,7 +76,7 @@ if (Astro.locals.user) {
           </Button>
         </div>
       </CardContent>
-      <CardFooter class="flex justify-center">
+      <CardFooter className="flex justify-center">
         <p class="text-sm text-muted-foreground">
           Already have an account? <a href="/login" class="text-primary hover:underline">Sign in</a>
         </p>

@@ -52,7 +52,7 @@ const user = Astro.locals.user
                 type="email"
                 value={user?.email || ""}
                 disabled
-                class="opacity-60 cursor-not-allowed"
+                className="opacity-60 cursor-not-allowed"
               />
               <p class="text-xs text-muted-foreground">Email cannot be changed</p>
             </div>
@@ -94,7 +94,7 @@ const user = Astro.locals.user
                 type="password"
                 placeholder="••••••••"
                 required
-                minlength="8"
+                minLength={8}
               />
               <p class="text-xs text-muted-foreground">Minimum 8 characters</p>
             </div>
@@ -107,7 +107,7 @@ const user = Astro.locals.user
                 type="password"
                 placeholder="••••••••"
                 required
-                minlength="8"
+                minLength={8}
               />
             </div>
 
@@ -127,26 +127,26 @@ const user = Astro.locals.user
           <CardTitle>Account Information</CardTitle>
           <CardDescription>Your account details</CardDescription>
         </CardHeader>
-        <CardContent class="space-y-4">
+        <CardContent className="space-y-4">
           <div>
-            <Label class="text-muted-foreground">User ID</Label>
+            <Label className="text-muted-foreground">User ID</Label>
             <p class="text-sm font-mono mt-1">{user?.id}</p>
           </div>
           <div>
-            <Label class="text-muted-foreground">Email</Label>
+            <Label className="text-muted-foreground">Email</Label>
             <p class="text-sm mt-1">{user?.email}</p>
           </div>
           <div>
-            <Label class="text-muted-foreground">Name</Label>
+            <Label className="text-muted-foreground">Name</Label>
             <p class="text-sm mt-1">{user?.name || "Not set"}</p>
           </div>
         </CardContent>
       </Card>
 
       <!-- Danger Zone -->
-      <Card class="border-destructive">
+      <Card className="border-destructive">
         <CardHeader>
-          <CardTitle class="text-destructive">Danger Zone</CardTitle>
+          <CardTitle className="text-destructive">Danger Zone</CardTitle>
           <CardDescription>Irreversible actions</CardDescription>
         </CardHeader>
         <CardContent>
