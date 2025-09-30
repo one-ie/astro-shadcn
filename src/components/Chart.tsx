@@ -181,7 +181,7 @@ export function Chart() {
                             right: 12,
                         }}
                     >
-                        <CartesianGrid vertical={false} />
+                        <CartesianGrid vertical={false} strokeOpacity={0.2} />
                         <XAxis
                             dataKey="date"
                             tickLine={false}
