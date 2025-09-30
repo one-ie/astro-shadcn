@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import node from '@astrojs/node';
 
 export default defineConfig({
   site: 'https://one.ie',
@@ -13,5 +14,6 @@ export default defineConfig({
       }),
     ],
   },
-  output: 'static',
+  output: 'server',
+  adapter: node({ mode: 'standalone' }),
 });

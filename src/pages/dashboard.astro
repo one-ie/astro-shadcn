@@ -1,0 +1,48 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+export const prerender = false;
+
+// Redirect if not authenticated
+const session = Astro.locals.session;
+if (!session) {
+  return Astro.redirect("/login");
+}
+
+const user = Astro.locals.user;
+---
+
+<Layout title="Dashboard">
+  <header class="border-b">
+    <div class="container mx-auto flex items-center justify-between py-4">
+      <h1 class="text-xl font-bold">Dashboard</h1>
+      <div class="flex items-center gap-4">
+        <span class="text-sm">{user?.name || user?.email}</span>
+        <form action="/api/logout" method="POST">
+          <button
+            type="submit"
+            class="px-3 py-1.5 text-sm border rounded-md hover:bg-accent"
+          >
+            Sign Out
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto py-8">
+    <h2 class="text-2xl mb-4">Welcome, {user?.name || "there"}!</h2>
+    <div class="bg-card border border-border rounded-lg p-6">
+      <p class="text-muted-foreground mb-2"><strong>Email:</strong> {user?.email}</p>
+      <p class="text-muted-foreground"><strong>User ID:</strong> {user?.id}</p>
+    </div>
+
+    <div class="mt-8">
+      <h3 class="text-xl mb-4">Quick Links</h3>
+      <div class="flex gap-4">
+        <a href="/" class="text-primary hover:underline">Home</a>
+        <a href="/blog" class="text-primary hover:underline">Blog</a>
+      </div>
+    </div>
+  </main>
+</Layout>

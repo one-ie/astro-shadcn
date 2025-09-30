@@ -1,3 +1,5 @@
+@import "@daveyplate/better-auth-ui/css";
+
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 

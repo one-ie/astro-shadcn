@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import { AuthCard } from "@daveyplate/better-auth-ui"
+
+export const prerender = false
+
+const { pathname } = Astro.params
+---
+
+<Layout title="Authentication">
+  <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/10">
+    <div class="w-full max-w-md px-4">
+      <AuthCard
+        pathname={pathname}
+        client:load
+        classNames={{
+          base: "shadow-xl",
+          header: "bg-gradient-to-r from-primary to-primary/80"
+        }}
+      />
+    </div>
+  </main>
+</Layout>

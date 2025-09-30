@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import { SettingsCards } from "@daveyplate/better-auth-ui"
+
+export const prerender = false
+
+const session = Astro.locals.session
+if (!session) {
+  return Astro.redirect("/auth/sign-in?redirect=/settings")
+}
+---
+
+<Layout title="Account Settings">
+  <main class="container mx-auto py-8 max-w-2xl">
+    <h1 class="text-2xl font-bold mb-6">Account Settings</h1>
+    <SettingsCards client:load />
+  </main>
+</Layout>
