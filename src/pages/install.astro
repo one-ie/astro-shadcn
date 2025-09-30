@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Card } from '../components/ui/card';
 ---
 
 <Layout title="Install - Astro shadcn/ui Starter Kit">
@@ -12,7 +11,7 @@ import { Card } from '../components/ui/card';
       </p>
     </div>
 
-    <Card className="p-6">
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
       <h2 class="text-2xl font-semibold mb-6">⚡ Quick Start</h2>
       <pre
         class="bg-secondary p-4 rounded-lg overflow-x-auto">
@@ -34,6 +33,6 @@ npm run dev`}</code>
           >http://localhost:4321</code
         > - You're ready to go! 🎉
       </p>
-    </Card>
+    </div>
   </div>
 </Layout>
