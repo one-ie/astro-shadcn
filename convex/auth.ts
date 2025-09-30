@@ -167,9 +167,11 @@ export const getCurrentUser = query({
       return null;
     }
 
+    const token = args.token; // Type narrowing for TypeScript
+
     const session = await ctx.db
       .query("sessions")
-      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .withIndex("by_token", (q) => q.eq("token", token))
       .first();
 
     if (!session || session.expiresAt < Date.now()) {
