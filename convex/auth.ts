@@ -115,6 +115,48 @@ export const signOut = mutation({
   },
 });
 
+// Sign in with OAuth mutation
+export const signInWithOAuth = mutation({
+  args: {
+    provider: v.string(),
+    email: v.string(),
+    name: v.optional(v.string()),
+    providerId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Check if user already exists
+    let user = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .first();
+
+    // Create user if doesn't exist
+    if (!user) {
+      const userId = await ctx.db.insert("users", {
+        email: args.email,
+        passwordHash: "", // No password for OAuth users
+        name: args.name,
+        createdAt: Date.now(),
+      });
+      user = await ctx.db.get(userId);
+      if (!user) throw new Error("Failed to create user");
+    }
+
+    // Create session
+    const token = generateToken();
+    const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
+
+    await ctx.db.insert("sessions", {
+      userId: user._id,
+      token,
+      expiresAt,
+      createdAt: Date.now(),
+    });
+
+    return { token, userId: user._id };
+  },
+});
+
 // Get current user query
 export const getCurrentUser = query({
   args: {

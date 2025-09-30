@@ -68,8 +68,8 @@ This will:
 2. Click "New OAuth App"
 3. Fill in:
    - **Application name**: Your app name
-   - **Homepage URL**: `http://localhost:4322` (your current dev server)
-   - **Callback URL**: `http://localhost:4322/api/auth/callback/github`
+   - **Homepage URL**: `http://localhost:4321` (your current dev server)
+   - **Callback URL**: `http://localhost:4321/api/auth/callback/github`
 4. Click "Register application"
 5. Click "Generate a new client secret"
 6. **Save both Client ID and Client Secret**
@@ -101,7 +101,7 @@ After `npx convex dev` creates your `.env.local`, you need to set Convex environ
 npx convex env set BETTER_AUTH_SECRET $(openssl rand -base64 32)
 
 # Set your site URL (use your actual dev server port)
-npx convex env set SITE_URL http://localhost:4322
+npx convex env set SITE_URL http://localhost:4321
 
 # Add GitHub OAuth credentials
 npx convex env set GITHUB_CLIENT_ID your_github_client_id_here

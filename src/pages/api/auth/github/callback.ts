@@ -1,0 +1,106 @@
+import type { APIRoute } from "astro";
+
+export const prerender = false;
+
+export const GET: APIRoute = async ({ url, cookies, redirect }) => {
+  const code = url.searchParams.get("code");
+
+  if (!code) {
+    return redirect("/login?error=github_auth_failed");
+  }
+
+  try {
+    const clientId = import.meta.env.GITHUB_CLIENT_ID;
+    const clientSecret = import.meta.env.GITHUB_CLIENT_SECRET;
+    const redirectUri = `${import.meta.env.BETTER_AUTH_URL || "http://localhost:4321"}/api/auth/github/callback`;
+
+    // Exchange code for access token
+    const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        client_id: clientId,
+        client_secret: clientSecret,
+        code,
+        redirect_uri: redirectUri,
+      }),
+    });
+
+    const tokenData = await tokenResponse.json();
+
+    if (!tokenData.access_token) {
+      return redirect("/login?error=github_token_failed");
+    }
+
+    // Get user info from GitHub
+    const userResponse = await fetch("https://api.github.com/user", {
+      headers: {
+        Authorization: `Bearer ${tokenData.access_token}`,
+        Accept: "application/json",
+      },
+    });
+
+    const githubUser = await userResponse.json();
+
+    // Get user email if not public
+    let email = githubUser.email;
+    if (!email) {
+      const emailResponse = await fetch("https://api.github.com/user/emails", {
+        headers: {
+          Authorization: `Bearer ${tokenData.access_token}`,
+          Accept: "application/json",
+        },
+      });
+      const emails = await emailResponse.json();
+      const primaryEmail = emails.find((e: any) => e.primary);
+      email = primaryEmail?.email || emails[0]?.email;
+    }
+
+    if (!email) {
+      return redirect("/login?error=no_email");
+    }
+
+    // Create or sign in user via Convex
+    const convexUrl = import.meta.env.PUBLIC_CONVEX_URL || import.meta.env.NEXT_PUBLIC_CONVEX_URL;
+
+    const signInResponse = await fetch(`${convexUrl}/api/mutation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        path: "auth:signInWithOAuth",
+        args: {
+          provider: "github",
+          email,
+          name: githubUser.name || githubUser.login,
+          providerId: String(githubUser.id),
+        },
+        format: "json",
+      }),
+    });
+
+    const result = await signInResponse.json();
+
+    if (result.value?.token) {
+      // Set auth cookie
+      cookies.set("auth_token", result.value.token, {
+        path: "/",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+        sameSite: "lax",
+        httpOnly: true,
+        secure: import.meta.env.PROD,
+      });
+
+      return redirect("/dashboard");
+    }
+
+    return redirect("/login?error=auth_failed");
+  } catch (error) {
+    console.error("GitHub OAuth error:", error);
+    return redirect("/login?error=server_error");
+  }
+};
