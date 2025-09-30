@@ -13,10 +13,10 @@ if (Astro.locals.user) {
 
 <Layout title="Sign In">
   <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/10 p-4">
-    <div class="w-full max-w-md">
-      <AuthUIProvider client:only="react">
-        <AuthView view="sign-in" client:load />
-      </AuthUIProvider>
-    </div>
+    <AuthUIProvider client:only="react">
+      <div class="w-full max-w-md">
+        <AuthView view="sign-in" />
+      </div>
+    </AuthUIProvider>
   </main>
 </Layout>
