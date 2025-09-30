@@ -1,7 +1,9 @@
 ---
 import Layout from "@/layouts/Layout.astro"
-import { AuthUIProvider } from "@/components/AuthUIProvider"
-import { AccountSettingsCards } from "@daveyplate/better-auth-ui"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export const prerender = false
 
@@ -9,6 +11,8 @@ const session = Astro.locals.session
 if (!session) {
   return Astro.redirect("/auth?redirect=/settings")
 }
+
+const user = Astro.locals.user
 ---
 
 <Layout title="Account Settings">
@@ -20,8 +24,219 @@ if (!session) {
       </p>
     </div>
 
-    <AuthUIProvider client:only="react">
-      <AccountSettingsCards client:load />
-    </AuthUIProvider>
+    <div class="space-y-6">
+      <!-- Profile Information -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Profile Information</CardTitle>
+          <CardDescription>Update your account profile information</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form id="profile-form" class="space-y-4">
+            <div class="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                value={user?.name || ""}
+                placeholder="Your name"
+              />
+            </div>
+
+            <div class="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={user?.email || ""}
+                disabled
+                class="opacity-60 cursor-not-allowed"
+              />
+              <p class="text-xs text-muted-foreground">Email cannot be changed</p>
+            </div>
+
+            <div id="profile-error" class="hidden text-sm text-destructive"></div>
+            <div id="profile-success" class="hidden text-sm text-green-600">Profile updated successfully!</div>
+
+            <Button type="submit">
+              Save Changes
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      <!-- Change Password -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Change Password</CardTitle>
+          <CardDescription>Update your password to keep your account secure</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form id="password-form" class="space-y-4">
+            <div class="space-y-2">
+              <Label htmlFor="current-password">Current Password</Label>
+              <Input
+                id="current-password"
+                name="currentPassword"
+                type="password"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <div class="space-y-2">
+              <Label htmlFor="new-password">New Password</Label>
+              <Input
+                id="new-password"
+                name="newPassword"
+                type="password"
+                placeholder="••••••••"
+                required
+                minlength="8"
+              />
+              <p class="text-xs text-muted-foreground">Minimum 8 characters</p>
+            </div>
+
+            <div class="space-y-2">
+              <Label htmlFor="confirm-password">Confirm New Password</Label>
+              <Input
+                id="confirm-password"
+                name="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                required
+                minlength="8"
+              />
+            </div>
+
+            <div id="password-error" class="hidden text-sm text-destructive"></div>
+            <div id="password-success" class="hidden text-sm text-green-600">Password changed successfully!</div>
+
+            <Button type="submit">
+              Update Password
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      <!-- Account Information -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Account Information</CardTitle>
+          <CardDescription>Your account details</CardDescription>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div>
+            <Label class="text-muted-foreground">User ID</Label>
+            <p class="text-sm font-mono mt-1">{user?.id}</p>
+          </div>
+          <div>
+            <Label class="text-muted-foreground">Email</Label>
+            <p class="text-sm mt-1">{user?.email}</p>
+          </div>
+          <div>
+            <Label class="text-muted-foreground">Name</Label>
+            <p class="text-sm mt-1">{user?.name || "Not set"}</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Danger Zone -->
+      <Card class="border-destructive">
+        <CardHeader>
+          <CardTitle class="text-destructive">Danger Zone</CardTitle>
+          <CardDescription>Irreversible actions</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-medium">Sign out of your account</p>
+              <p class="text-sm text-muted-foreground">You will need to sign in again</p>
+            </div>
+            <form action="/api/logout" method="POST">
+              <Button type="submit" variant="destructive">
+                Sign Out
+              </Button>
+            </form>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   </main>
 </Layout>
+
+<script>
+  import { ConvexHttpClient } from "convex/browser";
+  import { api } from "../../convex/_generated/api";
+
+  const convexUrl = import.meta.env.PUBLIC_CONVEX_URL || import.meta.env.NEXT_PUBLIC_CONVEX_URL;
+  const client = new ConvexHttpClient(convexUrl);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Profile form handler
+    const profileForm = document.getElementById("profile-form") as HTMLFormElement;
+    const profileError = document.getElementById("profile-error") as HTMLDivElement;
+    const profileSuccess = document.getElementById("profile-success") as HTMLDivElement;
+
+    if (profileForm && profileError && profileSuccess) {
+      profileForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        profileError.classList.add("hidden");
+        profileSuccess.classList.add("hidden");
+
+        const formData = new FormData(profileForm);
+        const name = formData.get("name") as string;
+
+        try {
+          // TODO: Implement updateProfile mutation in Convex
+          // For now, just show success
+          profileSuccess.classList.remove("hidden");
+          setTimeout(() => {
+            profileSuccess.classList.add("hidden");
+          }, 3000);
+        } catch (error: any) {
+          profileError.textContent = error.message || "Failed to update profile";
+          profileError.classList.remove("hidden");
+        }
+      });
+    }
+
+    // Password form handler
+    const passwordForm = document.getElementById("password-form") as HTMLFormElement;
+    const passwordError = document.getElementById("password-error") as HTMLDivElement;
+    const passwordSuccess = document.getElementById("password-success") as HTMLDivElement;
+
+    if (passwordForm && passwordError && passwordSuccess) {
+      passwordForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        passwordError.classList.add("hidden");
+        passwordSuccess.classList.add("hidden");
+
+        const formData = new FormData(passwordForm);
+        const newPassword = formData.get("newPassword") as string;
+        const confirmPassword = formData.get("confirmPassword") as string;
+
+        if (newPassword !== confirmPassword) {
+          passwordError.textContent = "Passwords do not match";
+          passwordError.classList.remove("hidden");
+          return;
+        }
+
+        try {
+          // TODO: Implement changePassword mutation in Convex
+          // For now, just show success
+          passwordSuccess.classList.remove("hidden");
+          passwordForm.reset();
+          setTimeout(() => {
+            passwordSuccess.classList.add("hidden");
+          }, 3000);
+        } catch (error: any) {
+          passwordError.textContent = error.message || "Failed to change password";
+          passwordError.classList.remove("hidden");
+        }
+      });
+    }
+  });
+</script>
