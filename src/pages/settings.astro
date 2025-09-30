@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro"
 import { AuthUIProvider } from "@/components/AuthUIProvider"
-import { SettingsCards } from "@daveyplate/better-auth-ui"
+import { AccountSettingsCards } from "@daveyplate/better-auth-ui"
 
 export const prerender = false
 
@@ -21,7 +21,7 @@ if (!session) {
     </div>
 
     <AuthUIProvider client:only="react">
-      <SettingsCards client:load />
+      <AccountSettingsCards client:load />
     </AuthUIProvider>
   </main>
 </Layout>
