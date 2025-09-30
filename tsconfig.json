@@ -13,17 +13,7 @@
       "@types/*": ["src/types/*"],
       "@config/*": ["src/config/*"]
     },
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
-    "verbatimModuleSyntax": true,
-    "types": ["vite/client", "astro/client"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+    "jsx": "preserve",
+    "jsxImportSource": "react"
+  }
 }

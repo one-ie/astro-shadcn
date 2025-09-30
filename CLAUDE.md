@@ -8,30 +8,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Start development server (localhost:4321)
-npm run dev
-# or
-pnpm dev
+bun run dev
 
 # Build for production (includes TypeScript checking)
-npm run build
-# or
-pnpm build
+bun run build
 
 # Preview production build
-npm run preview
-# or
-pnpm preview
+bun run preview
 
 # TypeScript checking only
-npx astro check
+bunx astro check
 
 # Generate content collection types
-npx astro sync
+bunx astro sync
 ```
 
 ### Package Manager
 
-This project uses **pnpm** as the preferred package manager (evidenced by `pnpm-lock.yaml`). Always use `pnpm` commands when managing dependencies.
+This project uses **bun** as the preferred package manager (evidenced by `bun.lockb`). Always use `bun` commands when managing dependencies.
 
 ## Architecture Overview
 
