@@ -34,12 +34,13 @@ This project uses **pnpm** as the preferred package manager (evidenced by `pnpm-
 ## Architecture Overview
 
 ### Core Stack
-- **Astro 5** with static site generation (`output: 'static'`)
-- **React** components with selective hydration via `client:load`
-- **shadcn/ui** complete component library pre-installed
-- **Tailwind CSS** with custom design tokens and dark mode
-- **TypeScript** in strict mode with path aliases
+- **Astro 5.14+** with static site generation (`output: 'static'`)
+- **React 19** components with selective hydration via `client:load`
+- **shadcn/ui** complete component library pre-installed (latest versions)
+- **Tailwind CSS v4** with modern CSS-based configuration and dark mode
+- **TypeScript 5.9+** in strict mode with path aliases
 - **Nanostores** for lightweight state management
+- **Recharts 2.15+** for data visualization
 
 ### Key Architectural Patterns
 
@@ -53,10 +54,12 @@ This project uses **pnpm** as the preferred package manager (evidenced by `pnpm-
 - Blog posts in `src/content/blog/` with frontmatter
 - Dynamic routing via `[...slug].astro` with static generation
 
-**Theme System**: Advanced dark/light mode implementation:
-- CSS custom properties in `src/styles/global.css`
+**Theme System**: Advanced dark/light mode implementation with Tailwind v4:
+- CSS custom properties in `src/styles/global.css` using HSL color format
+- `@variant dark (.dark &)` for dark mode support
 - `ThemeInit.astro` component prevents FOUC (Flash of Unstyled Content)
 - localStorage persistence with server-side rendering support
+- Dark class applied to `<html>` element via JavaScript
 
 ### Path Aliases
 ```typescript
@@ -111,16 +114,28 @@ const BlogSchema = z.object({
 
 ### Styling Architecture
 
-**Tailwind Configuration**: Custom design system in `tailwind.config.mjs`
-- CSS custom properties for theme consistency
-- Typography plugin with custom styles
-- Dark mode via `class` strategy
-- Animation system with `tailwindcss-animate`
+**Tailwind CSS v4 Configuration**: Modern CSS-based configuration
+- No `tailwind.config.mjs` file - configuration in CSS using `@theme` blocks
+- Uses `@tailwindcss/vite` plugin in `astro.config.mjs`
+- CSS imports via `@import "tailwindcss"`
+- `@plugin "@tailwindcss/typography"` for typography support
+- Dark mode via `@variant dark (.dark &)` selector
 
 **Global Styles**: `src/styles/global.css` defines:
-- CSS custom properties for light/dark themes
+- `@theme` blocks with HSL color values (e.g., `--color-background: 0 0% 100%`)
+- Colors wrapped with `hsl()` function: `hsl(var(--color-background))`
+- `.dark` class overrides for dark mode colors
+- `@source` directive to scan component files
 - Base typography and spacing
-- Component-specific styles
+- Component-specific custom styles
+
+**Important Tailwind v4 Guidelines**:
+- ALWAYS use HSL format for colors, not OKLCH
+- ALWAYS wrap color variables with `hsl()`: `hsl(var(--color-background))`
+- Define theme colors in `@theme` blocks with `--color-*` pattern
+- Use `@variant dark (.dark &)` for dark mode utilities
+- No `@apply` directive - use vanilla CSS or utility classes directly
+- Add `@source` directive to scan component directories
 
 ## Development Guidelines
 
@@ -145,8 +160,10 @@ import { Card } from "@/components/ui/card"
 
 ### Theme System
 - Theme switching handled by `ModeToggle.tsx`
-- Use Tailwind dark mode classes: `dark:bg-slate-800`
+- Use Tailwind dark mode classes: `dark:bg-background` or `dark:text-foreground`
 - Theme persistence automatic via localStorage
+- Colors defined in CSS using HSL format with `hsl()` wrapper
+- Example: `className="bg-background text-foreground dark:bg-background"`
 
 ### Performance Considerations
 - Minimize `client:load` usage - only for truly interactive components
@@ -171,9 +188,55 @@ import { Card } from "@/components/ui/card"
 - `src/styles/`: Global CSS and design tokens
 
 ### Configuration Files
-- `astro.config.mjs`: Astro configuration with React and Tailwind
+- `astro.config.mjs`: Astro configuration with React and `@tailwindcss/vite` plugin
 - `components.json`: shadcn/ui configuration
-- `tailwind.config.mjs`: Tailwind with custom design tokens
+- `src/styles/global.css`: Tailwind v4 CSS-based configuration with `@theme` blocks
 - `tsconfig.json`: TypeScript with path aliases and strict mode
 
-This is a high-performance, developer-friendly setup that combines static site generation with selective interactivity for optimal user experience.
+## Writing Beautiful Tailwind v4 + Astro Code
+
+When writing code for this project, follow these best practices:
+
+**1. Color Usage**
+```astro
+<!-- CORRECT: Use semantic color names -->
+<div class="bg-background text-foreground border border-border">
+<div class="dark:bg-card dark:text-card-foreground">
+
+<!-- AVOID: Don't use arbitrary values when semantic colors exist -->
+<div class="bg-[#ffffff] text-[#000000]">
+```
+
+**2. Component Structure**
+```astro
+---
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+---
+
+<Card>
+  <CardHeader>
+    <CardTitle>Beautiful Card</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p class="text-muted-foreground">Use semantic colors</p>
+    <Button client:load>Interactive</Button>
+  </CardContent>
+</Card>
+```
+
+**3. Responsive Design**
+```astro
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <!-- Mobile-first approach -->
+</div>
+```
+
+**4. Dark Mode**
+```astro
+<div class="bg-card text-card-foreground dark:bg-card dark:text-card-foreground">
+  <!-- Colors automatically switch via CSS variables -->
+</div>
+```
+
+This is a high-performance, developer-friendly setup that combines static site generation with selective interactivity for optimal user experience. Always use Tailwind v4 CSS-based configuration and React 19 patterns.

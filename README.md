@@ -1,6 +1,16 @@
-# 🚀 Astro 5 + Shadcn/UI Starter Kit
+# 🚀 Astro 5 + Shadcn/UI + Tailwind v4 Starter Kit
 
-A lightning-fast starter template combining Astro's performance with Shadcn's beautiful components.
+A lightning-fast starter template combining Astro's performance with Shadcn's beautiful components and Tailwind CSS v4's modern CSS-based configuration.
+
+## ✨ What's Inside
+
+- **Astro 5.14+** - Lightning-fast static site generation
+- **React 19** - Latest React with improved performance
+- **Tailwind CSS v4** - Modern CSS-based configuration
+- **Shadcn/UI** - Complete component library (40+ components)
+- **TypeScript** - Full type safety
+- **Dark Mode** - Beautiful theme switching
+- **100/100 Lighthouse** - Perfect performance scores
 
 ### 🎨  Screenshots
 ![Astro Shadcn UI](https://astro-shadcn.one.ie/screenshots/screenshot.png)
@@ -54,13 +64,15 @@ import { Card } from "@/components/ui/card"
 your-project/
 ├── src/
 │   ├── components/
-│   │   └── ui/          # All Shadcn components
+│   │   └── ui/          # All Shadcn components (40+)
 │   ├── layouts/
-│   │   └── Layout.astro # Base layout
-│   └── pages/
-│       └── index.astro  # Homepage
-├── astro.config.mjs     # Astro configuration
-└── tailwind.config.cjs  # Tailwind configuration
+│   │   └── Layout.astro # Base layout with theme support
+│   ├── pages/
+│   │   └── index.astro  # Homepage
+│   └── styles/
+│       └── global.css   # Tailwind v4 config with @theme blocks
+├── astro.config.mjs     # Astro + @tailwindcss/vite config
+└── components.json      # Shadcn/ui configuration
 ```
 
 
@@ -130,9 +142,10 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
    <Button client:load>Click me!</Button>
    ```
 
-2. **Styling with Tailwind**
+2. **Styling with Tailwind v4**
    ```astro
-   <div class="dark:bg-slate-800">
+   <!-- Use semantic color names that work in both light and dark modes -->
+   <div class="bg-background text-foreground border border-border">
      <Button class="m-4">Styled Button</Button>
    </div>
    ```
@@ -165,7 +178,8 @@ Perfect scores across all metrics:
 
 - [Astro Documentation](https://docs.astro.build)
 - [Shadcn/UI Components](https://ui.shadcn.com/docs/components/accordion)
-- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [Tailwind CSS v4 Docs](https://tailwindcss.com/docs)
+- [React 19 Release](https://react.dev/blog/2025/01/29/react-19)
 
 ## 🤝 Need Help?
 
@@ -175,4 +189,4 @@ Perfect scores across all metrics:
 
 ---
 
-Built with 🚀 Astro and 🎨 Shadcn/UI by [ONE](https://one.ie)
+Built with 🚀 Astro 5, ⚡ Tailwind v4, ⚛️ React 19, and 🎨 Shadcn/UI by [ONE](https://one.ie)
