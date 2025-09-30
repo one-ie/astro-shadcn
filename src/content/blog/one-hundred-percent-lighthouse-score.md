@@ -1,16 +1,13 @@
 ---
-title: "How to Get 100% Google Lighthouse Score"
+title: 'How to Get 100% Google Lighthouse Score'
 description: "Achieve perfect Lighthouse scores effortlessly with Astro's built-in optimizations"
-slug: "/Blogs/one-hundred-percent-lighthouse-score"
+slug: '/Blogs/one-hundred-percent-lighthouse-score'
 date: 2024-11-21
-picture: "/screenshots/lighthouse-desktop.png"
-images:
-  - src: "/screenshots/lighthouse-desktop-chatgpt.png"
-    alt: "Perfect Lighthouse score showing 100 in all categories"
-  - src: "/screenshots/performance-metrics.png"
-    alt: "Core Web Vitals metrics visualization"
-  - src: "/screenshots/optimization-tools.png"
-    alt: "Modern web optimization tools and techniques"
+image: '/screenshots/lighthouse-desktop.png'
+author: 'ONE'
+tags: ['performance', 'lighthouse', 'optimization', 'web-vitals']
+category: 'guide'
+featured: true
 ---
 
 Astro's architecture is designed for perfect performance out of the box. Here's why you'll get perfect Lighthouse scores without extra effort:
@@ -33,6 +30,7 @@ Astro's architecture is designed for perfect performance out of the box. Here's 
    - No configuration needed
 
 ## Here's our results on mobile
+
 <Image 
   src="/screenshots/lighthouse-mobile.png" 
   alt="Perfect Lighthouse score showing 100 in all categories on mobile" 

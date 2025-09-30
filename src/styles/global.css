@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
 @variant dark (.dark &);
@@ -52,9 +52,39 @@
   border-color: hsl(var(--color-border));
 }
 
+*:focus-visible {
+  outline: 2px solid hsl(var(--color-ring));
+  outline-offset: 2px;
+  border-radius: 0.125rem;
+}
+
 body {
   background-color: hsl(var(--color-background));
   color: hsl(var(--color-foreground));
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }
 
 /* Mobile layout styles */
@@ -64,11 +94,11 @@ body {
     background-color: hsl(var(--color-background));
   }
 
-  #left-sidebar[data-open="true"] + div {
+  #left-sidebar[data-open='true'] + div {
     position: relative;
   }
 
-  #left-sidebar[data-open="true"] + div::before {
+  #left-sidebar[data-open='true'] + div::before {
     content: '';
     position: fixed;
     top: 0;
@@ -172,18 +202,18 @@ body {
 }
 
 /* Only add margin AND padding when in sidebar layout */
-[data-layout="sidebar"] #main-content {
+[data-layout='sidebar'] #main-content {
   margin-left: 4rem;
 }
 
 /* Add padding for header layout */
-[data-layout="header"] #main-content {
+[data-layout='header'] #main-content {
   padding-top: 5rem;
 }
 
 /* Content container styles for both layouts */
-[data-layout="sidebar"] #main-content main,
-[data-layout="header"] #main-content main {
+[data-layout='sidebar'] #main-content main,
+[data-layout='header'] #main-content main {
   width: 100%;
   max-width: 900px;
   margin-left: auto;
@@ -193,7 +223,7 @@ body {
 }
 
 /* Adjust margin when sidebar expands */
-[data-layout="sidebar"] .sidebar-expanded + #main-content {
+[data-layout='sidebar'] .sidebar-expanded + #main-content {
   margin-left: 16rem;
 }
 

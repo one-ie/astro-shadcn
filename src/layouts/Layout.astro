@@ -1,19 +1,27 @@
 ---
-import { Download } from "lucide-react";
-import { Sidebar } from "@/components/Sidebar";
-import ThemeInit from "@/components/ThemeInit.astro";
-import "../styles/global.css";
+import { Download } from 'lucide-react';
+import { Sidebar } from '@/components/Sidebar';
+import ThemeInit from '@/components/ThemeInit.astro';
+import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  type?: string;
   children: any;
 }
 
 const {
   title,
-  description = "A beautiful dashboard built with Astro and shadcn/ui",
+  description = 'A beautiful dashboard built with Astro and shadcn/ui',
+  image = '/og.jpg',
+  type = 'website',
 } = Astro.props;
+
+// Generate canonical URL and full image URL
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -26,12 +34,38 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
 
-<ThemeInit />
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageURL} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={imageURL} />
+
+    <ThemeInit />
   </head>
 
   <body class="min-h-screen bg-background font-sans antialiased touch-none">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
+    >
+      Skip to main content
+    </a>
     <div class="flex h-screen optimize-gpu overflow-auto">
-      <div id="left-sidebar" class="w-[64px] shrink-0 border-r mobile:fixed mobile:z-50 mobile:transition-transform mobile:duration-300 mobile:translate-x-[-64px] mobile:data-[open=true]:translate-x-0">
+      <div
+        id="left-sidebar"
+        class="w-[64px] shrink-0 border-r mobile:fixed mobile:z-50 mobile:transition-transform mobile:duration-300 mobile:translate-x-[-64px] mobile:data-[open=true]:translate-x-0"
+      >
         <Sidebar client:load />
       </div>
 
@@ -44,13 +78,16 @@ const {
             <img src="/logo-dark.png" alt="Logo" class="h-10 dark:hidden" />
             <img src="/logo.svg" alt="Logo" class="h-10 hidden dark:block" />
           </div>
-          <a href="/install" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
+          <a
+            href="/install"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg"
+          >
             <Download className="h-4 w-4" />
             Install
           </a>
         </header>
 
-        <main class="flex-1 p-6">
+        <main id="main-content" class="flex-1 p-6">
           <slot />
         </main>
 
@@ -62,6 +99,5 @@ const {
         </footer>
       </div>
     </div>
-
   </body>
 </html>

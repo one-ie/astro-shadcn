@@ -2,13 +2,13 @@ import { atom } from 'nanostores';
 
 /** Layout right panel size options */
 export const RightSize = {
-  Full: "Full",
-  Half: "Half",
-  Quarter: "Quarter",
-  Closed: "Closed"
+  Full: 'Full',
+  Half: 'Half',
+  Quarter: 'Quarter',
+  Closed: 'Closed',
 } as const;
 
-export type RightSizeType = typeof RightSize[keyof typeof RightSize];
+export type RightSizeType = (typeof RightSize)[keyof typeof RightSize];
 
 /** Layout visibility state type */
 export interface LayoutState {
@@ -27,7 +27,7 @@ const defaultLayout: LayoutState = {
   showRight: false,
   isMobile: false,
   showBottom: true,
-  rightSize: RightSize.Closed
+  rightSize: RightSize.Closed,
 };
 
 // Create store with proper type
@@ -46,7 +46,7 @@ export const layoutActions = {
     store.set({
       ...current,
       showRight: !current.showRight,
-      rightSize: isCurrentlyClosed ? RightSize.Quarter : RightSize.Closed
+      rightSize: isCurrentlyClosed ? RightSize.Quarter : RightSize.Closed,
     });
   },
 
@@ -55,7 +55,7 @@ export const layoutActions = {
     store.set({
       ...current,
       showRight: size !== RightSize.Closed,
-      rightSize: size
+      rightSize: size,
     });
   },
 
@@ -69,10 +69,10 @@ export const layoutActions = {
     store.set({ ...current, showBottom: !current.showBottom });
   },
 
-    setMobile(isMobile: boolean) {
-      const current = store.get();
-      store.set({ ...current, isMobile });
-    },
+  setMobile(isMobile: boolean) {
+    const current = store.get();
+    store.set({ ...current, isMobile });
+  },
 
   initLayout() {
     const saved = localStorage.getItem('layoutPreference');
@@ -84,12 +84,12 @@ export const layoutActions = {
         store.set(defaultLayout);
       }
     }
-    
+
     // Save layout changes to localStorage
-    store.subscribe(state => {
+    store.subscribe((state) => {
       localStorage.setItem('layoutPreference', JSON.stringify(state));
     });
-  }
+  },
 };
 
 // Export the store

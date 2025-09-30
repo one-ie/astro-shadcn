@@ -1,116 +1,67 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { getCollection } from "astro:content";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Grid, List } from "lucide-react";
-import type { CollectionEntry } from "astro:content";
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Grid, List } from 'lucide-react';
+import { BlogSearch } from '@/components/BlogSearch';
 
 // Get all Blog entries
-const entries = await getCollection("blog");
+const entries = await getCollection('blog');
 
 // Get view mode from URL params, default to list
-const viewMode = Astro.url.searchParams.get("view") || "list";
-const gridColumns = Astro.url.searchParams.get("columns") || "2";
-
-function formatDate(date: Date) {
-	return new Intl.DateTimeFormat("en-US", {
-		year: "numeric",
-		month: "short",
-		day: "numeric",
-	}).format(date);
-}
+const viewMode = Astro.url.searchParams.get('view') || 'list';
+const gridColumns = Astro.url.searchParams.get('columns') || '2';
 ---
 
-<Layout
-	title="Blog"
-	description="Browse all available lessons"
->
-	<div class="max-w-4xl mx-auto">
-		<div class="flex justify-between items-center mb-8">
-			<h1 class="text-4xl font-bold">Blog</h1>
-			<div class="flex gap-2 items-center">
-				<a
-					href="/blog?view=list"
-					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'list' ? 'bg-accent' : ''}`}
-					title="List view"
-				>
-					<List className="w-5 h-5" />
-				</a>
-				<a
-					href="/blog?view=grid&columns=2"
-					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '2' ? 'bg-accent' : ''}`}
-					title="2 columns grid"
-				>
-					<Grid className="w-5 h-5" />
-				</a>
-				<a
-					href="/blog?view=grid&columns=3"
-					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '3' ? 'bg-accent' : ''}`}
-					title="3 columns grid"
-				>
-					<div class="w-5 h-5 grid grid-cols-3 gap-0.5">
-						<div class="bg-current rounded-sm"></div>
-						<div class="bg-current rounded-sm"></div>
-						<div class="bg-current rounded-sm"></div>
-					</div>
-				</a>
-				<a
-					href="/blog?view=grid&columns=4"
-					class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '4' ? 'bg-accent' : ''}`}
-					title="4 columns grid"
-				>
-					<div class="w-5 h-5 grid grid-cols-2 grid-rows-2 gap-0.5">
-						<div class="bg-current rounded-sm"></div>
-						<div class="bg-current rounded-sm"></div>
-						<div class="bg-current rounded-sm"></div>
-						<div class="bg-current rounded-sm"></div>
-					</div>
-				</a>
-			</div>
-		</div>
-		
-		<div 
-			class={viewMode === 'grid' ? `grid gap-4 sm:gap-6 grid-cols-1 ${gridColumns === '2' ? 'sm:grid-cols-2' : gridColumns === '3' ? 'sm:grid-cols-3' : 'sm:grid-cols-4'}` : 'space-y-4 sm:space-y-6'}
-			transition:animate="slide"
-		>
-			{entries.map((entry: CollectionEntry<"blog">) => (
-				<Card className={`overflow-hidden transition-all duration-200 hover:shadow-lg ${viewMode === 'list' ? 'flex' : 'hover:-translate-y-1'}`}>
-					<a href={`/blog/${entry.slug}`} class={`block hover:opacity-80 transition-opacity ${viewMode === 'list' ? 'flex flex-1' : ''}`}>
-						{entry.data.picture && viewMode === 'list' && (
-							<div class="w-48 shrink-0">
-								<img
-									src={entry.data.picture}
-									alt={entry.data.title}
-									class="w-full h-full object-cover"
-								/>
-							</div>
-						)}
-						<div class="p-6 flex-1">
-							<div class="flex items-center gap-2 mb-4">
-								<Badge variant="secondary" client:load>
-									{entry.data.type || "Blog"}
-								</Badge>
-								<span class="text-sm text-muted-foreground flex items-center">
-									<Calendar className="w-4 h-4 mr-1" client:load />
-									{formatDate(new Date(entry.data.date))}
-								</span>
-							</div>
-							<h2 class="text-2xl font-bold mb-2">{entry.data.title}</h2>
-							<p class="text-muted-foreground">{entry.data.description}</p>
-						</div>
-						{entry.data.picture && viewMode === 'grid' && (
-							<div class="aspect-video w-full">
-								<img
-									src={entry.data.picture}
-									alt={entry.data.title}
-									class="w-full h-full object-cover"
-								/>
-							</div>
-						)}
-					</a>
-				</Card>
-			))}
-		</div>
-	</div>
+<Layout title="Blog" description="Browse all available lessons">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-4xl font-bold">Blog</h1>
+      <div class="flex gap-2 items-center">
+        <a
+          href="/blog?view=list"
+          class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'list' ? 'bg-accent' : ''}`}
+          title="List view"
+        >
+          <List className="w-5 h-5" />
+        </a>
+        <a
+          href="/blog?view=grid&columns=2"
+          class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '2' ? 'bg-accent' : ''}`}
+          title="2 columns grid"
+        >
+          <Grid className="w-5 h-5" />
+        </a>
+        <a
+          href="/blog?view=grid&columns=3"
+          class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '3' ? 'bg-accent' : ''}`}
+          title="3 columns grid"
+        >
+          <div class="w-5 h-5 grid grid-cols-3 gap-0.5">
+            <div class="bg-current rounded-sm"></div>
+            <div class="bg-current rounded-sm"></div>
+            <div class="bg-current rounded-sm"></div>
+          </div>
+        </a>
+        <a
+          href="/blog?view=grid&columns=4"
+          class={`p-2 rounded-md hover:bg-accent hover:scale-110 transition-all duration-200 ${viewMode === 'grid' && gridColumns === '4' ? 'bg-accent' : ''}`}
+          title="4 columns grid"
+        >
+          <div class="w-5 h-5 grid grid-cols-2 grid-rows-2 gap-0.5">
+            <div class="bg-current rounded-sm"></div>
+            <div class="bg-current rounded-sm"></div>
+            <div class="bg-current rounded-sm"></div>
+            <div class="bg-current rounded-sm"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <BlogSearch
+      client:load
+      posts={entries}
+      viewMode={viewMode}
+      gridColumns={gridColumns}
+    />
+  </div>
 </Layout>

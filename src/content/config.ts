@@ -6,8 +6,14 @@ const BlogSchema = z.object({
   description: z.string(),
   date: z.date(),
   draft: z.boolean().optional(),
-  picture: z.string().optional(),
-  image: z.string().optional()
+  image: z.string().optional(),
+  author: z.string().default('ONE'),
+  tags: z.array(z.string()).default([]),
+  category: z
+    .enum(['tutorial', 'news', 'guide', 'review', 'article'])
+    .default('article'),
+  readingTime: z.number().optional(),
+  featured: z.boolean().default(false),
 });
 
 // Define the Blog collection schema
@@ -17,7 +23,7 @@ const blog = defineCollection({
 });
 
 export const collections = {
-  'blog': blog
+  blog: blog,
 };
 
 // Export the Blog schema type

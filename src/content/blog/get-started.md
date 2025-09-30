@@ -1,14 +1,13 @@
 ---
-title: "Getting Started with Astro + Shadcn/UI"
-description: "Learn how to set up and customize your high-performance Astro site with Shadcn/UI components"
-slug: "/Blogs/getting-started"
+title: 'Getting Started with Astro + Shadcn/UI'
+description: 'Learn how to set up and customize your high-performance Astro site with Shadcn/UI components'
+slug: '/Blogs/getting-started'
 date: 2024-03-21
-picture: ""
-images:
-  - src: ""
-    alt: ""
-  - src: ""
-    alt: ""
+image: ''
+author: 'ONE'
+tags: ['astro', 'shadcn', 'tutorial', 'getting-started']
+category: 'tutorial'
+featured: true
 ---
 
 Get started with our lightning-fast Astro + Shadcn/UI starter kit in minutes. This guide will walk you through setup, customization, and best practices.
@@ -16,17 +15,20 @@ Get started with our lightning-fast Astro + Shadcn/UI starter kit in minutes. Th
 ## Quick Start
 
 1. **Clone the Repository**
+
 ```bash
 git clone https://github.com/one-ie/astro-shadcn.git
 cd astro-shadcn
 ```
 
 2. **Install Dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Start Development Server**
+
 ```bash
 npm run dev
 ```
@@ -56,6 +58,7 @@ Visit `http://localhost:4321` to see your site in action!
 ## Customizing Your Site
 
 ### Theme Configuration
+
 Edit `src/styles/globals.css` to customize your color scheme:
 
 ```css
@@ -67,15 +70,18 @@ Edit `src/styles/globals.css` to customize your color scheme:
 ```
 
 ### Adding New Components
+
 1. Use the CLI to add Shadcn components:
+
 ```bash
 npx shadcn-ui add button
 ```
 
 2. Import and use in your Astro pages:
+
 ```astro
 ---
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 ---
 
 <Button>Click me!</Button>
