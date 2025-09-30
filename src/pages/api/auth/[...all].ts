@@ -1,18 +1,185 @@
 import type { APIRoute } from "astro"
+import { ConvexHttpClient } from "convex/browser"
+import { api } from "../../../../convex/_generated/api"
 
 export const prerender = false
 
-export const ALL: APIRoute = async ({ request }) => {
-  const convexUrl = import.meta.env.NEXT_PUBLIC_CONVEX_URL || import.meta.env.PUBLIC_CONVEX_URL
+const convex = new ConvexHttpClient(
+  import.meta.env.PUBLIC_CONVEX_URL || import.meta.env.NEXT_PUBLIC_CONVEX_URL
+)
 
-  // Forward auth requests to Convex
+// Bridge Better Auth UI requests to our custom Convex auth
+export const ALL: APIRoute = async ({ request, cookies }) => {
   const url = new URL(request.url)
-  const convexAuthUrl = `${convexUrl}/api/auth${url.pathname.replace('/api/auth', '')}`
+  const pathname = url.pathname.replace("/api/auth", "")
 
-  return fetch(convexAuthUrl, {
-    method: request.method,
-    headers: request.headers,
-    body: request.body,
-    duplex: 'half'
-  } as RequestInit)
+  try {
+    // Handle session endpoint for Better Auth UI
+    if (pathname === "/get-session" || pathname === "/session") {
+      const token = cookies.get("auth_token")?.value
+
+      if (!token) {
+        return new Response(
+          JSON.stringify({ user: null, session: null }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      }
+
+      const user = await convex.query(api.auth.getCurrentUser, { token })
+
+      if (!user) {
+        return new Response(
+          JSON.stringify({ user: null, session: null }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      }
+
+      return new Response(
+        JSON.stringify({
+          user: {
+            id: user._id,
+            email: user.email,
+            name: user.name || null,
+            emailVerified: false,
+            image: null,
+          },
+          session: {
+            id: token,
+            userId: user._id,
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          },
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
+    // Handle sign-out endpoint
+    if (pathname === "/sign-out" && request.method === "POST") {
+      const token = cookies.get("auth_token")?.value
+
+      if (token) {
+        await convex.mutation(api.auth.signOut, { token })
+      }
+
+      cookies.delete("auth_token", {
+        path: "/",
+      })
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
+    // Handle sign-in endpoint
+    if (pathname === "/sign-in/email" && request.method === "POST") {
+      const body = await request.json()
+      const { email, password } = body
+
+      const result = await convex.mutation(api.auth.signIn, {
+        email,
+        password,
+      })
+
+      cookies.set("auth_token", result.token, {
+        path: "/",
+        maxAge: 30 * 24 * 60 * 60,
+        sameSite: "lax",
+        httpOnly: true,
+        secure: import.meta.env.PROD,
+      })
+
+      const user = await convex.query(api.auth.getCurrentUser, { token: result.token })
+
+      return new Response(
+        JSON.stringify({
+          user: {
+            id: user._id,
+            email: user.email,
+            name: user.name || null,
+            emailVerified: false,
+            image: null,
+          },
+          session: {
+            id: result.token,
+            userId: user._id,
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          },
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
+    // Handle sign-up endpoint
+    if (pathname === "/sign-up/email" && request.method === "POST") {
+      const body = await request.json()
+      const { email, password, name } = body
+
+      const result = await convex.mutation(api.auth.signUp, {
+        email,
+        password,
+        name: name || undefined,
+      })
+
+      cookies.set("auth_token", result.token, {
+        path: "/",
+        maxAge: 30 * 24 * 60 * 60,
+        sameSite: "lax",
+        httpOnly: true,
+        secure: import.meta.env.PROD,
+      })
+
+      const user = await convex.query(api.auth.getCurrentUser, { token: result.token })
+
+      return new Response(
+        JSON.stringify({
+          user: {
+            id: user._id,
+            email: user.email,
+            name: user.name || null,
+            emailVerified: false,
+            image: null,
+          },
+          session: {
+            id: result.token,
+            userId: user._id,
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          },
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
+    // Return 404 for unhandled routes
+    return new Response(JSON.stringify({ error: "Not found" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    })
+  } catch (error: any) {
+    return new Response(
+      JSON.stringify({ error: error.message || "Internal server error" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+  }
 }

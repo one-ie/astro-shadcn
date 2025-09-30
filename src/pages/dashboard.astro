@@ -1,12 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { AuthUIProvider } from "@/components/AuthUIProvider";
+import { UserButton } from "@/components/UserButton";
 
 export const prerender = false;
 
 // Redirect if not authenticated
 const session = Astro.locals.session;
 if (!session) {
-  return Astro.redirect("/login");
+  return Astro.redirect("/auth");
 }
 
 const user = Astro.locals.user;
@@ -16,17 +18,9 @@ const user = Astro.locals.user;
   <header class="border-b">
     <div class="container mx-auto flex items-center justify-between py-4">
       <h1 class="text-xl font-bold">Dashboard</h1>
-      <div class="flex items-center gap-4">
-        <span class="text-sm">{user?.name || user?.email}</span>
-        <form action="/api/logout" method="POST">
-          <button
-            type="submit"
-            class="px-3 py-1.5 text-sm border rounded-md hover:bg-accent"
-          >
-            Sign Out
-          </button>
-        </form>
-      </div>
+      <AuthUIProvider client:only="react">
+        <UserButton client:load />
+      </AuthUIProvider>
     </div>
   </header>
 

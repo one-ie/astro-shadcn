@@ -1,18 +1,27 @@
 ---
 import Layout from "@/layouts/Layout.astro"
+import { AuthUIProvider } from "@/components/AuthUIProvider"
 import { SettingsCards } from "@daveyplate/better-auth-ui"
 
 export const prerender = false
 
 const session = Astro.locals.session
 if (!session) {
-  return Astro.redirect("/auth/sign-in?redirect=/settings")
+  return Astro.redirect("/auth?redirect=/settings")
 }
 ---
 
 <Layout title="Account Settings">
-  <main class="container mx-auto py-8 max-w-2xl">
-    <h1 class="text-2xl font-bold mb-6">Account Settings</h1>
-    <SettingsCards client:load />
+  <main class="container mx-auto py-8 max-w-4xl">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">Account Settings</h1>
+      <p class="text-muted-foreground">
+        Manage your account settings and preferences
+      </p>
+    </div>
+
+    <AuthUIProvider client:only="react">
+      <SettingsCards client:load />
+    </AuthUIProvider>
   </main>
 </Layout>
