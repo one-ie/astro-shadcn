@@ -1,5 +1,5 @@
 ---
-import { SidebarLayout } from '@/components/sidebar-layout';
+import { SimpleSidebarLayout } from '@/components/simple-sidebar-layout';
 import ThemeInit from '@/components/ThemeInit.astro';
 import '../styles/global.css';
 
@@ -59,8 +59,8 @@ const imageURL = new URL(image, Astro.site);
     >
       Skip to main content
     </a>
-    <SidebarLayout client:only="react">
+    <SimpleSidebarLayout client:only="react">
       <slot />
-    </SidebarLayout>
+    </SimpleSidebarLayout>
   </body>
 </html>
