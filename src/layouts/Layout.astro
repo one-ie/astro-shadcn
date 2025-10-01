@@ -60,7 +60,7 @@ const imageURL = new URL(image, Astro.site);
     >
       Skip to main content
     </a>
-    <StandardLayout client:only="react">
+    <StandardLayout>
       <slot />
     </StandardLayout>
   </body>
