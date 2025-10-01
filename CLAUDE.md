@@ -31,8 +31,9 @@ This project uses **bun** as the preferred package manager (evidenced by `bun.lo
 
 ### Core Stack
 
-- **Astro 5.14+** with static site generation (`output: 'static'`)
+- **Astro 5.14+** with server-side rendering (`output: 'server'`)
 - **React 19** components with selective hydration via `client:load`
+- **@astrojs/cloudflare** adapter for Cloudflare Pages deployment with edge SSR
 - **shadcn/ui** complete component library (50+ components pre-installed)
 - **Tailwind CSS v4** with modern CSS-based configuration and dark mode
 - **TypeScript 5.9+** in strict mode with path aliases
@@ -40,6 +41,8 @@ This project uses **bun** as the preferred package manager (evidenced by `bun.lo
 - **Recharts 2.15+** for data visualization
 - **@astrojs/sitemap** for automatic sitemap generation
 - **@astrojs/rss** for RSS feed generation
+- **Convex** for real-time backend and authentication
+- **Better Auth** for authentication with GitHub and Google OAuth
 
 ### Key Architectural Patterns
 
@@ -245,7 +248,8 @@ import { Card } from '@/components/ui/card';
 
 ### Configuration Files
 
-- `astro.config.mjs`: Astro configuration with React, sitemap, and `@tailwindcss/vite` plugin
+- `astro.config.mjs`: Astro configuration with React, sitemap, Cloudflare adapter, and `@tailwindcss/vite` plugin
+- `wrangler.toml`: Cloudflare Workers configuration with Node.js compatibility
 - `components.json`: shadcn/ui configuration
 - `src/styles/global.css`: Tailwind v4 CSS-based configuration with `@theme` blocks
 - `tsconfig.json`: TypeScript with path aliases and strict mode
@@ -253,6 +257,7 @@ import { Card } from '@/components/ui/card';
 - `.prettierrc`: Prettier configuration with Astro plugin
 - `.vscode/settings.json`: VS Code workspace settings
 - `src/config/site.ts`: Centralized site configuration
+- `.mcp.json`: MCP server configuration for shadcn, Cloudflare, and Convex integrations
 
 ## Writing Beautiful Tailwind v4 + Astro Code
 
@@ -308,3 +313,81 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 ```
 
 This is a high-performance, developer-friendly setup that combines static site generation with selective interactivity for optimal user experience. Always use Tailwind v4 CSS-based configuration and React 19 patterns.
+
+## Deployment
+
+### Cloudflare Pages with React 19 SSR
+
+This project uses **Astro 5 + React 19** with full server-side rendering on **Cloudflare Pages**, which was considered impossible due to React 19's `MessageChannel` requirement. We solved this by configuring Vite to use `react-dom/server.edge`.
+
+**Key Configuration** (in `astro.config.mjs`):
+
+```javascript
+export default defineConfig({
+  // ... other config
+  vite: {
+    resolve: {
+      alias: {
+        'react-dom/server': 'react-dom/server.edge',
+      },
+    },
+    ssr: {
+      external: ['node:async_hooks'],
+    },
+  },
+  output: 'server',
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+    },
+  }),
+});
+```
+
+**Why This Works:**
+- React 19's default `react-dom/server` uses `MessageChannel` (not available in Cloudflare Workers)
+- `react-dom/server.edge` is designed for edge runtimes with Web Streams support
+- The Vite alias tells the bundler to use the edge version instead
+- This makes React 19 SSR fully compatible with Cloudflare Workers runtime
+
+**Deployment Commands:**
+
+```bash
+# Build for production
+bun run build
+
+# Deploy to Cloudflare Pages
+wrangler pages deploy dist --project-name=astro-shadcn --commit-dirty=true
+```
+
+**Live Deployment:**
+- Main: https://6f06e33b.astro-shadcn-4lu.pages.dev
+- Alias: https://convex.astro-shadcn-4lu.pages.dev
+
+### Environment Variables
+
+Required environment variables for Convex and authentication:
+
+```bash
+CONVEX_URL=https://your-convex-deployment.convex.cloud
+CONVEX_DEPLOYMENT=your-deployment-name
+BETTER_AUTH_SECRET=your-secret-key
+BETTER_AUTH_URL=https://your-domain.com
+GITHUB_CLIENT_ID=your-github-oauth-client-id
+GITHUB_CLIENT_SECRET=your-github-oauth-client-secret
+GOOGLE_CLIENT_ID=your-google-oauth-client-id
+GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
+```
+
+### Cloudflare KV Setup
+
+The adapter uses Cloudflare KV for session storage. Add the KV binding to your Cloudflare Pages project:
+
+```toml
+# wrangler.toml
+[[kv_namespaces]]
+binding = "SESSION"
+id = "your-kv-namespace-id"
+```
+
+Create a KV namespace in the Cloudflare dashboard and add the ID to your configuration.
