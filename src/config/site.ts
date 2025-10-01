@@ -44,6 +44,7 @@ export const siteConfig: SiteConfig = {
   navigation: [
     { title: 'Home', path: '/' },
     { title: 'Blog', path: '/blog' },
+    { title: 'Mail', path: '/mail' },
     { title: 'README', path: '/readme' },
     { title: 'License', path: '/mit-license' },
   ],

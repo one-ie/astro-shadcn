@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Home, FileText, Scale, Book, PanelLeft, ChevronsUpDown, LogOut, BadgeCheck, CreditCard, Bell, Sparkles } from "lucide-react"
+import { Home, FileText, Scale, Book, Mail, PanelLeft, ChevronsUpDown, LogOut, BadgeCheck, CreditCard, Bell, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -17,6 +17,7 @@ import { siteConfig } from "@/config/site"
 const iconMap = {
   '/': Home,
   '/blog': Book,
+  '/mail': Mail,
   '/readme': FileText,
   '/mit-license': Scale,
 } as const

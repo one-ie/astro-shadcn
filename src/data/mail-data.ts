@@ -1,0 +1,317 @@
+export interface Mail {
+  id: string
+  name: string
+  email: string
+  subject: string
+  text: string
+  date: string
+  read: boolean
+  labels: string[]
+}
+
+export interface Account {
+  label: string
+  email: string
+  icon: React.ReactNode
+}
+
+export const accounts: Account[] = [
+  {
+    label: "Alicia Koch",
+    email: "alicia@example.com",
+    icon: null,
+  },
+  {
+    label: "Alicia Koch",
+    email: "alicia@gmail.com",
+    icon: null,
+  },
+  {
+    label: "Alicia Koch",
+    email: "alicia@me.com",
+    icon: null,
+  },
+]
+
+export const mails: Mail[] = [
+  {
+    id: "6c84fb90-12c4-11e1-840d-7b25c5ee775a",
+    name: "William Smith",
+    email: "williamsmith@example.com",
+    subject: "Meeting Tomorrow",
+    text: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success.",
+    date: "2023-10-22T09:00:00",
+    read: true,
+    labels: ["meeting", "work", "important"],
+  },
+  {
+    id: "110e8400-e29b-11d4-a716-446655440000",
+    name: "Alice Smith",
+    email: "alicesmith@example.com",
+    subject: "Re: Project Update",
+    text: "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic job, and I appreciate the hard work everyone has put in.",
+    date: "2023-10-22T10:30:00",
+    read: true,
+    labels: ["work", "important"],
+  },
+  {
+    id: "3e7c3f6d-bdf5-46ae-8d90-171300f27ae2",
+    name: "Bob Johnson",
+    email: "bobjohnson@example.com",
+    subject: "Weekend Plans",
+    text: "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun.",
+    date: "2023-04-10T11:45:00",
+    read: true,
+    labels: ["personal"],
+  },
+  {
+    id: "61c35085-72d7-42b4-8d62-738f700d4b92",
+    name: "Emily Davis",
+    email: "emilydavis@example.com",
+    subject: "Re: Question about Budget",
+    text: "I have a question about the budget for the upcoming project. It seems like there's a discrepancy in the allocation of resources.",
+    date: "2023-03-25T13:15:00",
+    read: false,
+    labels: ["work", "budget"],
+  },
+  {
+    id: "8f7b5c3d-6a9e-4f5d-a329-35f5a8d80607",
+    name: "Michael Wilson",
+    email: "michaelwilson@example.com",
+    subject: "Important Announcement",
+    text: "I have an important announcement to make during our next meeting. It pertains to a strategic shift in our approach to the upcoming quarter.",
+    date: "2023-03-10T15:00:00",
+    read: false,
+    labels: ["meeting", "work", "important"],
+  },
+  {
+    id: "1f0f2c02-e299-40de-9b1d-86ef9e42126b",
+    name: "Sarah Brown",
+    email: "sarahbrown@example.com",
+    subject: "Re: Feedback on Proposal",
+    text: "Thank you for your feedback on the proposal. I'm pleased to hear that you found it promising. I've made some revisions based on your suggestions.",
+    date: "2023-02-15T16:30:00",
+    read: true,
+    labels: ["work"],
+  },
+  // Drafts
+  {
+    id: "draft-1",
+    name: "Me",
+    email: "alicia@example.com",
+    subject: "Draft: Marketing Strategy",
+    text: "I've been working on a comprehensive marketing strategy for Q4. Here are the key points I want to address...",
+    date: "2023-10-20T14:30:00",
+    read: true,
+    labels: ["draft", "work"],
+  },
+  {
+    id: "draft-2",
+    name: "Me",
+    email: "alicia@example.com",
+    subject: "Draft: Team Event Ideas",
+    text: "Some initial ideas for the team building event next month...",
+    date: "2023-10-18T09:15:00",
+    read: true,
+    labels: ["draft", "personal"],
+  },
+  {
+    id: "draft-3",
+    name: "Me",
+    email: "alicia@example.com",
+    subject: "Draft: Follow-up on Client Meeting",
+    text: "Following up on our discussion yesterday about the project timeline...",
+    date: "2023-10-15T16:45:00",
+    read: true,
+    labels: ["draft", "work"],
+  },
+  // Sent
+  {
+    id: "sent-1",
+    name: "Me",
+    email: "alicia@example.com",
+    subject: "Project Completion Notice",
+    text: "I'm pleased to inform you that the project has been completed successfully. All deliverables have been submitted on time.",
+    date: "2023-10-21T11:00:00",
+    read: true,
+    labels: ["sent", "work"],
+  },
+  {
+    id: "sent-2",
+    name: "Me",
+    email: "alicia@example.com",
+    subject: "Thank You for Your Support",
+    text: "I wanted to take a moment to thank you for your continued support throughout this project.",
+    date: "2023-10-19T13:30:00",
+    read: true,
+    labels: ["sent", "personal"],
+  },
+  // Junk
+  {
+    id: "junk-1",
+    name: "Spam Bot",
+    email: "noreply@spam.com",
+    subject: "You've Won $1,000,000!",
+    text: "Congratulations! You've been selected as our grand prize winner. Click here to claim your prize...",
+    date: "2023-10-22T08:15:00",
+    read: false,
+    labels: ["junk", "spam"],
+  },
+  {
+    id: "junk-2",
+    name: "Marketing Team",
+    email: "marketing@promotions.com",
+    subject: "Special Offer: 90% OFF Everything!",
+    text: "Limited time offer! Get 90% off all products in our store. Don't miss out on this incredible deal!",
+    date: "2023-10-21T19:30:00",
+    read: false,
+    labels: ["junk", "spam"],
+  },
+  // Trash
+  {
+    id: "trash-1",
+    name: "Old Newsletter",
+    email: "newsletter@oldsite.com",
+    subject: "Weekly Update - Week 32",
+    text: "Here's what happened this week in our community...",
+    date: "2023-08-15T10:00:00",
+    read: true,
+    labels: ["trash"],
+  },
+  {
+    id: "trash-2",
+    name: "System",
+    email: "system@example.com",
+    subject: "Account Notification",
+    text: "Your account settings have been updated.",
+    date: "2023-07-10T14:20:00",
+    read: true,
+    labels: ["trash"],
+  },
+  // Archive
+  {
+    id: "archive-1",
+    name: "Project Manager",
+    email: "pm@example.com",
+    subject: "Q2 Project Retrospective",
+    text: "Let's review what went well and what could be improved from our Q2 projects.",
+    date: "2023-06-30T15:00:00",
+    read: true,
+    labels: ["archive", "work"],
+  },
+  {
+    id: "archive-2",
+    name: "HR Department",
+    email: "hr@example.com",
+    subject: "Annual Review Documents",
+    text: "Please find attached your annual review documents for your records.",
+    date: "2023-05-15T09:30:00",
+    read: true,
+    labels: ["archive", "important"],
+  },
+  // Social
+  {
+    id: "social-1",
+    name: "LinkedIn",
+    email: "notifications@linkedin.com",
+    subject: "You have 5 new connection requests",
+    text: "John Doe, Jane Smith, and 3 others want to connect with you on LinkedIn.",
+    date: "2023-10-22T07:45:00",
+    read: false,
+    labels: ["social"],
+  },
+  {
+    id: "social-2",
+    name: "Twitter",
+    email: "notify@twitter.com",
+    subject: "Your post has 50 new likes",
+    text: "Your recent post is getting a lot of attention! Check out who's engaging with your content.",
+    date: "2023-10-21T20:15:00",
+    read: false,
+    labels: ["social"],
+  },
+  // Updates
+  {
+    id: "updates-1",
+    name: "GitHub",
+    email: "noreply@github.com",
+    subject: "New release: v2.5.0",
+    text: "A new version of your starred repository has been released. Check out the changelog for details.",
+    date: "2023-10-22T06:30:00",
+    read: false,
+    labels: ["updates"],
+  },
+  {
+    id: "updates-2",
+    name: "App Store",
+    email: "no_reply@email.apple.com",
+    subject: "Your apps have been updated",
+    text: "3 of your apps have been updated to their latest versions.",
+    date: "2023-10-21T22:00:00",
+    read: true,
+    labels: ["updates"],
+  },
+  // Forums
+  {
+    id: "forums-1",
+    name: "Stack Overflow",
+    email: "noreply@stackoverflow.com",
+    subject: "New answer to your question",
+    text: "Someone has posted a new answer to your question about React hooks.",
+    date: "2023-10-22T05:20:00",
+    read: false,
+    labels: ["forums"],
+  },
+  {
+    id: "forums-2",
+    name: "Reddit",
+    email: "noreply@reddit.com",
+    subject: "Trending in r/programming",
+    text: "Check out what's trending in your favorite programming subreddit today!",
+    date: "2023-10-21T18:45:00",
+    read: false,
+    labels: ["forums"],
+  },
+  // Shopping
+  {
+    id: "shopping-1",
+    name: "Amazon",
+    email: "ship-confirm@amazon.com",
+    subject: "Your order has shipped",
+    text: "Good news! Your order #123-4567890-1234567 has shipped and will arrive by October 25th.",
+    date: "2023-10-22T03:15:00",
+    read: false,
+    labels: ["shopping"],
+  },
+  {
+    id: "shopping-2",
+    name: "eBay",
+    email: "ebay@ebay.com",
+    subject: "Item you're watching is ending soon",
+    text: "The auction for the item you're watching ends in 2 hours. Place your bid now!",
+    date: "2023-10-21T16:30:00",
+    read: true,
+    labels: ["shopping"],
+  },
+  // Promotions
+  {
+    id: "promotions-1",
+    name: "Udemy",
+    email: "no-reply@udemy.com",
+    subject: "Flash Sale: 80% off all courses",
+    text: "For the next 24 hours, get 80% off all courses in our catalog. Upgrade your skills today!",
+    date: "2023-10-22T01:00:00",
+    read: false,
+    labels: ["promotions"],
+  },
+  {
+    id: "promotions-2",
+    name: "Best Buy",
+    email: "BestBuyInfo@emailinfo.bestbuy.com",
+    subject: "Black Friday Early Access",
+    text: "As a valued customer, you get early access to our Black Friday deals. Shop now before items sell out!",
+    date: "2023-10-21T12:00:00",
+    read: false,
+    labels: ["promotions"],
+  },
+]

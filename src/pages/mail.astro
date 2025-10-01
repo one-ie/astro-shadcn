@@ -1,0 +1,10 @@
+---
+import MailLayout from '@/layouts/MailLayout.astro';
+import { MailLayout as MailLayoutComponent } from '@/components/mail/MailLayout';
+---
+
+<MailLayout title="Mail App">
+  <div class="h-screen w-screen overflow-hidden">
+    <MailLayoutComponent client:load />
+  </div>
+</MailLayout>

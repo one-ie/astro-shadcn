@@ -169,8 +169,11 @@ const BlogSchema = z.object({
 - ALWAYS wrap color variables with `hsl()`: `hsl(var(--color-background))`
 - Define theme colors in `@theme` blocks with `--color-*` pattern
 - Use `@variant dark (.dark &)` for dark mode utilities
-- No `@apply` directive - use vanilla CSS or utility classes directly
+- NO `@apply` directive in Tailwind v4 - use vanilla CSS or utility classes directly in HTML
+- NEVER use `@apply border-border` or similar - these utility classes don't exist in v4
+- NEVER use `@layer base` with `@apply` - define base styles with vanilla CSS only
 - Add `@source` directive to scan component directories
+- Border colors are automatically applied via `* { border-color: hsl(var(--color-border)); }` in global.css
 
 ## Development Guidelines
 
