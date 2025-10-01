@@ -1,6 +1,10 @@
 @import "@daveyplate/better-auth-ui/css";
 
 @import 'tailwindcss';
+
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 @plugin "@tailwindcss/typography";
 
 @variant dark (.dark &);
@@ -89,39 +93,16 @@ body {
   white-space: normal;
 }
 
-/* Mobile layout styles */
-@media (max-width: 767px) {
-  #left-sidebar {
-    height: 100vh;
-    background-color: hsl(var(--color-background));
-  }
-
-  #left-sidebar[data-open='true'] + div {
-    position: relative;
-  }
-
-  #left-sidebar[data-open='true'] + div::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 40;
-  }
-
-  #right-panel {
-    background-color: hsl(var(--color-background));
-  }
-}
-
 :root {
-  --sidebar-bg: #161616;
-  --sidebar-fg: 220 10% 90%;
-  --sidebar-hover: #222222;
-  --sidebar-active: #1a1a1a;
   --aui-thread-max-width: infinity;
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
 .dark {
@@ -157,86 +138,24 @@ body {
   --color-sidebar-accent-foreground: 240 4.8% 95.9%;
   --color-sidebar-border: 240 3.7% 15.9%;
   --color-sidebar-ring: 217.2 91.2% 59.8%;
-}
-
-.sidebar-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  position: relative;
-  z-index: 10;
-  color: hsl(var(--sidebar-fg) / 0.8);
-}
-
-.group:hover .sidebar-icon {
-  color: hsl(var(--sidebar-fg));
-}
-
-.sidebar-text {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  position: relative;
-  z-index: 10;
-  color: hsl(var(--sidebar-fg) / 0.8);
-  opacity: 0;
-  transition: opacity 200ms;
-  white-space: nowrap;
-}
-
-.group:hover .sidebar-text {
-  color: hsl(var(--sidebar-fg));
-  opacity: 1;
-}
-
-/* Update the content styles */
-#main-content {
-  transition: margin 200ms ease-out;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-#main-content main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: calc(100vh - 2rem);
-}
-
-/* Only add margin AND padding when in sidebar layout */
-[data-layout='sidebar'] #main-content {
-  margin-left: 4rem;
-}
-
-/* Add padding for header layout */
-[data-layout='header'] #main-content {
-  padding-top: 5rem;
-}
-
-/* Content container styles for both layouts */
-[data-layout='sidebar'] #main-content main,
-[data-layout='header'] #main-content main {
-  width: 100%;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-/* Adjust margin when sidebar expands */
-[data-layout='sidebar'] .sidebar-expanded + #main-content {
-  margin-left: 16rem;
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
 /* Add styles for code blocks */
 .prose pre {
-  background-color: var(--sidebar-bg) !important;
+  background-color: hsl(var(--color-muted)) !important;
 }
 
 .prose code {
-  background-color: var(--sidebar-bg) !important;
-  color: hsl(var(--sidebar-fg)) !important;
+  background-color: hsl(var(--color-muted)) !important;
+  color: hsl(var(--color-foreground)) !important;
 }
 
 /* Optional: Style inline code differently if needed */
@@ -257,4 +176,24 @@ body {
   background: inherit;
   width: 100%;
   height: 100%;
+}
+
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+* {
+  border-color: hsl(var(--color-border));
+}
+
+body {
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
 }
