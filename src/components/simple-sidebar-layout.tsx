@@ -1,7 +1,17 @@
 import * as React from "react"
-import { Home, FileText, Scale, Book, PanelLeft } from "lucide-react"
+import { Home, FileText, Scale, Book, PanelLeft, ChevronsUpDown, LogOut, BadgeCheck, CreditCard, Bell, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { siteConfig } from "@/config/site"
 
 const iconMap = {
@@ -24,25 +34,60 @@ interface SimpleSidebarLayoutProps {
 export function SimpleSidebarLayout({ children }: SimpleSidebarLayoutProps) {
   const [collapsed, setCollapsed] = React.useState(false)
   const [currentPath, setCurrentPath] = React.useState('')
+  const [user, setUser] = React.useState<{ name: string; email: string; avatar?: string } | null>(null)
 
   React.useEffect(() => {
     setCurrentPath(window.location.pathname)
+
+    fetch('/api/auth/get-session')
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) {
+          setUser({
+            name: data.user.name || data.user.email,
+            email: data.user.email,
+            avatar: data.user.image,
+          })
+        }
+      })
+      .catch(console.error)
   }, [])
+
+  const handleSignOut = async () => {
+    try {
+      await fetch("/api/auth/sign-out", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      window.location.href = "/"
+    } catch (error) {
+      console.error("Sign out failed:", error)
+    }
+  }
+
+  const initials = user?.name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2) || "U"
 
   return (
     <div className="flex min-h-screen w-full">
-      {/* Sidebar - fixed width, transitions smoothly */}
+      {/* Sidebar - fixed width, transitions smoothly, fixed to viewport */}
       <aside
-        className="flex flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out"
+        className="fixed left-0 top-0 h-screen flex flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out z-50"
         style={{ width: collapsed ? '80px' : '256px' }}
       >
         {/* Header with logo */}
-        <div className="flex h-16 items-center justify-center border-b px-4">
+        <div className="flex h-16 items-center justify-center border-b px-4 shrink-0">
           <img src="/icon.svg" alt="Logo" className="w-10 h-10" />
           {!collapsed && <span className="ml-3 font-semibold">ONE</span>}
         </div>
 
-        {/* Navigation */}
+        {/* Navigation - scrollable */}
         <nav className="flex-1 overflow-y-auto p-4">
           <div className="space-y-1">
             {navItems.map((item) => {
@@ -65,26 +110,94 @@ export function SimpleSidebarLayout({ children }: SimpleSidebarLayoutProps) {
           </div>
         </nav>
 
-        {/* Footer with user */}
-        <div className="border-t p-4">
-          <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
-            <div className="h-10 w-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-semibold shrink-0">
-              U
-            </div>
-            {!collapsed && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate">Guest</p>
-                <p className="text-xs text-muted-foreground truncate">guest@example.com</p>
-              </div>
-            )}
-          </div>
+        {/* Footer with user - sticks to bottom of viewport */}
+        <div className="border-t p-2 shrink-0">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={`flex items-center gap-3 rounded-md p-2 w-full text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                  collapsed ? 'justify-center' : ''
+                }`}
+              >
+                <Avatar className="h-10 w-10 rounded-lg shrink-0">
+                  <AvatarImage src={user?.avatar} alt={user?.name} />
+                  <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
+                    {initials}
+                  </AvatarFallback>
+                </Avatar>
+                {!collapsed && (
+                  <>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold truncate">{user?.name || 'Guest'}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user?.email || 'guest@example.com'}</p>
+                    </div>
+                    <ChevronsUpDown className="h-4 w-4 shrink-0" />
+                  </>
+                )}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-56 rounded-lg"
+              side="right"
+              align="end"
+              sideOffset={4}
+            >
+              <DropdownMenuLabel className="p-0 font-normal">
+                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                  <Avatar className="h-10 w-10 rounded-lg">
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
+                      {initials}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">{user?.name || 'Guest'}</span>
+                    <span className="truncate text-xs text-muted-foreground">{user?.email || 'guest@example.com'}</span>
+                  </div>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <Sparkles />
+                  Upgrade to Pro
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Account
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <CreditCard />
+                  Billing
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Bell />
+                  Notifications
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut}>
+                <LogOut />
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </aside>
 
+      {/* Spacer to push content - matches sidebar width */}
+      <div
+        className="shrink-0 transition-all duration-300 ease-in-out"
+        style={{ width: collapsed ? '80px' : '256px' }}
+      />
+
       {/* Main content area - takes remaining space */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col min-w-0">
         {/* Header with toggle */}
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 bg-background z-40">
           <Button
             variant="ghost"
             size="icon"
