@@ -4,6 +4,9 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import cloudflare from '@astrojs/cloudflare';
 
+// Only use edge renderer in production builds for Cloudflare
+const isProd = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
   site: 'https://one.ie',
   integrations: [react(), sitemap()],
@@ -14,9 +17,9 @@ export default defineConfig({
       }),
     ],
     resolve: {
-      alias: {
+      alias: isProd ? {
         'react-dom/server': 'react-dom/server.edge',
-      },
+      } : {},
     },
     ssr: {
       external: ['node:async_hooks'],
