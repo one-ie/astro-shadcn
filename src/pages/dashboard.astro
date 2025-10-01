@@ -1,54 +1,10 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import { AuthUIProvider } from "@/components/AuthUIProvider";
-import { UserButton } from "@/components/UserButton";
+import Layout from '@/layouts/Layout.astro';
+import { DashboardLayout } from '@/components/dashboard/dashboard-layout';
 
 export const prerender = false;
-
-// Redirect if not authenticated
-const session = Astro.locals.session;
-if (!session) {
-  return Astro.redirect("/auth");
-}
-
-const user = Astro.locals.user;
 ---
 
 <Layout title="Dashboard">
-  <header class="border-b">
-    <div class="container mx-auto flex items-center justify-between py-4">
-      <h1 class="text-xl font-bold">Dashboard</h1>
-      <AuthUIProvider client:only="react">
-        <UserButton client:load />
-      </AuthUIProvider>
-    </div>
-  </header>
-
-  <main class="container mx-auto py-8">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-2xl">Welcome, {user?.name || "there"}!</h2>
-      <form action="/api/logout" method="POST">
-        <button
-          type="submit"
-          class="px-4 py-2 bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90 transition-colors"
-        >
-          Sign Out
-        </button>
-      </form>
-    </div>
-
-    <div class="bg-card border border-border rounded-lg p-6">
-      <p class="text-muted-foreground mb-2"><strong>Email:</strong> {user?.email}</p>
-      <p class="text-muted-foreground"><strong>User ID:</strong> {user?.id}</p>
-    </div>
-
-    <div class="mt-8">
-      <h3 class="text-xl mb-4">Quick Links</h3>
-      <div class="flex gap-4">
-        <a href="/" class="text-primary hover:underline">Home</a>
-        <a href="/blog" class="text-primary hover:underline">Blog</a>
-        <a href="/settings" class="text-primary hover:underline">Account Settings</a>
-      </div>
-    </div>
-  </main>
+  <DashboardLayout client:only="react" />
 </Layout>

@@ -118,8 +118,8 @@ const SidebarProvider = React.forwardRef<
     }, [toggleSidebar]);
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
-    // This makes it easier to style the sidebar with Tailwind classes.
-    const state = open ? 'expanded' : 'collapsed';
+    // On mobile, we derive state from `openMobile` when using the mobile toggle.
+    const state = (isMobile ? openMobile : open) ? 'expanded' : 'collapsed';
 
     const contextValue = React.useMemo<SidebarContextProps>(
       () => ({
@@ -197,7 +197,9 @@ const Sidebar = React.forwardRef<
       );
     }
 
-    if (isMobile) {
+    // Mobile behavior: use the same push layout instead of an overlay
+    // unless explicitly using the "offcanvas" collapsible variant.
+    if (isMobile && collapsible === 'offcanvas') {
       return (
         <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
           <SheetContent
@@ -224,7 +226,7 @@ const Sidebar = React.forwardRef<
     return (
       <div
         ref={ref}
-        className="group peer hidden text-sidebar-foreground md:block"
+        className="group peer hidden shrink-0 text-sidebar-foreground md:block"
         data-state={state}
         data-collapsible={state === 'collapsed' ? collapsible : ''}
         data-variant={variant}
@@ -233,7 +235,7 @@ const Sidebar = React.forwardRef<
         {/* This is what handles the sidebar gap on desktop */}
         <div
           className={cn(
-            'relative w-[--sidebar-width] bg-transparent transition-[width] duration-200 ease-linear',
+            'relative h-svh w-[--sidebar-width] shrink-0 bg-transparent transition-[width] duration-200 ease-linear',
             'group-data-[collapsible=offcanvas]:w-0',
             'group-data-[side=right]:rotate-180',
             variant === 'floating' || variant === 'inset'
@@ -331,7 +333,7 @@ const SidebarInset = React.forwardRef<
     <main
       ref={ref}
       className={cn(
-        'relative flex w-full flex-1 flex-col bg-background',
+        'relative flex min-w-0 flex-1 flex-col bg-background',
         'md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow',
         className
       )}
