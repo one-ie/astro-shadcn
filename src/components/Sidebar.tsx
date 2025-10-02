@@ -106,7 +106,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
       {/* Mobile backdrop overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
