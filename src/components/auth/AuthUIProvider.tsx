@@ -23,6 +23,9 @@ export function AuthUIProvider({ children }: { children: ReactNode }) {
       signUp={{
         fields: ["name"],
       }}
+      onSuccess={() => {
+        window.location.href = "/dashboard"
+      }}
     >
       {children}
     </BetterAuthUIProvider>

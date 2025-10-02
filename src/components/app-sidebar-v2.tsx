@@ -51,9 +51,36 @@ export function AppSidebarV2({ ...props }: React.ComponentProps<typeof Sidebar>)
     setCurrentPath(window.location.pathname)
 
     fetch('/api/auth/get-session')
-      .then(res => res.json())
+      .then(async (res) => {
+        // Check if response is OK and has content
+        if (!res.ok) {
+          console.error('Session fetch failed:', res.status)
+          return null
+        }
+
+        // Check if response has JSON content
+        const contentType = res.headers.get('content-type')
+        if (!contentType || !contentType.includes('application/json')) {
+          console.error('Invalid response type:', contentType)
+          return null
+        }
+
+        // Get response text first to handle empty responses
+        const text = await res.text()
+        if (!text) {
+          console.error('Empty response body')
+          return null
+        }
+
+        try {
+          return JSON.parse(text)
+        } catch (e) {
+          console.error('JSON parse error:', e, 'Response:', text)
+          return null
+        }
+      })
       .then(data => {
-        if (data.user) {
+        if (data?.user) {
           setUser({
             name: data.user.name || data.user.email,
             email: data.user.email,
@@ -61,7 +88,9 @@ export function AppSidebarV2({ ...props }: React.ComponentProps<typeof Sidebar>)
           })
         }
       })
-      .catch(console.error)
+      .catch((error) => {
+        console.error('Session fetch error:', error)
+      })
   }, [])
 
   const handleSignOut = async () => {

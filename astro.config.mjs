@@ -30,5 +30,9 @@ export default defineConfig({
     platformProxy: {
       enabled: false,
     },
+    mode: 'directory',
+    runtime: {
+      mode: 'local',
+    },
   }),
 });

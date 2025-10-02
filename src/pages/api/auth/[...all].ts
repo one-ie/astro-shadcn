@@ -130,6 +130,8 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       const body = await request.json()
       const { email, password, name } = body
 
+      console.log("[Auth] Sign up attempt:", { email, name })
+
       const result = await convex.mutation(api.auth.signUp, {
         email,
         password,
@@ -168,12 +170,34 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       )
     }
 
+    // Handle social sign-in endpoint (GitHub, Google)
+    if (pathname === "/sign-in/social" && request.method === "POST") {
+      const body = await request.json()
+      const { provider } = body
+
+      console.log("[Auth] Social sign-in attempt:", { provider })
+
+      // Redirect to the OAuth provider
+      const baseUrl = new URL(request.url).origin
+      const redirectUrl = `${baseUrl}/api/auth/${provider}`
+
+      return new Response(
+        JSON.stringify({ url: redirectUrl }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
     // Return 404 for unhandled routes
-    return new Response(JSON.stringify({ error: "Not found" }), {
+    console.log("[Auth] Unhandled route:", pathname, request.method)
+    return new Response(JSON.stringify({ error: "Not found", pathname }), {
       status: 404,
       headers: { "Content-Type": "application/json" },
     })
   } catch (error: any) {
+    console.error("[Auth] Error:", error)
     return new Response(
       JSON.stringify({ error: error.message || "Internal server error" }),
       {
