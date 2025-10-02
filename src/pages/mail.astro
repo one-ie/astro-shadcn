@@ -5,6 +5,6 @@ import { MailLayout as MailLayoutComponent } from '@/components/mail/MailLayout'
 
 <MailLayout title="Mail App">
   <div class="h-screen w-screen overflow-hidden">
-    <MailLayoutComponent client:load />
+    <MailLayoutComponent client:only="react" />
   </div>
 </MailLayout>

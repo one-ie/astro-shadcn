@@ -196,6 +196,78 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       })
     }
 
+    // Handle forgot password endpoint
+    if (pathname === "/forgot-password" && request.method === "POST") {
+      const body = await request.json()
+      const { email } = body
+
+      const baseUrl = new URL(request.url).origin
+
+      await convex.mutation(api.auth.requestPasswordReset, {
+        email,
+        baseUrl
+      })
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
+    // Handle validate reset token endpoint
+    if (pathname === "/validate-reset-token" && request.method === "GET") {
+      const token = url.searchParams.get("token")
+
+      if (!token) {
+        return new Response(
+          JSON.stringify({ error: "Token required" }),
+          {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      }
+
+      const result = await convex.query(api.auth.validateResetToken, { token })
+
+      if (!result.valid) {
+        return new Response(
+          JSON.stringify({ error: "Invalid or expired token" }),
+          {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      }
+
+      return new Response(
+        JSON.stringify({ valid: true }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
+    // Handle reset password endpoint
+    if (pathname === "/reset-password" && request.method === "POST") {
+      const body = await request.json()
+      const { token, password } = body
+
+      await convex.mutation(api.auth.resetPassword, { token, password })
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
+
     // Return 404 for unhandled routes
     return new Response(JSON.stringify({ error: "Not found" }), {
       status: 404,

@@ -16,4 +16,13 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_token", ["token"])
     .index("by_userId", ["userId"]),
+
+  passwordResets: defineTable({
+    userId: v.id("users"),
+    token: v.string(),
+    expiresAt: v.number(),
+    createdAt: v.number(),
+    used: v.boolean(),
+  }).index("by_token", ["token"])
+    .index("by_userId", ["userId"]),
 });

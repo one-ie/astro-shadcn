@@ -1,5 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { resend } from "./resend";
+import { passwordResetEmail } from "./emails/passwordReset";
 
 // Simple password hashing using crypto (for demo - use bcrypt in production)
 async function hashPassword(password: string): Promise<string> {
@@ -188,5 +190,125 @@ export const getCurrentUser = query({
       email: user.email,
       name: user.name,
     };
+  },
+});
+
+// Request password reset mutation
+export const requestPasswordReset = mutation({
+  args: {
+    email: v.string(),
+    baseUrl: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Find user
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .first();
+
+    if (!user) {
+      // Don't reveal if user exists for security
+      return { success: true };
+    }
+
+    // Generate reset token
+    const resetToken = generateToken();
+    const expiresAt = Date.now() + 60 * 60 * 1000; // 1 hour
+
+    // Store reset token
+    await ctx.db.insert("passwordResets", {
+      userId: user._id,
+      token: resetToken,
+      expiresAt,
+      createdAt: Date.now(),
+      used: false,
+    });
+
+    // Create reset link
+    const resetLink = `${args.baseUrl}/reset-password?token=${resetToken}`;
+
+    // Generate email content
+    const emailContent = passwordResetEmail(resetLink, user.email);
+
+    // Send email using Resend
+    try {
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
+        to: user.email,
+        subject: emailContent.subject,
+        html: emailContent.html,
+        text: emailContent.text,
+      });
+    } catch (error) {
+      console.error("Failed to send password reset email:", error);
+      // Don't throw error to avoid revealing if user exists
+    }
+
+    return { success: true };
+  },
+});
+
+// Validate reset token query
+export const validateResetToken = query({
+  args: {
+    token: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const resetRequest = await ctx.db
+      .query("passwordResets")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .first();
+
+    if (!resetRequest || resetRequest.used || resetRequest.expiresAt < Date.now()) {
+      return { valid: false };
+    }
+
+    return { valid: true };
+  },
+});
+
+// Reset password mutation
+export const resetPassword = mutation({
+  args: {
+    token: v.string(),
+    password: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Find reset request
+    const resetRequest = await ctx.db
+      .query("passwordResets")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .first();
+
+    if (!resetRequest || resetRequest.used || resetRequest.expiresAt < Date.now()) {
+      throw new Error("Invalid or expired reset token");
+    }
+
+    // Get user
+    const user = await ctx.db.get(resetRequest.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Hash new password
+    const passwordHash = await hashPassword(args.password);
+
+    // Update user password
+    await ctx.db.patch(user._id, { passwordHash });
+
+    // Mark reset token as used
+    await ctx.db.patch(resetRequest._id, { used: true });
+
+    // Invalidate all existing sessions for this user
+    const sessions = await ctx.db
+      .query("sessions")
+      .filter((q) => q.eq(q.field("userId"), user._id))
+      .collect();
+
+    for (const session of sessions) {
+      await ctx.db.delete(session._id);
+    }
+
+    return { success: true };
   },
 });
