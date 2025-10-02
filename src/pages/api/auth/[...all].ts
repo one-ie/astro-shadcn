@@ -203,10 +203,17 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
 
       const baseUrl = new URL(request.url).origin
 
-      await convex.mutation(api.auth.requestPasswordReset, {
-        email,
-        baseUrl
-      })
+      console.log("Calling requestPasswordReset action for:", email)
+
+      try {
+        const result = await convex.mutation(api.auth.requestPasswordReset, {
+          email,
+          baseUrl
+        })
+        console.log("Password reset result:", result)
+      } catch (error) {
+        console.error("Error calling requestPasswordReset:", error)
+      }
 
       return new Response(
         JSON.stringify({ success: true }),

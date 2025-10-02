@@ -1,7 +1,8 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-import { resend } from "./resend";
-import { passwordResetEmail } from "./emails/passwordReset";
+import { mutation, query, action, internalMutation, internalAction } from "./_generated/server";
+import { internal } from "./_generated/api";
+import { components } from "./_generated/api";
+import { Resend } from "@convex-dev/resend";
 
 // Simple password hashing using crypto (for demo - use bcrypt in production)
 async function hashPassword(password: string): Promise<string> {
@@ -193,11 +194,10 @@ export const getCurrentUser = query({
   },
 });
 
-// Request password reset mutation
-export const requestPasswordReset = mutation({
+// Internal mutation to create password reset token
+const createPasswordResetTokenMutation = internalMutation({
   args: {
     email: v.string(),
-    baseUrl: v.string(),
   },
   handler: async (ctx, args) => {
     // Find user
@@ -207,8 +207,7 @@ export const requestPasswordReset = mutation({
       .first();
 
     if (!user) {
-      // Don't reveal if user exists for security
-      return { success: true };
+      return null;
     }
 
     // Generate reset token
@@ -224,25 +223,66 @@ export const requestPasswordReset = mutation({
       used: false,
     });
 
-    // Create reset link
-    const resetLink = `${args.baseUrl}/reset-password?token=${resetToken}`;
+    return { token: resetToken, email: user.email };
+  },
+});
 
-    // Generate email content
-    const emailContent = passwordResetEmail(resetLink, user.email);
+export const createPasswordResetToken = createPasswordResetTokenMutation;
 
-    // Send email using Resend
+// Initialize Resend component
+const resend = new Resend(components.resend, { testMode: false });
+
+// Internal action to send password reset email
+export const sendPasswordResetEmailAction = internalAction({
+  args: {
+    email: v.string(),
+    resetLink: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const from = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const subject = "Reset your password - ONE";
+    const html = `<!DOCTYPE html><html><body><p>Reset your password by clicking the link below:</p><p><a href="${args.resetLink}">Reset Password</a></p></body></html>`;
+
     try {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
-        to: user.email,
-        subject: emailContent.subject,
-        html: emailContent.html,
-        text: emailContent.text,
+      await resend.sendEmail(ctx, {
+        from,
+        to: args.email,
+        subject,
+        html,
       });
+      console.log("Password reset email sent to:", args.email);
     } catch (error) {
       console.error("Failed to send password reset email:", error);
       // Don't throw error to avoid revealing if user exists
     }
+  },
+});
+
+// Request password reset mutation (public-facing)
+export const requestPasswordReset = mutation({
+  args: {
+    email: v.string(),
+    baseUrl: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Create reset token via internal mutation
+    const result = await ctx.runMutation(internal.auth.createPasswordResetToken, {
+      email: args.email,
+    });
+
+    if (!result) {
+      // Don't reveal if user exists for security
+      return { success: true };
+    }
+
+    // Create reset link
+    const resetLink = `${args.baseUrl}/reset-password?token=${result.token}`;
+
+    // Schedule email sending via internal action
+    await ctx.scheduler.runAfter(0, internal.auth.sendPasswordResetEmailAction, {
+      email: result.email,
+      resetLink,
+    });
 
     return { success: true };
   },
