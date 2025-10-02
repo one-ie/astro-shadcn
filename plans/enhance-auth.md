@@ -29,22 +29,10 @@
 - [ ] Social OAuth UI exists but not functional
 
 ### 🚧 Next Steps (Migrate from Custom to Full Better Auth)
-
-**See `plans/better-auth-migration-guide.md` for complete step-by-step instructions.**
-
-#### Immediate Tasks (1-2 hours):
-1. [ ] **Create Better Auth instance** in `convex/auth.ts` (replace custom mutations)
-2. [ ] **Set up HTTP routes** in `convex/http.ts` (register Better Auth routes)
-3. [ ] **Update auth client** with Convex plugin in `src/lib/auth-client.ts`
-4. [ ] **Test sign in/sign up** with Better Auth
-5. [ ] **Remove old API bridge** at `/api/auth/[...all].ts` (replaced by Better Auth HTTP routes)
-
-#### Follow-up Tasks (as needed):
-6. [ ] **Migrate existing users** from custom schema to Better Auth schema
-7. [ ] **Enable OAuth** (GitHub, Google) - just add credentials
-8. [ ] **Add magic links** plugin
-9. [ ] **Add 2FA** (TOTP) plugin
-10. [ ] **Add passkeys** (WebAuthn) plugin
+1. [ ] **Replace custom mutations with Better Auth functions** (1-2 days)
+2. [ ] **Set up Better Auth HTTP routes** in `convex/http.ts`
+3. [ ] **Enable Better Auth plugins** (OAuth, magic links, 2FA)
+4. [ ] **Migrate user data** to Better Auth schema
 
 ### 📋 Planned Features (Requires Better Auth)
 - [ ] Anonymous login

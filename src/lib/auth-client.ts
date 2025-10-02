@@ -1,13 +1,9 @@
-import { createAuthClient } from "better-auth/react";
-import { convexClient } from "@convex-dev/better-auth/client/plugins";
+import { createAuthClient } from "better-auth/react"
 
 // Create Better Auth client for UI components
-// Now connects to Better Auth Convex HTTP routes
+// This connects to our custom auth API endpoints
 export const authClient = createAuthClient({
   baseURL: typeof window !== "undefined" ? window.location.origin : "http://localhost:4321",
-  plugins: [
-    convexClient(), // Convex plugin for Better Auth integration
-  ],
-});
+})
 
-export { authClient as auth };
+export { authClient as auth }
