@@ -181,13 +181,12 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       const baseUrl = new URL(request.url).origin
       const redirectUrl = `${baseUrl}/api/auth/${provider}`
 
-      return new Response(
-        JSON.stringify({ url: redirectUrl }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: redirectUrl,
+        },
+      })
     }
 
     // Return 404 for unhandled routes

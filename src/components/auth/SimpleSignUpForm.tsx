@@ -28,7 +28,7 @@ export function SimpleSignUpForm() {
         let title = "Unable to create account"
         let description = `Error: ${errorMessage}. Please verify your information and try again.`
 
-        if (errorMessage.toLowerCase().includes("already exists") || errorMessage.toLowerCase().includes("already registered")) {
+        if (errorMessage.toLowerCase().includes("already exists") || errorMessage.toLowerCase().includes("already registered") || errorMessage.toLowerCase().includes("user with this email")) {
           title = "Email already registered"
           description = "This email is already in use. Please sign in instead or use a different email address."
         } else if (errorMessage.toLowerCase().includes("password")) {
@@ -62,71 +62,33 @@ export function SimpleSignUpForm() {
       }, 1000)
     } catch (err: any) {
       const errorMessage = err.message || "An unexpected error occurred"
-      let description = "Please try again later or contact support if the issue persists"
+      let title = "Sign up error"
+      let description = `Error: ${errorMessage}. Please try again later or contact support if the issue persists.`
 
       if (errorMessage.toLowerCase().includes("network") || errorMessage.toLowerCase().includes("fetch")) {
-        description = "Cannot reach the server. Please check your internet connection."
+        title = "Connection failed"
+        description = "Cannot reach the server. Please check your internet connection and try again."
       } else if (errorMessage.toLowerCase().includes("timeout")) {
-        description = "The request took too long. Please try again."
+        title = "Request timeout"
+        description = "The server is taking too long to respond. Please try again in a moment."
+      } else if (errorMessage.toLowerCase().includes("cors")) {
+        title = "Configuration error"
+        description = "There's a configuration issue preventing sign up. Please contact support."
       }
 
-      toast.error("Sign up error", {
+      toast.error(title, {
         description: description
       })
       setLoading(false)
     }
   }
 
-  const handleGithubSignIn = async () => {
-    setLoading(true)
-    try {
-      await authClient.signIn.social({
-        provider: "github",
-        callbackURL: "/dashboard",
-      })
-    } catch (err: any) {
-      const errorMessage = err.message || "GitHub authentication failed"
-      let description = "Unable to sign in with GitHub. Please try again or use email sign up."
-
-      if (errorMessage.toLowerCase().includes("popup") || errorMessage.toLowerCase().includes("blocked")) {
-        description = "Pop-up was blocked. Please allow pop-ups for this site and try again."
-      } else if (errorMessage.toLowerCase().includes("denied") || errorMessage.toLowerCase().includes("cancelled")) {
-        description = "GitHub sign in was cancelled. Click the button to try again."
-      } else if (errorMessage.toLowerCase().includes("network")) {
-        description = "Network error. Please check your connection and try again."
-      }
-
-      toast.error("GitHub sign in failed", {
-        description: description
-      })
-      setLoading(false)
-    }
+  const handleGithubSignIn = () => {
+    window.location.href = "/api/auth/github"
   }
 
-  const handleGoogleSignIn = async () => {
-    setLoading(true)
-    try {
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/dashboard",
-      })
-    } catch (err: any) {
-      const errorMessage = err.message || "Google authentication failed"
-      let description = "Unable to sign in with Google. Please try again or use email sign up."
-
-      if (errorMessage.toLowerCase().includes("popup") || errorMessage.toLowerCase().includes("blocked")) {
-        description = "Pop-up was blocked. Please allow pop-ups for this site and try again."
-      } else if (errorMessage.toLowerCase().includes("denied") || errorMessage.toLowerCase().includes("cancelled")) {
-        description = "Google sign in was cancelled. Click the button to try again."
-      } else if (errorMessage.toLowerCase().includes("network")) {
-        description = "Network error. Please check your connection and try again."
-      }
-
-      toast.error("Google sign in failed", {
-        description: description
-      })
-      setLoading(false)
-    }
+  const handleGoogleSignIn = () => {
+    window.location.href = "/api/auth/google"
   }
 
   return (
