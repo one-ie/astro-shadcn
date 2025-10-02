@@ -148,6 +148,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
                 className={`flex items-center gap-3 rounded-md p-2 w-full text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
                   collapsed ? 'justify-center' : ''
                 }`}
+                aria-label="User menu"
               >
                 <Avatar className="h-10 w-10 rounded-lg shrink-0">
                   <AvatarImage src={user?.avatar} alt={user?.name} />
@@ -261,6 +262,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
             size="icon"
             onClick={() => setCollapsed(!collapsed)}
             className="h-7 w-7"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <PanelLeft className="h-4 w-4" />
           </Button>
@@ -268,7 +270,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-6">
+        <main id="main-content" className="flex-1 p-6">
           {children}
         </main>
       </div>
