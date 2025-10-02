@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Home, FileText, Scale, Book, Mail, PanelLeft, ChevronsUpDown, LogOut, BadgeCheck, CreditCard, Bell, Sparkles } from "lucide-react"
+import { Home, FileText, Scale, Book, Mail, PanelLeft, ChevronsUpDown, LogOut, BadgeCheck, CreditCard, Bell, Sparkles, UserPlus, LogIn, LayoutDashboard, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -32,7 +32,7 @@ interface SimpleSidebarLayoutProps {
   children: React.ReactNode
 }
 
-export function SimpleSidebarLayout({ children }: SimpleSidebarLayoutProps) {
+export function Sidebar({ children }: SimpleSidebarLayoutProps) {
   const [collapsed, setCollapsed] = React.useState(false)
   const [currentPath, setCurrentPath] = React.useState('')
   const [user, setUser] = React.useState<{ name: string; email: string; avatar?: string } | null>(null)
@@ -137,6 +137,57 @@ export function SimpleSidebarLayout({ children }: SimpleSidebarLayoutProps) {
                 </a>
               )
             })}
+
+            <Separator className="my-4" />
+
+            {/* Auth links */}
+            {user ? (
+              <>
+                <a
+                  href="/dashboard"
+                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                    currentPath === '/dashboard' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
+                  }`}
+                  title={collapsed ? 'Dashboard' : undefined}
+                >
+                  <LayoutDashboard className="h-5 w-5 shrink-0" />
+                  {!collapsed && <span>Dashboard</span>}
+                </a>
+                <a
+                  href="/settings"
+                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                    currentPath === '/settings' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
+                  }`}
+                  title={collapsed ? 'Settings' : undefined}
+                >
+                  <Settings className="h-5 w-5 shrink-0" />
+                  {!collapsed && <span>Settings</span>}
+                </a>
+              </>
+            ) : (
+              <>
+                <a
+                  href="/signin"
+                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                    currentPath === '/signin' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
+                  }`}
+                  title={collapsed ? 'Sign In' : undefined}
+                >
+                  <LogIn className="h-5 w-5 shrink-0" />
+                  {!collapsed && <span>Sign In</span>}
+                </a>
+                <a
+                  href="/signup"
+                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                    currentPath === '/signup' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
+                  }`}
+                  title={collapsed ? 'Sign Up' : undefined}
+                >
+                  <UserPlus className="h-5 w-5 shrink-0" />
+                  {!collapsed && <span>Sign Up</span>}
+                </a>
+              </>
+            )}
           </div>
         </nav>
 

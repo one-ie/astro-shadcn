@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { SignInForm } from "@/components/auth/SignInForm";
+import { SimpleSignInForm } from "@/components/auth/SimpleSignInForm";
 
 export const prerender = false;
 
@@ -12,8 +12,6 @@ if (Astro.locals.user) {
 
 <Layout title="Sign In">
   <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/10 p-4">
-    <div class="w-full max-w-md">
-      <SignInForm client:load />
-    </div>
+    <SimpleSignInForm client:load />
   </main>
 </Layout>

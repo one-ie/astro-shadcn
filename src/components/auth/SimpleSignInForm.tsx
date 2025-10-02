@@ -5,10 +5,9 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { authClient } from "@/lib/auth-client"
 
-export function SimpleSignUpForm() {
+export function SimpleSignInForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [name, setName] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -18,14 +17,13 @@ export function SimpleSignUpForm() {
     setLoading(true)
 
     try {
-      const result = await authClient.signUp.email({
+      const result = await authClient.signIn.email({
         email,
         password,
-        name,
       })
 
       if (result.error) {
-        setError(result.error.message || "Sign up failed")
+        setError(result.error.message || "Sign in failed")
         setLoading(false)
         return
       }
@@ -33,7 +31,7 @@ export function SimpleSignUpForm() {
       // Success - redirect to dashboard
       window.location.href = "/dashboard"
     } catch (err: any) {
-      setError(err.message || "Sign up failed")
+      setError(err.message || "Sign in failed")
       setLoading(false)
     }
   }
@@ -67,22 +65,11 @@ export function SimpleSignUpForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Create Account</CardTitle>
-        <CardDescription>Sign up to get started</CardDescription>
+        <CardTitle className="text-2xl">Welcome Back</CardTitle>
+        <CardDescription>Sign in to your account</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -104,9 +91,7 @@ export function SimpleSignUpForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={8}
             />
-            <p className="text-xs text-muted-foreground">Minimum 8 characters</p>
           </div>
 
           {error && (
@@ -114,7 +99,7 @@ export function SimpleSignUpForm() {
           )}
 
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Signing up..." : "Sign Up"}
+            {loading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
 
@@ -147,7 +132,7 @@ export function SimpleSignUpForm() {
       </CardContent>
       <CardFooter className="flex justify-center">
         <p className="text-sm text-muted-foreground">
-          Already have an account? <a href="/signin" className="text-primary hover:underline">Sign in</a>
+          Don't have an account? <a href="/signup" className="text-primary hover:underline">Sign up</a>
         </p>
       </CardFooter>
     </Card>
