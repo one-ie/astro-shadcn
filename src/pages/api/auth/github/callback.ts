@@ -64,30 +64,23 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
     }
 
     // Create or sign in user via Convex
-    const convexUrl = import.meta.env.PUBLIC_CONVEX_URL || import.meta.env.NEXT_PUBLIC_CONVEX_URL;
+    const { ConvexHttpClient } = await import("convex/browser");
+    const { api } = await import("../../../../../convex/_generated/api");
 
-    const signInResponse = await fetch(`${convexUrl}/api/mutation`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        path: "auth:signInWithOAuth",
-        args: {
-          provider: "github",
-          email,
-          name: githubUser.name || githubUser.login,
-          providerId: String(githubUser.id),
-        },
-        format: "json",
-      }),
+    const convex = new ConvexHttpClient(
+      import.meta.env.PUBLIC_CONVEX_URL || import.meta.env.NEXT_PUBLIC_CONVEX_URL
+    );
+
+    const result = await convex.mutation(api.auth.signInWithOAuth, {
+      provider: "github",
+      email,
+      name: githubUser.name || githubUser.login,
+      providerId: String(githubUser.id),
     });
 
-    const result = await signInResponse.json();
-
-    if (result.value?.token) {
+    if (result?.token) {
       // Set auth cookie
-      cookies.set("auth_token", result.value.token, {
+      cookies.set("auth_token", result.token, {
         path: "/",
         maxAge: 30 * 24 * 60 * 60, // 30 days
         sameSite: "lax",

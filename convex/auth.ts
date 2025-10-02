@@ -3,6 +3,7 @@ import { mutation, query, action, internalMutation, internalAction } from "./_ge
 import { internal } from "./_generated/api";
 import { components } from "./_generated/api";
 import { Resend } from "@convex-dev/resend";
+import { RateLimiter } from "@convex-dev/rate-limiter";
 
 // Simple password hashing using crypto (for demo - use bcrypt in production)
 async function hashPassword(password: string): Promise<string> {
@@ -27,6 +28,9 @@ export const signUp = mutation({
     name: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    // Rate limiting check
+    await rateLimiter.limit(ctx, "signUp", { key: args.email });
+
     // Check if user already exists
     const existingUser = await ctx.db
       .query("users")
@@ -70,6 +74,9 @@ export const signIn = mutation({
     password: v.string(),
   },
   handler: async (ctx, args) => {
+    // Rate limiting check
+    await rateLimiter.limit(ctx, "signIn", { key: args.email });
+
     // Find user
     const user = await ctx.db
       .query("users")
@@ -232,6 +239,14 @@ export const createPasswordResetToken = createPasswordResetTokenMutation;
 // Initialize Resend component
 const resend = new Resend(components.resend, { testMode: false });
 
+// Initialize Rate Limiter
+const rateLimiter = new RateLimiter(components.rateLimiter, {
+  // 5 attempts per 15 minutes per user/IP
+  signIn: { kind: "fixed window", rate: 5, period: 15 * 60 * 1000 },
+  signUp: { kind: "fixed window", rate: 3, period: 60 * 60 * 1000 }, // 3 per hour
+  passwordReset: { kind: "fixed window", rate: 3, period: 60 * 60 * 1000 }, // 3 per hour
+});
+
 // Internal action to send password reset email
 export const sendPasswordResetEmailAction = internalAction({
   args: {
@@ -265,6 +280,9 @@ export const requestPasswordReset = mutation({
     baseUrl: v.string(),
   },
   handler: async (ctx, args) => {
+    // Rate limiting check
+    await rateLimiter.limit(ctx, "passwordReset", { key: args.email });
+
     // Create reset token via internal mutation
     const result = await ctx.runMutation(internal.auth.createPasswordResetToken, {
       email: args.email,
@@ -350,5 +368,119 @@ export const resetPassword = mutation({
     }
 
     return { success: true };
+  },
+});
+
+// Internal mutation to create email verification token
+const createEmailVerificationTokenMutation = internalMutation({
+  args: {
+    userId: v.id("users"),
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Generate verification token
+    const verificationToken = generateToken();
+    const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+
+    // Store verification token
+    await ctx.db.insert("emailVerifications", {
+      userId: args.userId,
+      email: args.email,
+      token: verificationToken,
+      expiresAt,
+      createdAt: Date.now(),
+      verified: false,
+    });
+
+    return { token: verificationToken, email: args.email };
+  },
+});
+
+export const createEmailVerificationToken = createEmailVerificationTokenMutation;
+
+// Internal action to send verification email
+export const sendVerificationEmailAction = internalAction({
+  args: {
+    email: v.string(),
+    verificationLink: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const from = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const subject = "Verify your email - ONE";
+    const html = `<!DOCTYPE html><html><body><p>Welcome to ONE! Please verify your email by clicking the link below:</p><p><a href="${args.verificationLink}">Verify Email</a></p><p>This link will expire in 24 hours.</p></body></html>`;
+
+    try {
+      await resend.sendEmail(ctx, {
+        from,
+        to: args.email,
+        subject,
+        html,
+      });
+      console.log("Verification email sent to:", args.email);
+    } catch (error) {
+      console.error("Failed to send verification email:", error);
+      throw error;
+    }
+  },
+});
+
+// Verify email mutation
+export const verifyEmail = mutation({
+  args: {
+    token: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Find verification request
+    const verificationRequest = await ctx.db
+      .query("emailVerifications")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .first();
+
+    if (!verificationRequest || verificationRequest.verified || verificationRequest.expiresAt < Date.now()) {
+      throw new Error("Invalid or expired verification token");
+    }
+
+    // Get user
+    const user = await ctx.db.get(verificationRequest.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Mark user as verified
+    await ctx.db.patch(user._id, { emailVerified: true });
+
+    // Mark verification token as used
+    await ctx.db.patch(verificationRequest._id, { verified: true });
+
+    return { success: true };
+  },
+});
+
+// Check if email is verified query
+export const isEmailVerified = query({
+  args: {
+    token: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    if (!args.token) {
+      return { verified: false };
+    }
+
+    const token = args.token;
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_token", (q) => q.eq("token", token))
+      .first();
+
+    if (!session || session.expiresAt < Date.now()) {
+      return { verified: false };
+    }
+
+    const user = await ctx.db.get(session.userId);
+    if (!user) {
+      return { verified: false };
+    }
+
+    return { verified: user.emailVerified || false };
   },
 });

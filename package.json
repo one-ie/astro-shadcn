@@ -19,6 +19,7 @@
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.6.0",
     "@convex-dev/better-auth": "^0.8.6",
+    "@convex-dev/rate-limiter": "^0.2.13",
     "@convex-dev/resend": "^0.1.13",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
