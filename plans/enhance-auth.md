@@ -2,7 +2,12 @@
 
 ## Implementation Status
 
-### ✅ Completed (Custom Auth Foundation)
+### ⚠️ Critical Information
+**Better Auth Status:** Packages installed (`better-auth@1.3.24`, `@convex-dev/better-auth@0.8.6`) but **NOT configured or in use**. Currently using custom Convex auth implementation.
+
+**Recommendation:** Activate Better Auth (packages already installed) to unlock all planned features instantly.
+
+### ✅ Completed (Custom Auth - NOT Better Auth)
 - [x] Email/password authentication with Convex
 - [x] Password reset flow with Resend email component
 - [x] Basic UI components (AuthCard, SocialLoginButtons, PasswordStrengthIndicator)
@@ -10,18 +15,26 @@
 - [x] API bridge at `/api/auth/[...all]`
 - [x] Custom Convex mutations for auth operations
 
-### 🚧 In Progress
-- [ ] Migration to Better Auth (recommended)
-- [ ] Enhanced password hashing (SHA-256 → Argon2)
-- [ ] Social OAuth implementation
+### 🚨 Security Issues in Current Custom Implementation
+- [ ] Using SHA-256 for passwords (should be Argon2/bcrypt)
+- [ ] No rate limiting on auth endpoints
+- [ ] No email verification
+- [ ] No session rotation
+- [ ] Manual session management (error-prone)
 
-### 📋 Planned (from original plan)
+### 🚧 Next Steps
+1. [ ] **Activate Better Auth** (2-3 days) - Recommended since packages already installed
+2. [ ] Or: Fix security issues in custom auth (5+ days)
+3. [ ] Or: Continue with custom + manual OAuth/2FA/passkeys (50+ hours)
+
+### 📋 Planned Features (Requires Better Auth)
 - [ ] Anonymous login
 - [ ] Account linking architecture
 - [ ] Magic links
 - [ ] Two-factor authentication (TOTP)
 - [ ] Passkeys (WebAuthn)
 - [ ] Stripe integration
+- [ ] Social OAuth (GitHub, Google)
 
 ## Executive Summary
 
