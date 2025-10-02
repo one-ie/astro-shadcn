@@ -4,16 +4,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { authClient } from "@/lib/auth-client"
+import { toast } from "sonner"
 
 export function SimpleSignInForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
     setLoading(true)
 
     try {
@@ -23,15 +22,49 @@ export function SimpleSignInForm() {
       })
 
       if (result.error) {
-        setError(result.error.message || "Sign in failed")
+        const errorMessage = result.error.message || "Unable to sign in"
+        let description = "Please check your email and password and try again"
+
+        if (errorMessage.toLowerCase().includes("not found") || errorMessage.toLowerCase().includes("no user") || errorMessage.toLowerCase().includes("doesn't exist")) {
+          description = "No account found with this email. Please sign up first or check your email address."
+        } else if (errorMessage.toLowerCase().includes("password") || errorMessage.toLowerCase().includes("incorrect") || errorMessage.toLowerCase().includes("invalid credentials")) {
+          description = "Incorrect password. Please try again or reset your password."
+        } else if (errorMessage.toLowerCase().includes("email")) {
+          description = "Please enter a valid email address"
+        } else if (errorMessage.toLowerCase().includes("network") || errorMessage.toLowerCase().includes("connection")) {
+          description = "Network error. Please check your connection and try again."
+        } else if (errorMessage.toLowerCase().includes("blocked") || errorMessage.toLowerCase().includes("suspended")) {
+          description = "Your account has been blocked. Please contact support for assistance."
+        }
+
+        toast.error("Unable to sign in", {
+          description: description
+        })
         setLoading(false)
         return
       }
 
-      // Success - redirect to dashboard
-      window.location.href = "/dashboard"
+      // Success
+      toast.success("Welcome back!", {
+        description: "Successfully signed in. Redirecting to your dashboard..."
+      })
+
+      setTimeout(() => {
+        window.location.href = "/dashboard"
+      }, 1000)
     } catch (err: any) {
-      setError(err.message || "Sign in failed")
+      const errorMessage = err.message || "An unexpected error occurred"
+      let description = "Please try again later or contact support if the issue persists"
+
+      if (errorMessage.toLowerCase().includes("network") || errorMessage.toLowerCase().includes("fetch")) {
+        description = "Cannot reach the server. Please check your internet connection."
+      } else if (errorMessage.toLowerCase().includes("timeout")) {
+        description = "The request took too long. Please try again."
+      }
+
+      toast.error("Sign in error", {
+        description: description
+      })
       setLoading(false)
     }
   }
@@ -44,7 +77,22 @@ export function SimpleSignInForm() {
         callbackURL: "/dashboard",
       })
     } catch (err: any) {
-      setError(err.message || "GitHub sign in failed")
+      const errorMessage = err.message || "GitHub authentication failed"
+      let description = "Unable to sign in with GitHub. Please try again or use email sign in."
+
+      if (errorMessage.toLowerCase().includes("popup") || errorMessage.toLowerCase().includes("blocked")) {
+        description = "Pop-up was blocked. Please allow pop-ups for this site and try again."
+      } else if (errorMessage.toLowerCase().includes("denied") || errorMessage.toLowerCase().includes("cancelled")) {
+        description = "GitHub sign in was cancelled. Click the button to try again."
+      } else if (errorMessage.toLowerCase().includes("network")) {
+        description = "Network error. Please check your connection and try again."
+      } else if (errorMessage.toLowerCase().includes("configuration") || errorMessage.toLowerCase().includes("client")) {
+        description = "GitHub authentication is not properly configured. Please contact support."
+      }
+
+      toast.error("GitHub sign in failed", {
+        description: description
+      })
       setLoading(false)
     }
   }
@@ -57,7 +105,22 @@ export function SimpleSignInForm() {
         callbackURL: "/dashboard",
       })
     } catch (err: any) {
-      setError(err.message || "Google sign in failed")
+      const errorMessage = err.message || "Google authentication failed"
+      let description = "Unable to sign in with Google. Please try again or use email sign in."
+
+      if (errorMessage.toLowerCase().includes("popup") || errorMessage.toLowerCase().includes("blocked")) {
+        description = "Pop-up was blocked. Please allow pop-ups for this site and try again."
+      } else if (errorMessage.toLowerCase().includes("denied") || errorMessage.toLowerCase().includes("cancelled")) {
+        description = "Google sign in was cancelled. Click the button to try again."
+      } else if (errorMessage.toLowerCase().includes("network")) {
+        description = "Network error. Please check your connection and try again."
+      } else if (errorMessage.toLowerCase().includes("configuration") || errorMessage.toLowerCase().includes("client")) {
+        description = "Google authentication is not properly configured. Please contact support."
+      }
+
+      toast.error("Google sign in failed", {
+        description: description
+      })
       setLoading(false)
     }
   }
@@ -93,10 +156,6 @@ export function SimpleSignInForm() {
               required
             />
           </div>
-
-          {error && (
-            <div className="text-sm text-destructive">{error}</div>
-          )}
 
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Signing in..." : "Sign In"}

@@ -1,5 +1,6 @@
 ---
 import { Sidebar } from '@/components/Sidebar';
+import { Toaster } from '@/components/ui/sonner';
 import ThemeInit from '@/components/ThemeInit.astro';
 import '../styles/global.css';
 
@@ -62,5 +63,6 @@ const imageURL = new URL(image, Astro.site);
     <Sidebar client:only="react">
       <slot />
     </Sidebar>
+    <Toaster client:only="react" />
   </body>
 </html>

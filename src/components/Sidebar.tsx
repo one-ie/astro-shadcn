@@ -137,57 +137,6 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
                 </a>
               )
             })}
-
-            <Separator className="my-4" />
-
-            {/* Auth links */}
-            {user ? (
-              <>
-                <a
-                  href="/dashboard"
-                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                    currentPath === '/dashboard' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
-                  }`}
-                  title={collapsed ? 'Dashboard' : undefined}
-                >
-                  <LayoutDashboard className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Dashboard</span>}
-                </a>
-                <a
-                  href="/settings"
-                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                    currentPath === '/settings' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
-                  }`}
-                  title={collapsed ? 'Settings' : undefined}
-                >
-                  <Settings className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Settings</span>}
-                </a>
-              </>
-            ) : (
-              <>
-                <a
-                  href="/signin"
-                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                    currentPath === '/signin' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
-                  }`}
-                  title={collapsed ? 'Sign In' : undefined}
-                >
-                  <LogIn className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Sign In</span>}
-                </a>
-                <a
-                  href="/signup"
-                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                    currentPath === '/signup' ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
-                  }`}
-                  title={collapsed ? 'Sign Up' : undefined}
-                >
-                  <UserPlus className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Sign Up</span>}
-                </a>
-              </>
-            )}
           </div>
         </nav>
 
@@ -223,47 +172,75 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
               align="end"
               sideOffset={4}
             >
-              <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-10 w-10 rounded-lg">
-                    <AvatarImage src={user?.avatar} alt={user?.name} />
-                    <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
-                      {initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user?.name || 'Guest'}</span>
-                    <span className="truncate text-xs text-muted-foreground">{user?.email || 'guest@example.com'}</span>
-                  </div>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Sparkles />
-                  Upgrade to Pro
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <BadgeCheck />
-                  Account
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <CreditCard />
-                  Billing
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bell />
-                  Notifications
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleSignOut}>
-                <LogOut />
-                Log out
-              </DropdownMenuItem>
+              {user ? (
+                <>
+                  <DropdownMenuLabel className="p-0 font-normal">
+                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                      <Avatar className="h-10 w-10 rounded-lg">
+                        <AvatarImage src={user?.avatar} alt={user?.name} />
+                        <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
+                          {initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-semibold">{user?.name}</span>
+                        <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
+                      </div>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <a href="/dashboard" className="flex items-center">
+                        <LayoutDashboard className="mr-2" />
+                        Dashboard
+                      </a>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <a href="/settings" className="flex items-center">
+                        <Settings className="mr-2" />
+                        Settings
+                      </a>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut />
+                    Log out
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuLabel className="p-0 font-normal">
+                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                      <Avatar className="h-10 w-10 rounded-lg">
+                        <AvatarFallback className="rounded-lg bg-muted text-sm font-semibold">
+                          {initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-semibold">Guest</span>
+                        <span className="truncate text-xs text-muted-foreground">Not signed in</span>
+                      </div>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <a href="/signin" className="flex items-center">
+                        <LogIn className="mr-2" />
+                        Sign In
+                      </a>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <a href="/signup" className="flex items-center">
+                        <UserPlus className="mr-2" />
+                        Sign Up
+                      </a>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
