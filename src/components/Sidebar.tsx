@@ -114,10 +114,11 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
 
       {/* Sidebar - fixed width on desktop, overlay on mobile */}
       <aside
-        className="fixed left-0 top-0 h-screen flex flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out z-50 -translate-x-full lg:translate-x-0"
+        className={`fixed left-0 top-0 h-screen flex flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out z-50 ${
+          mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        } lg:translate-x-0`}
         style={{
           width: collapsed ? '80px' : '256px',
-          transform: mobileOpen ? 'translateX(0)' : undefined,
         }}
       >
         {/* Header with logo */}
@@ -265,24 +266,35 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
       {/* Main content area - takes remaining space */}
       <div className="flex flex-1 flex-col min-w-0">
         {/* Header with toggle */}
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 bg-background z-40">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => {
-              // On mobile, toggle mobileOpen; on desktop, toggle collapsed
-              if (window.innerWidth < 1024) {
-                setMobileOpen(!mobileOpen)
-              } else {
-                setCollapsed(!collapsed)
-              }
-            }}
-            className="h-7 w-7"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            <PanelLeft className="h-4 w-4" />
-          </Button>
-          <Separator orientation="vertical" className="h-4" />
+        <header className="flex h-16 shrink-0 items-center border-b px-4 sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-40">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                // On mobile, toggle mobileOpen; on desktop, toggle collapsed
+                if (window.innerWidth < 1024) {
+                  setMobileOpen(!mobileOpen)
+                } else {
+                  setCollapsed(!collapsed)
+                }
+              }}
+              className="h-7 w-7"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              <PanelLeft className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <img src="/logo.svg" alt="Logo" className="h-8" />
+          </div>
+
+          <div className="ml-auto">
+            <Button variant="default" size="sm" asChild>
+              <a href="/dashboard">Get Started</a>
+            </Button>
+          </div>
         </header>
 
         {/* Page content */}
