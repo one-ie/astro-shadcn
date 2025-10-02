@@ -34,6 +34,7 @@ interface SimpleSidebarLayoutProps {
 
 export function Sidebar({ children }: SimpleSidebarLayoutProps) {
   const [collapsed, setCollapsed] = React.useState(false)
+  const [mobileOpen, setMobileOpen] = React.useState(false)
   const [currentPath, setCurrentPath] = React.useState('')
   const [user, setUser] = React.useState<{ name: string; email: string; avatar?: string } | null>(null)
 
@@ -102,13 +103,25 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
 
   return (
     <div className="flex min-h-screen w-full">
-      {/* Sidebar - fixed width, transitions smoothly, fixed to viewport */}
+      {/* Mobile backdrop overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar - fixed width on desktop, overlay on mobile */}
       <aside
-        className="fixed left-0 top-0 h-screen flex flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out z-50"
-        style={{ width: collapsed ? '80px' : '256px' }}
+        className="fixed left-0 top-0 h-screen flex flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out z-50 -translate-x-full lg:translate-x-0"
+        style={{
+          width: collapsed ? '80px' : '256px',
+          transform: mobileOpen ? 'translateX(0)' : undefined,
+        }}
       >
         {/* Header with logo */}
-        <div className="flex h-16 items-center justify-center border-b px-4 shrink-0">
+        <div className="flex h-16 items-center justify-center border-b px-4 shrink-0 relative z-10">
           <img src="/icon.svg" alt="Logo" className="w-10 h-10" />
           {!collapsed && <span className="ml-3 font-semibold">ONE</span>}
         </div>
@@ -128,7 +141,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
                   }`}
                   title={collapsed ? item.title : undefined}
                 >
-                  <Icon className="h-5 w-5 shrink-0" />
+                  <Icon className="h-6 w-6 shrink-0" />
                   {!collapsed && <span>{item.title}</span>}
                 </a>
               )
@@ -164,7 +177,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-56 rounded-lg"
+              className="w-56 rounded-lg bg-popover/100"
               side="right"
               align="end"
               sideOffset={4}
@@ -243,9 +256,9 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
         </div>
       </aside>
 
-      {/* Spacer to push content - matches sidebar width */}
+      {/* Spacer to push content - matches sidebar width on desktop, hidden on mobile */}
       <div
-        className="shrink-0 transition-all duration-300 ease-in-out"
+        className="hidden lg:block shrink-0 transition-all duration-300 ease-in-out"
         style={{ width: collapsed ? '80px' : '256px' }}
       />
 
@@ -256,7 +269,14 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={() => {
+              // On mobile, toggle mobileOpen; on desktop, toggle collapsed
+              if (window.innerWidth < 1024) {
+                setMobileOpen(!mobileOpen)
+              } else {
+                setCollapsed(!collapsed)
+              }
+            }}
             className="h-7 w-7"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >

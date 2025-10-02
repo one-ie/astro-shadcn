@@ -56,5 +56,20 @@
 
   // TypeScript settings
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Markdown settings
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
+  },
+
+  // Disable markdownlint diagnostics
+  "markdownlint.run": "onSave",
+  "markdownlint.config": {
+    "default": true,
+    "MD032": false
+  }
 }
