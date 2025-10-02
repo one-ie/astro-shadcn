@@ -1,23 +1,18 @@
-import * as React from "react"
-import { AppSidebar } from "@/components/dashboard/app-sidebar"
-import { SiteHeader } from "@/components/dashboard/site-header"
-import { SectionCards } from "@/components/dashboard/section-cards"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+import * as React from 'react';
+import { SiteHeader } from '@/components/dashboard/site-header';
+import { SectionCards } from '@/components/dashboard/section-cards';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 export function DashboardLayout() {
   return (
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "16rem",
-          "--header-height": "3rem",
+          '--sidebar-width': '16rem',
+          '--header-height': '3rem',
         } as React.CSSProperties
       }
     >
-      <AppSidebar />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">
@@ -39,5 +34,5 @@ export function DashboardLayout() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

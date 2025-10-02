@@ -10,8 +10,9 @@ A production-ready, enterprise-grade starter template combining Astro's performa
 - **Tailwind CSS v4** - Modern CSS-based configuration with HSL colors
 - **Shadcn/UI** - Complete component library (50+ components)
 - **TypeScript 5.9+** - Full type safety with strict mode
-- **Convex Backend** - Real-time database and authentication
+- **Convex Backend** - Real-time database, authentication, and email components
 - **Better Auth** - GitHub & Google OAuth integration
+- **@convex-dev/resend** - Email sending component for password reset and notifications
 - **Dark Mode** - Beautiful theme switching with no FOUC
 - **Blog System** - Full-featured with search, tags, categories, ToC
 - **SEO Optimized** - Sitemap, RSS feed, OG tags, canonical URLs
@@ -267,6 +268,8 @@ export default defineConfig({
    GITHUB_CLIENT_SECRET=your-github-client-secret
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
+   RESEND_API_KEY=your-resend-api-key
+   RESEND_FROM_EMAIL=your-from-email@yourdomain.com
    ```
 
 4. **Configure Cloudflare KV** for session storage:
@@ -454,6 +457,7 @@ Perfect scores across all metrics:
 - 🎉 **Cloudflare SSR** - React 19 SSR on Cloudflare Pages (previously impossible!)
 - ✅ **Convex Integration** - Real-time backend with authentication
 - ✅ **Better Auth** - GitHub & Google OAuth with session management
+- ✅ **Email Component** - @convex-dev/resend for password reset and transactional emails
 - ✅ **Edge Rendering** - Global CDN with sub-100ms response times
 - ✅ **Blog Search** - Real-time filtering by title/description
 - ✅ **Table of Contents** - Auto-generated with active tracking

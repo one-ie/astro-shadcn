@@ -43,6 +43,7 @@ This project uses **bun** as the preferred package manager (evidenced by `bun.lo
 - **@astrojs/rss** for RSS feed generation
 - **Convex** for real-time backend and authentication
 - **Better Auth** for authentication with GitHub and Google OAuth
+- **@convex-dev/resend** component for email functionality
 
 ### Key Architectural Patterns
 
@@ -254,6 +255,7 @@ import { Card } from '@/components/ui/card';
 - `astro.config.mjs`: Astro configuration with React, sitemap, Cloudflare adapter, and `@tailwindcss/vite` plugin
 - `wrangler.toml`: Cloudflare Workers configuration with Node.js compatibility
 - `components.json`: shadcn/ui configuration
+- `convex/convex.config.ts`: Convex components configuration including Resend email component
 - `src/styles/global.css`: Tailwind v4 CSS-based configuration with `@theme` blocks
 - `tsconfig.json`: TypeScript with path aliases and strict mode
 - `.eslintrc.json`: ESLint configuration for TypeScript and Astro
@@ -380,6 +382,94 @@ GITHUB_CLIENT_ID=your-github-oauth-client-id
 GITHUB_CLIENT_SECRET=your-github-oauth-client-secret
 GOOGLE_CLIENT_ID=your-google-oauth-client-id
 GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
+RESEND_API_KEY=your-resend-api-key
+RESEND_FROM_EMAIL=your-from-email@yourdomain.com
+```
+
+### Convex Components
+
+This project uses Convex components for extended functionality:
+
+**Resend Email Component** (`@convex-dev/resend`):
+- Configured in `convex/convex.config.ts`
+- Used for password reset emails and transactional notifications
+- Supports email tracking, status updates, and event handling
+- Works in Cloudflare Workers edge runtime
+
+**Configuration Pattern**:
+```typescript
+// convex/convex.config.ts
+import { defineApp } from "convex/server";
+import resend from "@convex-dev/resend/convex.config";
+
+const app = defineApp();
+app.use(resend);
+
+export default app;
+```
+
+**Usage Pattern**:
+```typescript
+// In Convex mutations/actions
+import { Resend } from "@convex-dev/resend";
+import { components } from "./_generated/api";
+
+const resend = new Resend(components.resend, { testMode: false });
+
+// Send email via internal action
+await resend.sendEmail(ctx, {
+  from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
+  to: email,
+  subject: "Your Subject",
+  html: "<p>Email content</p>",
+});
+```
+
+**Important Notes**:
+- Email sending MUST be done in internal actions (not mutations or queries)
+- Use `ctx.scheduler.runAfter(0, ...)` to schedule email sending from mutations
+- Split functionality: mutations create tokens/data, actions send emails asynchronously
+- Never use Node.js Resend SDK directly in Convex - use the component instead
+- This pattern prevents mutations from hanging while waiting for email delivery
+
+**Example: Password Reset Flow**:
+```typescript
+// Public mutation - creates token and schedules email
+export const requestPasswordReset = mutation({
+  args: { email: v.string(), baseUrl: v.string() },
+  handler: async (ctx, args) => {
+    // Create token via internal mutation
+    const result = await ctx.runMutation(internal.auth.createPasswordResetToken, {
+      email: args.email,
+    });
+
+    if (!result) return { success: true };
+
+    const resetLink = `${args.baseUrl}/reset-password?token=${result.token}`;
+
+    // Schedule email asynchronously - mutation returns immediately
+    await ctx.scheduler.runAfter(0, internal.auth.sendPasswordResetEmailAction, {
+      email: result.email,
+      resetLink,
+    });
+
+    return { success: true };
+  },
+});
+
+// Internal action - sends email (runs in background)
+export const sendPasswordResetEmailAction = internalAction({
+  args: { email: v.string(), resetLink: v.string() },
+  handler: async (ctx, args) => {
+    const resend = new Resend(components.resend, { testMode: false });
+    await resend.sendEmail(ctx, {
+      from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
+      to: args.email,
+      subject: "Reset your password",
+      html: `<a href="${args.resetLink}">Reset Password</a>`,
+    });
+  },
+});
 ```
 
 ### Cloudflare KV Setup
