@@ -28,9 +28,41 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
         )
       }
 
-      const user = await convex.query(api.auth.getCurrentUser, { token })
+      try {
+        const user = await convex.query(api.auth.getCurrentUser, { token })
 
-      if (!user) {
+        if (!user) {
+          return new Response(
+            JSON.stringify({ user: null, session: null }),
+            {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            }
+          )
+        }
+
+        return new Response(
+          JSON.stringify({
+            user: {
+              id: user.id,
+              email: user.email,
+              name: user.name || null,
+              emailVerified: false,
+              image: null,
+            },
+            session: {
+              id: token,
+              userId: user.id,
+              expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            },
+          }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      } catch (convexError) {
+        // Gracefully handle Convex errors (e.g., deployment not available)
         return new Response(
           JSON.stringify({ user: null, session: null }),
           {
@@ -39,27 +71,6 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
           }
         )
       }
-
-      return new Response(
-        JSON.stringify({
-          user: {
-            id: user.id,
-            email: user.email,
-            name: user.name || null,
-            emailVerified: false,
-            image: null,
-          },
-          session: {
-            id: token,
-            userId: user.id,
-            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          },
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      )
     }
 
     // Handle sign-out endpoint
@@ -130,8 +141,6 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       const body = await request.json()
       const { email, password, name } = body
 
-      console.log("[Auth] Sign up attempt:", { email, name })
-
       const result = await convex.mutation(api.auth.signUp, {
         email,
         password,
@@ -175,8 +184,6 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       const body = await request.json()
       const { provider } = body
 
-      console.log("[Auth] Social sign-in attempt:", { provider })
-
       // Redirect to the OAuth provider
       const baseUrl = new URL(request.url).origin
       const redirectUrl = `${baseUrl}/api/auth/${provider}`
@@ -190,13 +197,11 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
     }
 
     // Return 404 for unhandled routes
-    console.log("[Auth] Unhandled route:", pathname, request.method)
-    return new Response(JSON.stringify({ error: "Not found", pathname }), {
+    return new Response(JSON.stringify({ error: "Not found" }), {
       status: 404,
       headers: { "Content-Type": "application/json" },
     })
   } catch (error: any) {
-    console.error("[Auth] Error:", error)
     return new Response(
       JSON.stringify({ error: error.message || "Internal server error" }),
       {

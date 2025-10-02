@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Home, FileText, Scale, Book, Mail, PanelLeft, ChevronsUpDown, LogOut, BadgeCheck, CreditCard, Bell, Sparkles, UserPlus, LogIn, LayoutDashboard, Settings } from "lucide-react"
+import { Home, FileText, Scale, Book, Mail, PanelLeft, ChevronsUpDown, LogOut, UserPlus, LogIn, LayoutDashboard, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -44,28 +44,24 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
       .then(async (res) => {
         // Check if response is OK and has content
         if (!res.ok) {
-          console.error('Session fetch failed:', res.status)
           return null
         }
 
         // Check if response has JSON content
         const contentType = res.headers.get('content-type')
         if (!contentType || !contentType.includes('application/json')) {
-          console.error('Invalid response type:', contentType)
           return null
         }
 
         // Get response text first to handle empty responses
         const text = await res.text()
         if (!text) {
-          console.error('Empty response body')
           return null
         }
 
         try {
           return JSON.parse(text)
         } catch (e) {
-          console.error('JSON parse error:', e, 'Response:', text)
           return null
         }
       })
@@ -78,8 +74,8 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
           })
         }
       })
-      .catch((error) => {
-        console.error('Session fetch error:', error)
+      .catch(() => {
+        // Silently handle session fetch errors
       })
   }, [])
 
