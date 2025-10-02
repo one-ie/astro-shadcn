@@ -286,9 +286,9 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
             </Button>
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2">
+          <a href="/" className="absolute left-1/2 -translate-x-1/2">
             <img src="/logo.svg" alt="Logo" className="h-8" />
-          </div>
+          </a>
 
           <div className="ml-auto">
             <Button variant="default" size="sm" asChild>
