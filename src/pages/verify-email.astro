@@ -1,0 +1,13 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { VerifyEmailForm } from '@/components/auth/VerifyEmailForm';
+
+const url = new URL(Astro.request.url);
+const token = url.searchParams.get('token') || '';
+---
+
+<Layout title="Verify Email - ONE">
+  <div class="flex items-center justify-center min-h-[calc(100vh-8rem)] px-4">
+    <VerifyEmailForm token={token} client:load />
+  </div>
+</Layout>

@@ -1,8 +1,8 @@
 # Next Features to Implement
 
 ## Current Status
-✅ Working: Email/password auth, password reset, session management, OAuth (GitHub & Google), Rate limiting
-❌ Missing: Email verification, 2FA, passkeys, magic links
+✅ Working: Email/password auth, password reset, session management, OAuth (GitHub & Google), Rate limiting, Email verification, Magic Links, Two-Factor Auth (TOTP)
+❌ Missing: Passkeys (WebAuthn)
 
 ## Priority Implementation Order
 
@@ -27,31 +27,48 @@
 - ✅ Added to requestPasswordReset (3 attempts per hour)
 - ✅ Rate limits per email address
 
-### 3. Email Verification - MEDIUM PRIORITY
-**Why:** Security best practice
-**Effort:** 1-2 hours
-**Files to create:**
-- Convex mutation for sending verification email
-- Convex query for verifying email token
-- Email template for verification
-- `/verify-email` page
-
-### 4. Magic Links - MEDIUM PRIORITY
-**Why:** Passwordless auth trend
-**Effort:** 2 hours
-**Files to create:**
-- Convex mutation for magic link generation
-- Email template for magic link
-- Magic link verification endpoint
-
-### 5. Two-Factor Auth (TOTP) - MEDIUM PRIORITY
-**Why:** Enhanced security
-**Effort:** 3-4 hours
+### 3. Email Verification - ✅ COMPLETED
+**Status:** Email verification system now active!
 **Implementation:**
-- TOTP setup mutation
-- QR code generation
-- Backup codes
-- 2FA verification flow
+- ✅ Updated `convex/schema.ts` to add emailVerifications table and emailVerified field
+- ✅ Added `createEmailVerificationToken` internal mutation
+- ✅ Added `sendVerificationEmailAction` to send verification emails via Resend
+- ✅ Added `verifyEmail` mutation to verify email tokens
+- ✅ Added `isEmailVerified` query to check verification status
+- ✅ Updated `signUp` mutation to optionally send verification email
+- ✅ Created `/verify-email` page with auto-verification
+- ✅ Created `VerifyEmailForm` component
+- ✅ Verification link expires in 24 hours
+
+### 4. Magic Links - ✅ COMPLETED
+**Status:** Passwordless authentication now available!
+**Implementation:**
+- ✅ Updated `convex/schema.ts` to add magicLinks table
+- ✅ Added `createMagicLinkToken` internal mutation
+- ✅ Added `sendMagicLinkEmailAction` to send magic links via Resend
+- ✅ Added `requestMagicLink` mutation with rate limiting (3 per hour)
+- ✅ Added `signInWithMagicLink` mutation for authentication
+- ✅ Created `/request-magic-link` page for requesting links
+- ✅ Created `/auth/magic-link` page with auto-authentication
+- ✅ Created `RequestMagicLinkForm` component
+- ✅ Created `MagicLinkAuth` component
+- ✅ Added magic link option to sign-in page
+- ✅ Magic links expire after 15 minutes and can only be used once
+
+### 5. Two-Factor Auth (TOTP) - ✅ COMPLETED
+**Status:** Enhanced security with Google Authenticator-style 2FA!
+**Implementation:**
+- ✅ Installed `otpauth` and `qrcode` packages
+- ✅ Updated `convex/schema.ts` to add twoFactorAuth table
+- ✅ Added `setup2FA` mutation (generates secret + 10 backup codes)
+- ✅ Added `verify2FA` mutation to enable 2FA
+- ✅ Added `disable2FA` mutation with password verification
+- ✅ Added `get2FAStatus` query to check status
+- ✅ Created `TwoFactorSettings` component with QR code generation
+- ✅ Client-side TOTP verification with 30-second window
+- ✅ Backup codes for account recovery
+- ✅ Secure secret generation (32 characters)
+- ✅ Compatible with Google Authenticator, Authy, 1Password
 
 ### 6. Passkeys (WebAuthn) - LOW PRIORITY
 **Why:** Future-proof, but complex

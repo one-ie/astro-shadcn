@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**For Convex-specific development patterns and best practices, see [AGENTS.md](./AGENTS.md)** - a concise reference optimized for AI agents.
+
 ## Development Commands
 
 ### Core Development

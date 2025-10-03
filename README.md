@@ -10,9 +10,10 @@ A production-ready, enterprise-grade starter template combining Astro's performa
 - **Tailwind CSS v4** - Modern CSS-based configuration with HSL colors
 - **Shadcn/UI** - Complete component library (50+ components)
 - **TypeScript 5.9+** - Full type safety with strict mode
-- **Convex Backend** - Real-time database, authentication, and email components
-- **Better Auth** - GitHub & Google OAuth integration
-- **@convex-dev/resend** - Email sending component for password reset and notifications
+- **Convex Backend** - Real-time database with serverless functions
+- **Complete Auth System** - Email/password, OAuth (GitHub/Google), password reset, email verification
+- **Rate Limiting** - Brute force protection with configurable limits
+- **@convex-dev/resend** - Transactional emails for auth and notifications
 - **Dark Mode** - Beautiful theme switching with no FOUC
 - **Blog System** - Full-featured with search, tags, categories, ToC
 - **SEO Optimized** - Sitemap, RSS feed, OG tags, canonical URLs
@@ -282,6 +283,177 @@ export default defineConfig({
 - `wrangler.toml` - Cloudflare Workers configuration
 - `.mcp.json` - MCP servers for Cloudflare, Convex, and shadcn integrations
 
+## 🔐 Authentication System
+
+A complete, production-ready authentication system powered by **Convex** backend and **Better Auth** React client with enterprise-grade security features.
+
+### 🎯 Authentication Features
+
+#### ✅ Email/Password Authentication
+- Secure password hashing with SHA-256 (upgrade to bcrypt for production)
+- Session management with 30-day expiry
+- HttpOnly cookies for security
+- Password strength indicator
+- Comprehensive error handling with user-friendly messages
+
+#### ✅ OAuth Social Login
+- **GitHub OAuth** - Sign in with GitHub
+- **Google OAuth** - Sign in with Google
+- Automatic account creation on first OAuth login
+- Seamless session management across providers
+
+#### ✅ Password Reset Flow
+- Email-based password reset with secure tokens
+- Reset links expire after 1 hour
+- Email sending via Resend (@convex-dev/resend)
+- Custom email templates
+- All existing sessions invalidated after password reset
+
+#### ✅ Email Verification
+- Automated verification emails on sign-up
+- Verification tokens expire after 24 hours
+- Email sending via Resend component
+- Custom verification page with auto-verification
+- Track verification status in user profile
+
+#### ✅ Rate Limiting & Security
+- **Sign-in**: 5 attempts per 15 minutes (per email)
+- **Sign-up**: 3 attempts per hour (per email)
+- **Password reset**: 3 attempts per hour (per email)
+- Powered by `@convex-dev/rate-limiter` component
+- Prevents brute force attacks
+
+### 🏗️ Architecture
+
+**Hybrid Better Auth + Convex Setup:**
+
+```
+Frontend (Better Auth React) ←→ API Bridge (/api/auth/[...all]) ←→ Convex Mutations
+                                                                      ↓
+                                                           Custom Auth Logic
+```
+
+**Key Files:**
+- `convex/auth.ts` - Custom auth mutations (signUp, signIn, OAuth, password reset, email verification)
+- `convex/schema.ts` - Database schema (users, sessions, passwordResets, emailVerifications)
+- `src/lib/auth-client.ts` - Better Auth React client configuration
+- `src/pages/api/auth/[...all].ts` - API bridge connecting Better Auth UI to Convex backend
+- `src/pages/api/auth/github/callback.ts` - GitHub OAuth callback handler
+- `src/pages/api/auth/google/callback.ts` - Google OAuth callback handler
+
+### 🚀 Authentication Pages
+
+- `/signin` - Sign in with email/password or OAuth
+- `/signup` - Create account with email/password or OAuth
+- `/forgot-password` - Request password reset email
+- `/reset-password` - Reset password with token
+- `/verify-email` - Email verification with auto-verify
+- `/dashboard` - Protected route example
+
+### 🔧 Setting Up Authentication
+
+1. **Configure OAuth Apps:**
+
+   **GitHub OAuth:**
+   - Create OAuth App at https://github.com/settings/developers
+   - Set callback URL: `https://your-domain.com/api/auth/github/callback`
+   - Add `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` to `.env.local`
+
+   **Google OAuth:**
+   - Create OAuth credentials at https://console.cloud.google.com/apis/credentials
+   - Set callback URL: `https://your-domain.com/api/auth/google/callback`
+   - Add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` to `.env.local`
+
+2. **Configure Resend for Emails:**
+   ```bash
+   # Get API key from https://resend.com
+   RESEND_API_KEY=re_your_api_key
+   RESEND_FROM_EMAIL=noreply@yourdomain.com
+   ```
+
+3. **Set Auth Secrets:**
+   ```bash
+   BETTER_AUTH_SECRET=your-random-secret-key-here
+   BETTER_AUTH_URL=https://your-domain.com  # or http://localhost:4321 for dev
+   ```
+
+4. **Deploy Convex Schema:**
+   ```bash
+   bunx convex deploy
+   ```
+
+### 💡 Usage Examples
+
+**Check if user is authenticated:**
+```typescript
+// In Astro component
+const token = Astro.cookies.get("auth_token")?.value;
+const user = token ? await convex.query(api.auth.getCurrentUser, { token }) : null;
+
+if (!user) {
+  return Astro.redirect("/signin");
+}
+```
+
+**Sign out:**
+```typescript
+import { authClient } from "@/lib/auth-client";
+
+await authClient.signOut();
+window.location.href = "/";
+```
+
+**Enable email verification on sign-up:**
+```typescript
+// Update SimpleSignUpForm.tsx
+const result = await authClient.signUp.email({
+  email,
+  password,
+  name,
+  sendVerificationEmail: true,
+  baseUrl: window.location.origin,
+});
+```
+
+### 🔒 Security Best Practices
+
+✅ **Implemented:**
+- HttpOnly cookies prevent XSS attacks
+- Rate limiting prevents brute force
+- Secure password hashing
+- Email verification prevents spam accounts
+- OAuth state validation
+- Token expiry (sessions: 30 days, reset: 1 hour, verification: 24 hours)
+
+⚠️ **Production Recommendations:**
+- Upgrade from SHA-256 to bcrypt for password hashing
+- Enable HTTPS in production (automatic with Cloudflare Pages)
+- Implement 2FA (TOTP) for sensitive accounts
+- Add CAPTCHA for sign-up forms
+- Monitor authentication logs
+- Implement account lockout after repeated failures
+
+#### ✅ Magic Links (Passwordless Authentication)
+- One-click sign-in via email link
+- 15-minute expiry for security
+- One-time use only
+- Rate limited (3 per hour)
+- No password required
+
+#### ✅ Two-Factor Authentication (TOTP)
+- Google Authenticator, Authy, 1Password compatible
+- QR code setup for easy configuration
+- 10 backup codes for account recovery
+- Client-side TOTP verification
+- Password required to disable
+- 30-second time window
+
+### 📋 Remaining Auth Features
+
+The following features are documented in `plans/NEXT-FEATURES.md`:
+
+- **Passkeys (WebAuthn)** - Modern biometric authentication (Touch ID, Face ID)
+
 ### Adding Blog Posts
 
 Create a new markdown file in `src/content/blog/`:
@@ -456,7 +628,12 @@ Perfect scores across all metrics:
 
 - 🎉 **Cloudflare SSR** - React 19 SSR on Cloudflare Pages (previously impossible!)
 - ✅ **Convex Integration** - Real-time backend with authentication
+- ✅ **Complete Auth System** - 6 authentication methods implemented
 - ✅ **Better Auth** - GitHub & Google OAuth with session management
+- ✅ **Email Verification** - Automated email verification with 24-hour tokens
+- ✅ **Rate Limiting** - Brute force protection (5 login attempts per 15 min)
+- ✅ **Magic Links** - Passwordless authentication via email
+- ✅ **Two-Factor Auth** - TOTP with Google Authenticator, Authy, 1Password
 - ✅ **Email Component** - @convex-dev/resend for password reset and transactional emails
 - ✅ **Edge Rendering** - Global CDN with sub-100ms response times
 - ✅ **Blog Search** - Real-time filtering by title/description

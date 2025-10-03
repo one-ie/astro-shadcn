@@ -26,6 +26,8 @@ export const signUp = mutation({
     email: v.string(),
     password: v.string(),
     name: v.optional(v.string()),
+    sendVerificationEmail: v.optional(v.boolean()),
+    baseUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     // Rate limiting check
@@ -44,11 +46,12 @@ export const signUp = mutation({
     // Hash password
     const passwordHash = await hashPassword(args.password);
 
-    // Create user
+    // Create user (email starts as unverified)
     const userId = await ctx.db.insert("users", {
       email: args.email,
       passwordHash,
       name: args.name,
+      emailVerified: false,
       createdAt: Date.now(),
     });
 
@@ -62,6 +65,22 @@ export const signUp = mutation({
       expiresAt,
       createdAt: Date.now(),
     });
+
+    // Optionally send verification email
+    if (args.sendVerificationEmail && args.baseUrl) {
+      const result = await ctx.runMutation(internal.auth.createEmailVerificationToken, {
+        userId,
+        email: args.email,
+      });
+
+      if (result) {
+        const verificationLink = `${args.baseUrl}/verify-email?token=${result.token}`;
+        await ctx.scheduler.runAfter(0, internal.auth.sendVerificationEmailAction, {
+          email: result.email,
+          verificationLink,
+        });
+      }
+    }
 
     return { token, userId };
   },
@@ -482,5 +501,276 @@ export const isEmailVerified = query({
     }
 
     return { verified: user.emailVerified || false };
+  },
+});
+
+// Internal mutation to create magic link token
+const createMagicLinkTokenMutation = internalMutation({
+  args: {
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Generate magic link token
+    const magicToken = generateToken();
+    const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
+
+    // Store magic link token
+    await ctx.db.insert("magicLinks", {
+      email: args.email,
+      token: magicToken,
+      expiresAt,
+      createdAt: Date.now(),
+      used: false,
+    });
+
+    return { token: magicToken, email: args.email };
+  },
+});
+
+export const createMagicLinkToken = createMagicLinkTokenMutation;
+
+// Internal action to send magic link email
+export const sendMagicLinkEmailAction = internalAction({
+  args: {
+    email: v.string(),
+    magicLink: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const from = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const subject = "Your magic link to sign in - ONE";
+    const html = `<!DOCTYPE html><html><body><p>Click the link below to sign in to your account:</p><p><a href="${args.magicLink}">Sign in to ONE</a></p><p>This link will expire in 15 minutes and can only be used once.</p><p>If you didn't request this link, you can safely ignore this email.</p></body></html>`;
+
+    try {
+      await resend.sendEmail(ctx, {
+        from,
+        to: args.email,
+        subject,
+        html,
+      });
+      console.log("Magic link email sent to:", args.email);
+    } catch (error) {
+      console.error("Failed to send magic link email:", error);
+      throw error;
+    }
+  },
+});
+
+// Request magic link mutation (public-facing)
+export const requestMagicLink = mutation({
+  args: {
+    email: v.string(),
+    baseUrl: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Rate limiting check
+    await rateLimiter.limit(ctx, "passwordReset", { key: args.email });
+
+    // Check if user exists
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .first();
+
+    if (!user) {
+      // Don't reveal if user exists for security
+      return { success: true };
+    }
+
+    // Create magic link token
+    const result = await ctx.runMutation(internal.auth.createMagicLinkToken, {
+      email: args.email,
+    });
+
+    if (result) {
+      const magicLink = `${args.baseUrl}/auth/magic-link?token=${result.token}`;
+      await ctx.scheduler.runAfter(0, internal.auth.sendMagicLinkEmailAction, {
+        email: result.email,
+        magicLink,
+      });
+    }
+
+    return { success: true };
+  },
+});
+
+// Sign in with magic link mutation
+export const signInWithMagicLink = mutation({
+  args: {
+    token: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Find magic link request
+    const magicLinkRequest = await ctx.db
+      .query("magicLinks")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .first();
+
+    if (!magicLinkRequest || magicLinkRequest.used || magicLinkRequest.expiresAt < Date.now()) {
+      throw new Error("Invalid or expired magic link");
+    }
+
+    // Find user
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", magicLinkRequest.email))
+      .first();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Mark magic link as used
+    await ctx.db.patch(magicLinkRequest._id, { used: true });
+
+    // Create session
+    const token = generateToken();
+    const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
+
+    await ctx.db.insert("sessions", {
+      userId: user._id,
+      token,
+      expiresAt,
+      createdAt: Date.now(),
+    });
+
+    return { token, userId: user._id };
+  },
+});
+
+// Setup 2FA (TOTP) mutation
+export const setup2FA = mutation({
+  args: {
+    token: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .first();
+
+    if (!session || session.expiresAt < Date.now()) {
+      throw new Error("Invalid session");
+    }
+
+    const user = await ctx.db.get(session.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const secret = generateToken().slice(0, 32);
+    const backupCodes = Array.from({ length: 10 }, () =>
+      generateToken().slice(0, 8).toUpperCase()
+    );
+
+    await ctx.db.insert("twoFactorAuth", {
+      userId: user._id,
+      secret,
+      backupCodes,
+      enabled: false,
+      createdAt: Date.now(),
+    });
+
+    return { secret, backupCodes };
+  },
+});
+
+// Verify and enable 2FA
+export const verify2FA = mutation({
+  args: {
+    token: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .first();
+
+    if (!session || session.expiresAt < Date.now()) {
+      throw new Error("Invalid session");
+    }
+
+    const twoFactor = await ctx.db
+      .query("twoFactorAuth")
+      .withIndex("by_userId", (q) => q.eq("userId", session.userId))
+      .first();
+
+    if (!twoFactor) {
+      throw new Error("2FA not set up");
+    }
+
+    await ctx.db.patch(twoFactor._id, { enabled: true });
+    return { success: true };
+  },
+});
+
+// Disable 2FA
+export const disable2FA = mutation({
+  args: {
+    token: v.string(),
+    password: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_token", (q) => q.eq("token", args.token))
+      .first();
+
+    if (!session || session.expiresAt < Date.now()) {
+      throw new Error("Invalid session");
+    }
+
+    const user = await ctx.db.get(session.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const passwordHash = await hashPassword(args.password);
+    if (passwordHash !== user.passwordHash) {
+      throw new Error("Invalid password");
+    }
+
+    const twoFactor = await ctx.db
+      .query("twoFactorAuth")
+      .withIndex("by_userId", (q) => q.eq("userId", user._id))
+      .first();
+
+    if (twoFactor) {
+      await ctx.db.delete(twoFactor._id);
+    }
+
+    return { success: true };
+  },
+});
+
+// Check 2FA status
+export const get2FAStatus = query({
+  args: {
+    token: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    if (!args.token) {
+      return { enabled: false, hasSetup: false };
+    }
+
+    const token = args.token; // TypeScript type narrowing
+
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_token", (q) => q.eq("token", token))
+      .first();
+
+    if (!session || session.expiresAt < Date.now()) {
+      return { enabled: false, hasSetup: false };
+    }
+
+    const twoFactor = await ctx.db
+      .query("twoFactorAuth")
+      .withIndex("by_userId", (q) => q.eq("userId", session.userId))
+      .first();
+
+    return {
+      enabled: twoFactor?.enabled || false,
+      hasSetup: !!twoFactor,
+    };
   },
 });
