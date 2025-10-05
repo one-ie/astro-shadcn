@@ -121,7 +121,12 @@ type EntityType =
   | 'announcement' // Platform announcement
   | 'referral' // Referral record
   | 'campaign' // Marketing campaign
-  | 'lead'; // Potential customer/lead
+  | 'lead' // Potential customer/lead
+
+  // EXTERNAL INTEGRATIONS
+  | 'external_agent' // External AI agent (ElizaOS, etc.)
+  | 'external_workflow' // External workflow (n8n, Zapier, Make)
+  | 'external_connection'; // Connection config to external service
 ```
 
 ### Entity Structure
@@ -371,6 +376,94 @@ type EntityType =
   readAt?: number,
   actionUrl?: string,
   actionLabel?: string
+}
+```
+
+**External Agent Properties:**
+
+```typescript
+{
+  platform: "elizaos" | "autogen" | "crewai" | "langchain" | "custom",
+  agentId: string,              // External platform's agent ID
+  name: string,                 // Agent name
+  description?: string,         // What the agent does
+  capabilities: string[],       // Available actions/tools
+  apiEndpoint?: string,         // REST/GraphQL endpoint
+  websocketUrl?: string,        // WebSocket endpoint for real-time
+  status: "online" | "offline" | "busy" | "unknown",
+  lastSeen?: number,
+  metadata: {                   // Platform-specific data
+    personality?: any,          // For ElizaOS character
+    tools?: string[],           // Available tools
+    model?: string,             // LLM model used
+    [key: string]: any          // Other platform-specific fields
+  },
+  conversationCount: number,    // Total conversations
+  messageCount: number,         // Total messages exchanged
+  createdAt: number,
+  updatedAt: number
+}
+```
+
+**External Workflow Properties:**
+
+```typescript
+{
+  platform: "n8n" | "zapier" | "make" | "pipedream" | "custom",
+  workflowId: string,           // External platform's workflow ID
+  name: string,                 // Workflow name
+  description: string,          // What the workflow does
+  webhookUrl?: string,          // Trigger URL
+  active: boolean,              // Is workflow active?
+  tags: string[],               // Workflow tags/categories
+  inputSchema: {                // Expected input parameters
+    [key: string]: {
+      type: "string" | "number" | "boolean" | "object" | "array",
+      required: boolean,
+      description: string,
+      default?: any
+    }
+  },
+  outputSchema: {               // Expected output structure
+    [key: string]: {
+      type: "string" | "number" | "boolean" | "object" | "array",
+      description: string
+    }
+  },
+  executionCount: number,       // Total executions
+  successRate: number,          // 0.0 to 1.0
+  averageExecutionTime: number, // milliseconds
+  lastExecutedAt?: number,
+  createdAt: number,
+  updatedAt: number
+}
+```
+
+**External Connection Properties:**
+
+```typescript
+{
+  platform: "elizaos" | "n8n" | "zapier" | "make" | "autogen" | "custom",
+  name: string,                 // Connection name
+  baseUrl?: string,             // API base URL
+  apiKey?: string,              // Encrypted API key
+  websocketUrl?: string,        // WebSocket endpoint
+  webhookSecret?: string,       // Webhook signature secret
+  connectionType: "rest" | "websocket" | "webhook" | "graphql",
+  authentication: {
+    type: "apiKey" | "oauth" | "basic" | "bearer" | "custom",
+    credentials: any            // Encrypted credentials
+  },
+  status: "active" | "inactive" | "error",
+  lastConnectedAt?: number,
+  lastError?: string,
+  linkedEntityIds: string[],    // Connected agents/workflows
+  rateLimits?: {
+    requestsPerMinute: number,
+    requestsPerDay: number
+  },
+  createdAt: number,
+  updatedAt: number
 }
 ```
 

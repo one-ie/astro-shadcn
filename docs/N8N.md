@@ -55,40 +55,40 @@ n8n is an extensible workflow automation tool that allows users to create comple
 
 ## Ontology Mapping
 
-### New Entity Types
+### Entity Types Used
+
+Uses the unified external integration schema from `docs/Ontology.md`:
 
 ```typescript
-// Add to docs/Ontology.md EntityType
-type EntityType =
-  // ... existing types
-
-  // N8N INTEGRATION (3 new types)
-  | 'n8n_workflow'        // n8n workflow definition
-  | 'n8n_execution'       // Workflow execution record
-  | 'n8n_credential';     // Stored n8n API credentials
+// EXTERNAL INTEGRATIONS (already in Ontology.md)
+| 'external_agent'        // External AI agent (not used for n8n)
+| 'external_workflow'     // External workflow (n8n, Zapier, Make, etc.)
+| 'external_connection'   // Connection config to external service
 ```
 
 ### Entity Properties
 
-**n8n_workflow Properties:**
+**external_workflow Properties (for n8n workflows):**
 ```typescript
 {
+  platform: "n8n",              // Platform identifier
   workflowId: string,           // n8n workflow ID
   name: string,                 // Workflow name
   description: string,          // What the workflow does
-  webhookUrl: string,           // Webhook trigger URL
+  webhookUrl?: string,          // Trigger URL
   active: boolean,              // Is workflow active?
-  tags: string[],               // n8n tags
+  tags: string[],               // n8n tags/categories
   inputSchema: {                // Expected input parameters
     [key: string]: {
-      type: 'string' | 'number' | 'boolean' | 'object',
+      type: "string" | "number" | "boolean" | "object" | "array",
       required: boolean,
-      description: string
+      description: string,
+      default?: any
     }
   },
   outputSchema: {               // Expected output structure
     [key: string]: {
-      type: 'string' | 'number' | 'boolean' | 'object',
+      type: "string" | "number" | "boolean" | "object" | "array",
       description: string
     }
   },
@@ -101,39 +101,58 @@ type EntityType =
 }
 ```
 
-**n8n_execution Properties:**
+**Workflow Execution Tracking:**
+
+Use events (not a separate entity type) to track executions:
+
 ```typescript
+// Execution as event
 {
-  workflowId: string,           // Reference to workflow
-  executionId: string,          // n8n execution ID
-  status: 'running' | 'success' | 'error' | 'waiting',
-  startedAt: number,
-  finishedAt?: number,
-  executionTime: number,        // milliseconds
-  input: any,                   // Input parameters
-  output?: any,                 // Execution result
-  error?: {
-    message: string,
-    stack?: string,
-    node?: string               // Which n8n node failed
-  },
-  triggeredBy: {
-    agentId?: Id<'entities'>,   // Which agent triggered this
-    userId?: Id<'entities'>,    // Which user triggered this
-    source: 'agent' | 'user' | 'cron' | 'webhook'
+  type: 'agent_executed',
+  actorId: agentId,
+  targetId: workflowId,         // external_workflow entity
+  timestamp: Date.now(),
+  metadata: {
+    action: 'workflow_executed',
+    platform: 'n8n',
+    executionId: 'exec-123',    // n8n execution ID
+    status: 'success',
+    startedAt: number,
+    finishedAt: number,
+    executionTime: number,
+    input: any,
+    output: any,
+    triggeredBy: {
+      source: 'agent' | 'user' | 'cron' | 'webhook'
+    }
   }
 }
 ```
 
-**n8n_credential Properties:**
+**external_connection Properties (for n8n connection):**
 ```typescript
 {
-  apiKey: string,               // Encrypted n8n API key
-  baseUrl: string,              // n8n instance URL
-  instanceType: 'cloud' | 'self-hosted',
-  active: boolean,
-  lastValidatedAt?: number,
-  createdAt: number
+  platform: "n8n",
+  name: string,                 // Connection name
+  baseUrl?: string,             // n8n instance URL
+  apiKey?: string,              // Encrypted n8n API key
+  websocketUrl?: string,        // WebSocket endpoint (if supported)
+  webhookSecret?: string,       // Webhook signature secret
+  connectionType: "rest" | "webhook",
+  authentication: {
+    type: "apiKey",
+    credentials: any            // Encrypted credentials
+  },
+  status: "active" | "inactive" | "error",
+  lastConnectedAt?: number,
+  lastError?: string,
+  linkedEntityIds: string[],    // Connected workflow IDs
+  rateLimits?: {
+    requestsPerMinute: number,
+    requestsPerDay: number
+  },
+  createdAt: number,
+  updatedAt: number
 }
 ```
 
@@ -142,48 +161,46 @@ type EntityType =
 Use existing connection types:
 
 ```typescript
-// User/Agent → n8n_workflow
+// Agent → n8n workflow
 {
   fromEntityId: agentId,
-  toEntityId: workflowId,
+  toEntityId: workflowId,               // external_workflow entity
   relationshipType: 'integrated_with',  // Existing type
   metadata: {
-    integrationType: 'n8n_workflow',
+    platform: 'n8n',
+    integrationType: 'workflow',
     permissions: ['execute', 'view'],
     configuredAt: Date.now()
   }
 }
-
-// n8n_execution → n8n_workflow
-{
-  fromEntityId: executionId,
-  toEntityId: workflowId,
-  relationshipType: 'references',       // Existing type
-  metadata: {
-    referenceType: 'execution',
-    status: 'success'
-  }
-}
 ```
+
+**Note:** Workflow executions are tracked as events, not as separate entities or connections.
 
 ### Event Types
 
 Use existing consolidated event types:
 
 ```typescript
-// Workflow executed
+// Workflow executed successfully
 {
   type: 'agent_executed',               // Existing type
   actorId: agentId,
-  targetId: workflowId,
+  targetId: workflowId,                 // external_workflow entity
   timestamp: Date.now(),
   metadata: {
     action: 'workflow_executed',
-    executionId: executionId,
+    platform: 'n8n',
+    executionId: 'exec-123',
     status: 'success',
-    executionTime: 1234,
+    startedAt: 1234567890,
+    finishedAt: 1234568890,
+    executionTime: 1000,
     input: {...},
-    output: {...}
+    output: {...},
+    triggeredBy: {
+      source: 'agent'
+    }
   }
 }
 
@@ -195,9 +212,13 @@ Use existing consolidated event types:
   timestamp: Date.now(),
   metadata: {
     action: 'workflow_failed',
-    executionId: executionId,
+    platform: 'n8n',
+    executionId: 'exec-124',
     error: 'Connection timeout',
-    node: 'HTTP Request'
+    node: 'HTTP Request',
+    triggeredBy: {
+      source: 'agent'
+    }
   }
 }
 ```
