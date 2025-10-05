@@ -792,20 +792,22 @@ NOTIFY creator when done
 
 ## Translation Table
 
-**Plain English → Technical DSL**
+**Plain English → Technical DSL (Hybrid Approach)**
 
-| Plain English | Technical DSL |
-|---------------|---------------|
-| CREATE ai clone | `{ entity: { type: "ai_clone" } }` |
-| CONNECT creator to clone as owner | `{ connect: { type: "owns" } }` |
-| RECORD clone created | `{ event: { type: "clone_created" } }` |
-| CALL ElevenLabs to clone voice | `{ service: { provider: "elevenlabs", method: "cloneVoice" } }` |
-| CHECK creator exists | `{ validate: { creatorId: { exists: true } } }` |
-| GET fan's balance | `{ query: { from: "connections", where: [...] } }` |
-| IF balance > 0 | `{ if: { condition: "$balance > 0" } }` |
-| WAIT 24 hours | `{ wait: "24h" }` |
-| DO TOGETHER | `{ atomic: [...] }` |
-| FOR EACH video | `{ forEach: { array: "$videos" } }` |
+| Plain English | Technical DSL | Type Category |
+|---------------|---------------|---------------|
+| CREATE ai clone | `{ entity: { type: "ai_clone" } }` | Specific Entity |
+| CONNECT creator to clone as owner | `{ connect: { type: "owns" } }` | Specific Connection |
+| RECORD clone created | `{ event: { type: "clone_created" } }` | Specific Event |
+| RECORD payment completed | `{ event: { type: "payment_event", metadata: { status: "processed" } } }` | Consolidated Event |
+| CONNECT via payment | `{ connect: { type: "transacted", metadata: { transactionType: "purchase" } } }` | Consolidated Connection |
+| CALL ElevenLabs to clone voice | `{ service: { provider: "elevenlabs", method: "cloneVoice" } }` | Service |
+| CHECK creator exists | `{ validate: { creatorId: { exists: true } } }` | Validation |
+| GET fan's balance | `{ query: { from: "connections", where: [...] } }` | Query |
+| IF balance > 0 | `{ if: { condition: "$balance > 0" } }` | Conditional |
+| WAIT 24 hours | `{ wait: "24h" }` | Control Flow |
+| DO TOGETHER | `{ atomic: [...] }` | Atomic Operation |
+| FOR EACH video | `{ forEach: { array: "$videos" } }` | Loop |
 
 ---
 

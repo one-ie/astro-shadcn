@@ -99,14 +99,14 @@ compiler.compile(dsl);  // → Type-safe TypeScript
 **7 Core Documents:**
 
 1. ✅ `.ai/rules.md` - Golden rules
-2. ✅ `.ai/context/ontology.md` - 4-table data model
+2. ✅ `.ai/context/ontology.md` - 4-table data model (Hybrid: 25 connections, 35 events)
 3. ✅ `.ai/context/architecture.md` - FP + system design
 4. ✅ `.ai/context/patterns.md` - Code patterns
 5. ✅ `.ai/context/file-map.md` - File locations
 6. ✅ `convex/services/providers/` - External APIs
-7. ✅ **ONE DSL** - Domain-specific language
+7. ✅ **ONE DSL** - Domain-specific language (Technical + Plain English)
 
-**Everything flows from ontology → DSL → Code.**
+**Everything flows from ontology (hybrid types) → DSL → Code.**
 
 ## Next Steps
 
@@ -223,15 +223,15 @@ describe("purchaseTokens", () => {
 ## Your Complete Foundation (8 Documents)
 
 1. ✅ `.ai/rules.md` - Golden rules
-2. ✅ `.ai/context/ontology.md` - 4-table data model
+2. ✅ `.ai/context/ontology.md` - 4-table data model (Hybrid: 25 connections, 35 events)
 3. ✅ `.ai/context/architecture.md` - System design + FP
 4. ✅ `.ai/context/patterns.md` - Code patterns
 5. ✅ `.ai/context/file-map.md` - File locations
 6. ✅ `convex/services/providers/` - External APIs
-7. ✅ **Technical DSL** - JSON-like declarations
-8. ✅ **Plain English DSL** - Natural language
+7. ✅ **Technical DSL** - JSON-like declarations (hybrid types)
+8. ✅ **Plain English DSL** - Natural language (compiles to Technical DSL)
 
-**Everything needed for AI-assisted development at scale.**
+**Everything needed for AI-assisted development at scale with hybrid type strategy.**
 
 ## Next Steps
 

@@ -16,11 +16,12 @@
  * 4. Auditable - generates readable TypeScript
  * 5. Metadata-based - uses metadata field for type consolidation
  *
- * Type Consolidation Strategy:
- * - 24 connection types (consolidated from 100+ via metadata)
- * - 38 event types (consolidated from 100+ via metadata)
- * - Base types handle common patterns (payment, content, livestream, notification, referral)
- * - Metadata field stores type-specific details
+ * Hybrid Type Strategy:
+ * - 25 connection types (18 specific + 7 consolidated via metadata)
+ * - 35 event types (24 specific + 11 consolidated via metadata)
+ * - Specific types for core domain concepts (tokens, courses, clones)
+ * - Consolidated types for protocol-agnostic patterns (payment, content, communication)
+ * - Metadata field stores variants and protocol identity
  */
 
 // ============================================================================
@@ -44,17 +45,25 @@ type EntityDeclaration = {
  * CONNECTION DECLARATION
  * Creates relationship between entities
  *
- * 24 CONSOLIDATED CONNECTION TYPES:
- * Core Social: "following", "blocked"
- * Ownership: "owns", "created_by"
- * Access: "has_access", "member_of"
- * Content: "authored", "edited", "featured_in", "tagged_in", "commented_on", "reacted_to"
- * Tokens: "holds_tokens", "staked_tokens", "locked_tokens"
- * Payment: "payment" (metadata.paymentType: "subscription"|"purchase"|"tip"|"refund")
- * Livestream: "livestream" (metadata.livestreamType: "hosted"|"attended"|"moderated"|"banned_from")
- * Referral: "referral" (metadata.referralType: "referred"|"earned_from")
- * Notification: "notification" (metadata.notificationType: "sent"|"received"|"read")
- * Admin: "admin_action" (metadata.actionType: specific action)
+ * 25 HYBRID CONNECTION TYPES:
+ *
+ * Specific Types (18):
+ * - Ownership: "owns", "created_by"
+ * - AI: "clone_of", "trained_on", "powers"
+ * - Content: "authored", "generated_by", "published_to", "part_of", "references"
+ * - Community: "member_of", "following", "moderates", "participated_in"
+ * - Business: "manages", "reports_to", "collaborates_with"
+ * - Tokens: "holds_tokens", "staked_in", "earned_from"
+ * - Products: "purchased", "enrolled_in", "completed", "teaching"
+ *
+ * Consolidated Types (7) - use metadata:
+ * - "transacted" (metadata.transactionType + protocol)
+ * - "notified" (metadata.channel + notificationType)
+ * - "referred" (metadata.referralType)
+ * - "communicated" (metadata.protocol + messageType)
+ * - "delegated" (metadata.protocol + taskType)
+ * - "approved" (metadata.approvalType + protocol)
+ * - "fulfilled" (metadata.fulfillmentType + protocol)
  */
 type ConnectionDeclaration = {
   connect: {
@@ -78,31 +87,29 @@ type ConnectionDeclaration = {
  * EVENT DECLARATION
  * Logs an event
  *
- * 38 CONSOLIDATED EVENT TYPES:
+ * 35 HYBRID EVENT TYPES:
  *
- * Entity Lifecycle: "entity_created", "entity_updated", "entity_deleted", "entity_archived"
+ * Specific Types (24):
+ * - Entity Lifecycle: "entity_created", "entity_updated", "entity_deleted", "entity_archived"
+ * - User: "user_registered", "user_verified", "user_login", "user_logout", "profile_updated"
+ * - AI/Clone: "clone_created", "clone_updated", "voice_cloned", "appearance_cloned"
+ * - Agent: "agent_created", "agent_executed", "agent_completed", "agent_failed"
+ * - Token: "token_created", "token_minted", "token_burned", "tokens_purchased", "tokens_staked", "tokens_unstaked", "tokens_transferred"
+ * - Course: "course_created", "course_enrolled", "lesson_completed", "course_completed", "certificate_earned"
+ * - Analytics: "metric_calculated", "insight_generated", "prediction_made", "optimization_applied", "report_generated"
  *
- * User Actions: "user_login", "user_logout", "user_registered", "user_verified", "profile_updated"
- *
- * Content Events: "content" (metadata.contentType: "created"|"published"|"edited"|"deleted"|"viewed"|"shared")
- *
- * Social Events: "follow", "unfollow", "block", "unblock", "comment", "reaction"
- *
- * Token Events: "token_created", "token_minted", "token_burned", "token_transferred", "tokens_purchased", "tokens_staked", "tokens_unstaked"
- *
- * Payment Events: "payment" (metadata.paymentType: "initiated"|"completed"|"failed"|"refunded"|"subscription_created"|"subscription_cancelled")
- *
- * AI Clone Events: "clone_created", "clone_updated", "clone_interaction", "voice_cloned"
- *
- * Livestream Events: "livestream" (metadata.livestreamType: "started"|"ended"|"viewer_joined"|"viewer_left"|"chat_message"|"donation_received")
- *
- * Notification Events: "notification" (metadata.notificationType: "sent"|"delivered"|"read"|"clicked")
- *
- * Referral Events: "referral" (metadata.referralType: "created"|"completed"|"reward_paid")
- *
- * Analytics Events: "page_view", "button_click", "form_submit", "error_occurred"
- *
- * Admin Events: "admin_action" (metadata.actionType: specific action)
+ * Consolidated Types (11) - use metadata:
+ * - "content_event" (metadata.action: created|updated|deleted|viewed|shared|liked)
+ * - "payment_event" (metadata.status: requested|verified|processed + protocol)
+ * - "subscription_event" (metadata.action: started|renewed|cancelled)
+ * - "commerce_event" (metadata.eventType + protocol: ACP, AP2)
+ * - "livestream_event" (metadata.status + metadata.action)
+ * - "notification_event" (metadata.channel + deliveryStatus)
+ * - "referral_event" (metadata.action: created|completed|rewarded)
+ * - "communication_event" (metadata.protocol + messageType: A2A, ACP, AG-UI)
+ * - "task_event" (metadata.action: delegated|completed|failed + protocol)
+ * - "mandate_event" (metadata.mandateType: intent|cart + protocol: AP2)
+ * - "price_event" (metadata.action: checked|changed)
  */
 type EventDeclaration = {
   event: {
@@ -1418,7 +1425,7 @@ class ONEValidator {
 // ============================================================================
 
 /**
- * Complete ontology with all consolidated types
+ * Complete ontology with hybrid type strategy
  */
 const FULL_ONTOLOGY = {
   entityTypes: [
@@ -1427,91 +1434,54 @@ const FULL_ONTOLOGY = {
     "token",
     "audience_member",
     "content",
+    "course",
     "livestream",
     "subscription",
     "notification",
   ],
 
-  // 24 CONSOLIDATED CONNECTION TYPES
+  // 25 HYBRID CONNECTION TYPES
   connectionTypes: [
-    // Core Social
-    "following",
-    "blocked",
-    // Ownership
-    "owns",
-    "created_by",
-    // Access
-    "has_access",
-    "member_of",
-    // Content
-    "authored",
-    "edited",
-    "featured_in",
-    "tagged_in",
-    "commented_on",
-    "reacted_to",
-    // Tokens
-    "holds_tokens",
-    "staked_tokens",
-    "locked_tokens",
-    // Consolidated with metadata
-    "payment", // metadata.paymentType: subscription|purchase|tip|refund
-    "livestream", // metadata.livestreamType: hosted|attended|moderated|banned_from
-    "referral", // metadata.referralType: referred|earned_from
-    "notification", // metadata.notificationType: sent|received|read
-    "admin_action", // metadata.actionType: specific action
+    // Specific Types (18)
+    "owns", "created_by",
+    "clone_of", "trained_on", "powers",
+    "authored", "generated_by", "published_to", "part_of", "references",
+    "member_of", "following", "moderates", "participated_in",
+    "manages", "reports_to", "collaborates_with",
+    "holds_tokens", "staked_in", "earned_from",
+    "purchased", "enrolled_in", "completed", "teaching",
+    // Consolidated Types (7) - use metadata
+    "transacted",     // metadata.transactionType + protocol
+    "notified",       // metadata.channel + notificationType
+    "referred",       // metadata.referralType
+    "communicated",   // metadata.protocol + messageType
+    "delegated",      // metadata.protocol + taskType
+    "approved",       // metadata.approvalType + protocol
+    "fulfilled",      // metadata.fulfillmentType + protocol
   ],
 
-  // 38 CONSOLIDATED EVENT TYPES
+  // 35 HYBRID EVENT TYPES
   eventTypes: [
-    // Entity Lifecycle
-    "entity_created",
-    "entity_updated",
-    "entity_deleted",
-    "entity_archived",
-    // User Actions
-    "user_login",
-    "user_logout",
-    "user_registered",
-    "user_verified",
-    "profile_updated",
-    // Content - consolidated with metadata
-    "content", // metadata.contentType: created|published|edited|deleted|viewed|shared
-    // Social Events
-    "follow",
-    "unfollow",
-    "block",
-    "unblock",
-    "comment",
-    "reaction",
-    // Token Events
-    "token_created",
-    "token_minted",
-    "token_burned",
-    "token_transferred",
-    "tokens_purchased",
-    "tokens_staked",
-    "tokens_unstaked",
-    // Payment - consolidated with metadata
-    "payment", // metadata.paymentType: initiated|completed|failed|refunded|subscription_created|subscription_cancelled
-    // AI Clone Events
-    "clone_created",
-    "clone_updated",
-    "clone_interaction",
-    "voice_cloned",
-    // Livestream - consolidated with metadata
-    "livestream", // metadata.livestreamType: started|ended|viewer_joined|viewer_left|chat_message|donation_received
-    // Notification - consolidated with metadata
-    "notification", // metadata.notificationType: sent|delivered|read|clicked
-    // Referral - consolidated with metadata
-    "referral", // metadata.referralType: created|completed|reward_paid
-    // Analytics Events
-    "page_view",
-    "button_click",
-    "form_submit",
-    "error_occurred",
-    // Admin Events
-    "admin_action", // metadata.actionType: specific action
+    // Specific Types (24)
+    "entity_created", "entity_updated", "entity_deleted", "entity_archived",
+    "user_registered", "user_verified", "user_login", "user_logout", "profile_updated",
+    "clone_created", "clone_updated", "voice_cloned", "appearance_cloned",
+    "agent_created", "agent_executed", "agent_completed", "agent_failed",
+    "token_created", "token_minted", "token_burned", "tokens_purchased", "tokens_staked", "tokens_unstaked", "tokens_transferred",
+    "course_created", "course_enrolled", "lesson_completed", "course_completed", "certificate_earned",
+    "metric_calculated", "insight_generated", "prediction_made", "optimization_applied", "report_generated",
+    // Consolidated Types (11) - use metadata
+    "content_event",        // metadata.action + protocol
+    "payment_event",        // metadata.status + protocol
+    "subscription_event",   // metadata.action
+    "commerce_event",       // metadata.eventType + protocol
+    "livestream_event",     // metadata.status + metadata.action
+    "notification_event",   // metadata.channel + deliveryStatus
+    "referral_event",       // metadata.action
+    "communication_event",  // metadata.protocol + messageType
+    "task_event",          // metadata.action + protocol
+    "mandate_event",       // metadata.mandateType + protocol
+    "price_event",         // metadata.action
   ],
 };
 
@@ -1624,23 +1594,24 @@ console.log(generatedCode);
  *    - More explicit, easier for AI agents
  *    - Better for metadata-based patterns
  *
- * 2. 24 CONSOLIDATED CONNECTION TYPES
- *    - Down from 100+ specific types
- *    - Base types handle common patterns
- *    - Metadata stores type-specific details
- *    - Example: "payment" with metadata.paymentType
+ * 2. 25 HYBRID CONNECTION TYPES
+ *    - 18 specific semantic types for core domain
+ *    - 7 consolidated types with metadata variants
+ *    - Protocol-agnostic via metadata.protocol
+ *    - Simpler queries, better AI comprehension
  *
- * 3. 38 CONSOLIDATED EVENT TYPES
- *    - Down from 100+ specific types
- *    - Base types handle common patterns
- *    - Metadata stores type-specific details
- *    - Example: "livestream" with metadata.livestreamType
+ * 3. 35 HYBRID EVENT TYPES
+ *    - 24 specific types for core domain events
+ *    - 11 consolidated types with metadata variants
+ *    - Protocol identification via metadata
+ *    - Balance between specificity and flexibility
  *
  * 4. METADATA-BASED PATTERNS
- *    - Single type with variations via metadata
+ *    - Consolidated types use metadata for variants
+ *    - Protocol identity in metadata.protocol
  *    - Reduces schema complexity
  *    - Maintains queryability
- *    - Flexible for future additions
+ *    - Flexible for future protocols
  *
  * 5. EFFECT.TS INTEGRATION
  *    - All compiled code uses Effect.ts
