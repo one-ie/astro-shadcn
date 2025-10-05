@@ -2,7 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**For Convex-specific development patterns and best practices, see [AGENTS.md](./AGENTS.md)** - a concise reference optimized for AI agents.
+## Quick Reference for Agents
+
+**BEFORE starting ANY task, read these in order:**
+1. **[AGENTS.md](./AGENTS.md)** - Convex development patterns (queries, mutations, actions, schema)
+2. **[docs/Rules.md](./docs/Rules.md)** - Golden rules for AI code generation
+3. **[docs/Workflow.md](./docs/Workflow.md)** - Ontology-driven development flow
+4. **[docs/Patterns.md](./docs/Patterns.md)** - Proven code patterns to replicate
+5. **[docs/Architecture.md](./docs/Architecture.md)** - System architecture & functional programming
+6. **[docs/Files.md](./docs/Files.md)** - File system map (where everything goes)
 
 ## Development Commands
 
@@ -486,3 +494,425 @@ id = "your-kv-namespace-id"
 ```
 
 Create a KV namespace in the Cloudflare dashboard and add the ID to your configuration.
+
+## AI Agent Development Process
+
+This section defines the exact process AI agents must follow when implementing features. This ensures consistency, quality, and adherence to the ontology-driven architecture.
+
+### The 4-Table Ontology (MEMORIZE THIS)
+
+**Every feature MUST use these 4 tables:**
+
+```
+┌─────────────┐
+│  ENTITIES   │ ← Everything is an entity (users, agents, content, tokens)
+└──────┬──────┘
+       │
+       ├──→ ┌──────────────┐
+       │    │ CONNECTIONS  │ ← All relationships between entities
+       │    └──────────────┘
+       │
+       ├──→ ┌──────────────┐
+       │    │   EVENTS     │ ← All actions, changes, time-series data
+       │    └──────────────┘
+       │
+       └──→ ┌──────────────┐
+            │    TAGS      │ ← Categorization and taxonomy
+            └──────────────┘
+```
+
+**Rules:**
+- If modeling a "thing" → use **entities** table
+- If modeling "X relates to Y" → use **connections** table
+- If modeling "X happened at time T" → use **events** table
+- If modeling "categories" → use **tags** table + entityTags junction
+
+### Step-by-Step Feature Implementation
+
+#### Step 1: Read Context (MANDATORY)
+
+Before writing ANY code, read these files:
+
+1. **AGENTS.md** - Convex patterns
+2. **docs/Rules.md** - Golden rules
+3. **docs/Workflow.md** - Ontology flow
+4. **docs/Patterns.md** - Code patterns
+5. **docs/Files.md** - File locations
+
+#### Step 2: Map Feature to Ontology
+
+**Ask yourself:**
+- What entities are involved?
+- What connections between entities?
+- What events need to be logged?
+- What tags/categories are needed?
+
+**Example: "Token Purchase" Feature**
+
+```
+Entities:
+  - user (type: "creator" or "audience_member")
+  - token (type: "token")
+
+Connections:
+  - user → token (relationshipType: "holds_tokens")
+    metadata: { balance: number }
+
+Events:
+  - tokens_purchased (entityId: tokenId, actorId: userId)
+    metadata: { amount, usdAmount, paymentId }
+```
+
+#### Step 3: Design Effect.ts Service (Business Logic)
+
+**Pattern:**
+```typescript
+// convex/services/[category]/[service].ts
+export class TokenService extends Effect.Service<TokenService>()(
+  "TokenService",
+  {
+    effect: Effect.gen(function* () {
+      const db = yield* ConvexDatabase;
+      const stripe = yield* StripeProvider;
+
+      return {
+        purchase: (args: PurchaseArgs) =>
+          Effect.gen(function* () {
+            // 1. Validate
+            // 2. Charge payment
+            // 3. Create/update connection
+            // 4. Log event
+            // 5. Return result
+          })
+      };
+    }),
+    dependencies: [ConvexDatabase.Default, StripeProvider.Default]
+  }
+) {}
+```
+
+**Rules:**
+- Pure functions only
+- Explicit types (no `any`)
+- Typed errors (`_tag` pattern)
+- Dependency injection
+- Business logic ONLY (no Convex-specific code)
+
+#### Step 4: Create Convex Wrapper (Thin Layer)
+
+**Pattern:**
+```typescript
+// convex/mutations/tokens.ts
+export const purchase = confect.mutation({
+  args: { tokenId: v.id("entities"), amount: v.number() },
+  handler: (ctx, args) =>
+    Effect.gen(function* () {
+      const tokenService = yield* TokenService;
+      return yield* tokenService.purchase(args);
+    }).pipe(Effect.provide(MainLayer))
+});
+```
+
+**Rules:**
+- Thin wrapper only
+- Validate args with Convex validators
+- Call service
+- Provide MainLayer
+- Handle errors
+
+#### Step 5: Create React Component (UI)
+
+**Pattern:**
+```typescript
+// src/components/features/tokens/TokenPurchase.tsx
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Button } from "@/components/ui/button";
+
+export function TokenPurchase({ tokenId }: { tokenId: Id<"entities"> }) {
+  const purchase = useMutation(api.tokens.purchase);
+
+  return (
+    <Button onClick={() => purchase({ tokenId, amount: 100 })}>
+      Buy 100 Tokens
+    </Button>
+  );
+}
+```
+
+**Rules:**
+- Use Convex hooks (`useQuery`, `useMutation`)
+- Use shadcn/ui components
+- Handle loading/error states
+- Add `client:load` when used in Astro
+
+#### Step 6: Create Astro Page (SSR)
+
+**Pattern:**
+```astro
+---
+// src/pages/tokens/[id].astro
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "@/convex/_generated/api";
+import TokenPurchase from "@/components/features/tokens/TokenPurchase";
+
+const convex = new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL);
+const token = await convex.query(api.tokens.get, { id: Astro.params.id });
+---
+
+<Layout>
+  <h1>{token.name}</h1>
+  <TokenPurchase client:load tokenId={token._id} />
+</Layout>
+```
+
+**Rules:**
+- SSR data fetching in frontmatter
+- Use ConvexHttpClient
+- Pass data as props to React components
+- Add `client:load` for interactive components
+
+#### Step 7: Write Tests
+
+**Unit Test Pattern:**
+```typescript
+// tests/unit/services/token.test.ts
+describe("TokenService.purchase", () => {
+  it("should purchase tokens successfully", async () => {
+    const MockStripe = Layer.succeed(StripeProvider, {
+      charge: () => Effect.succeed({ id: "pay_123" })
+    });
+
+    const result = await Effect.runPromise(
+      Effect.gen(function* () {
+        const service = yield* TokenService;
+        return yield* service.purchase({ userId, tokenId, amount: 100 });
+      }).pipe(Effect.provide(TestLayer))
+    );
+
+    expect(result.success).toBe(true);
+  });
+});
+```
+
+**Integration Test Pattern:**
+```typescript
+// tests/integration/token-purchase.test.ts
+describe("Token Purchase Flow", () => {
+  it("should complete full purchase flow", async () => {
+    // Test full flow: mutation → service → external APIs → database
+  });
+});
+```
+
+#### Step 8: Update Documentation
+
+**Update these files:**
+- `docs/Patterns.md` - Add new pattern if novel
+- `docs/Files.md` - Add new files to map
+- Feature-specific docs if needed
+
+### Common Patterns to Follow
+
+#### Pattern 1: Create Entity with Relationships
+
+```typescript
+Effect.gen(function* () {
+  // 1. Create entity
+  const entityId = yield* Effect.tryPromise(() =>
+    db.insert("entities", {
+      type: "course",
+      name: args.title,
+      properties: { /* ... */ },
+      status: "draft",
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    })
+  );
+
+  // 2. Create ownership connection
+  yield* Effect.tryPromise(() =>
+    db.insert("connections", {
+      fromEntityId: args.creatorId,
+      toEntityId: entityId,
+      relationshipType: "owns",
+      createdAt: Date.now(),
+    })
+  );
+
+  // 3. Log creation event
+  yield* Effect.tryPromise(() =>
+    db.insert("events", {
+      entityId,
+      eventType: "course_created",
+      timestamp: Date.now(),
+      actorType: "user",
+      actorId: args.creatorId,
+      metadata: { /* ... */ },
+    })
+  );
+
+  return entityId;
+})
+```
+
+#### Pattern 2: Query with Relationships
+
+```typescript
+// Get entity with related data
+const creator = await ctx.db.get(creatorId);
+
+const content = await ctx.db
+  .query("connections")
+  .withIndex("from_type", q =>
+    q.eq("fromEntityId", creatorId)
+     .eq("relationshipType", "authored")
+  )
+  .collect();
+
+return { ...creator, content };
+```
+
+#### Pattern 3: Update Entity
+
+```typescript
+Effect.gen(function* () {
+  // Get current
+  const current = yield* Effect.tryPromise(() => db.get(id));
+
+  // Merge updates
+  const newProperties = { ...current.properties, ...updates };
+
+  // Update
+  yield* Effect.tryPromise(() =>
+    db.patch(id, {
+      properties: newProperties,
+      updatedAt: Date.now()
+    })
+  );
+
+  // Log event
+  yield* Effect.tryPromise(() =>
+    db.insert("events", {
+      entityId: id,
+      eventType: "entity_updated",
+      timestamp: Date.now(),
+      metadata: { updatedFields: Object.keys(updates) }
+    })
+  );
+})
+```
+
+### Technology Stack Rules
+
+**Frontend:**
+- Astro 5.14+ for pages
+- React 19 for interactive components
+- shadcn/ui for UI components
+- Tailwind CSS v4 for styling
+- TypeScript strict mode
+
+**Backend:**
+- Convex for database + functions
+- Effect.ts for business logic
+- Confect for bridging
+- Better Auth for authentication
+- Resend for emails
+
+**Never:**
+- Use `any` type (except in entity `properties`)
+- Mix business logic in Convex functions
+- Create custom backend routes (use Convex)
+- Use relative imports (use `@/` aliases)
+- Skip writing tests
+
+### File Naming & Location
+
+**Follow exactly:**
+- React components: `src/components/features/[domain]/[Component].tsx`
+- Services: `convex/services/[category]/[service].ts`
+- Mutations: `convex/mutations/[domain].ts`
+- Queries: `convex/queries/[domain].ts`
+- Actions: `convex/actions/[category]/[action].ts`
+- Tests: `tests/[unit|integration|e2e]/[name].test.ts`
+
+**Naming:**
+- Components: PascalCase.tsx
+- Services: camelCase.ts
+- Pages: kebab-case.astro
+- Exports: Named exports (no defaults)
+
+### Pre-Generation Checklist
+
+Before generating ANY code, verify:
+
+- [ ] I have read the required documentation
+- [ ] I understand which entities/connections/events are involved
+- [ ] I know the file locations per `docs/Files.md`
+- [ ] I will use Effect.ts for business logic
+- [ ] I will use explicit types everywhere
+- [ ] I will write tests
+- [ ] I will follow the patterns in `docs/Patterns.md`
+
+### Post-Generation Checklist
+
+After generating code, verify:
+
+- [ ] TypeScript compiles (`bunx astro check`)
+- [ ] Tests pass (`bun test`)
+- [ ] No `any` types (except in `properties`)
+- [ ] All errors are typed with `_tag`
+- [ ] React components have loading/error states
+- [ ] Convex functions are thin wrappers
+- [ ] Files are in correct locations
+- [ ] Documentation is updated
+
+### Why This Process Works
+
+**Traditional approach (fails):**
+```
+Write code → Hope it works → Debug → Refactor → Technical debt
+```
+
+**Ontology-driven approach (scales):**
+```
+Map to ontology → Design types → Generate code → Tests pass → Done
+```
+
+**Benefits:**
+1. **Consistency** - Every feature follows same pattern
+2. **Type Safety** - Compiler catches errors
+3. **Testability** - Pure functions are easy to test
+4. **Composability** - Services combine cleanly
+5. **AI-Friendly** - Explicit patterns AI can learn
+
+**Result:** Code quality IMPROVES as codebase grows because AI learns from proven patterns.
+
+### Emergency: When Confused
+
+If unsure about ANYTHING:
+
+1. **STOP** - Don't generate code
+2. **READ** - Re-read ontology and patterns
+3. **SEARCH** - Find similar existing code
+4. **ASK** - Request clarification from human
+5. **SIMPLIFY** - Start with simplest solution
+
+**NEVER:**
+- Generate code you're uncertain about
+- Use `any` because you don't know the type
+- Skip reading documentation
+- Modify files outside your domain
+- Skip writing tests
+
+### Key Principles
+
+1. **Ontology First** - Map feature to 4 tables before coding
+2. **Types Everywhere** - Explicit types catch errors at compile time
+3. **Pure Functions** - Business logic in Effect.ts services
+4. **Thin Wrappers** - Convex functions call services
+5. **Test Everything** - Tests define expected behavior
+6. **Follow Patterns** - Replicate proven patterns exactly
+7. **Update Docs** - Keep documentation current
+
+**This process ensures every feature makes the codebase BETTER, not worse.**

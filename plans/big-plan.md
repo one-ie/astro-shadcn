@@ -18,17 +18,19 @@ Orders
 Spaces
 
 Agents
+an agent has prompts and tools and knowledge
 
 Prompts
 
 
-Tools
+## Tools
 Browse the web
-MCP
-Connect with N8N
-Connect with ElizaOS
+Use MCPs
+Connect with an N8N workflow
+Connect with ElizaOS agent
 
-Rag
+## Knowledge
+upload documents and crawl sites for Rag 
 
 
 
