@@ -1,10 +1,16 @@
 # ONE Platform - Ontology Specification
 
-**Version:** 1.0.0
-**Status:** Final Design - Ready for Implementation
+**Version:** 2.0.0
+**Status:** Complete - Frontend & Backend Ready
 **Purpose:** The single source of truth for how EVERYTHING in ONE is structured
 
 **Design Principle:** This ontology is protocol-agnostic. All protocols (A2A, ACP, X402, AP2, etc.) map TO this ontology via metadata, never the other way around.
+
+**Frontend Complete:** This ontology now includes all entity types, connections, and events needed to manage the complete frontend architecture:
+- Multi-tenant organizations with role-based access (platform_owner, org_owner, org_user, customer)
+- Better Auth integration (sessions, OAuth, verification tokens, password resets)
+- UI preferences and dashboard customization
+- Complete authentication and authorization event tracking
 
 ---
 
@@ -57,9 +63,10 @@ Examples:
 ```typescript
 type EntityType =
   // CORE
-  | 'creator' // Human creator
+  | 'creator' // Human creator (role: platform_owner, org_owner, org_user, customer)
   | 'ai_clone' // Digital twin of creator
-  | 'audience_member' // Fan/user
+  | 'audience_member' // Fan/user (role: customer)
+  | 'organization' // Multi-tenant organization
 
   // BUSINESS AGENTS (10 types)
   | 'strategy_agent' // Vision, planning, OKRs
@@ -117,6 +124,15 @@ type EntityType =
   | 'insight' // AI-generated insight
   | 'prediction' // AI prediction
   | 'report' // Analytics report
+
+  // AUTHENTICATION & SESSION
+  | 'session' // User session (Better Auth)
+  | 'oauth_account' // OAuth connection (GitHub, Google)
+  | 'verification_token' // Email/2FA verification token
+  | 'password_reset_token' // Password reset token
+
+  // UI & PREFERENCES
+  | 'ui_preferences' // User UI settings (theme, layout, etc.)
 
   // MARKETING
   | 'notification' // System notification
@@ -181,7 +197,48 @@ type EntityType =
   },
   totalFollowers: number,
   totalContent: number,
-  totalRevenue: number
+  totalRevenue: number,
+  // MULTI-TENANT ROLES
+  role: "platform_owner" | "org_owner" | "org_user" | "customer",
+  organizationId?: Id<"entities">, // Current/default org (if org_owner or org_user)
+  permissions?: string[], // Additional permissions
+}
+```
+
+**Organization Properties:**
+
+```typescript
+{
+  name: string,
+  slug: string,              // URL-friendly identifier
+  domain?: string,           // Custom domain (e.g., acme.one.ie)
+  logo?: string,
+  description?: string,
+  status: "active" | "suspended" | "trial" | "cancelled",
+  plan: "starter" | "pro" | "enterprise",
+  limits: {
+    users: number,           // Max users allowed
+    storage: number,         // GB
+    apiCalls: number,        // Per month
+  },
+  usage: {
+    users: number,           // Current users
+    storage: number,         // GB used
+    apiCalls: number,        // This month
+  },
+  billing: {
+    customerId?: string,     // Stripe customer ID
+    subscriptionId?: string, // Stripe subscription ID
+    currentPeriodEnd?: number,
+  },
+  settings: {
+    allowSignups: boolean,
+    requireEmailVerification: boolean,
+    enableTwoFactor: boolean,
+    allowedDomains?: string[], // Email domain whitelist
+  },
+  createdAt: number,
+  trialEndsAt?: number,
 }
 ```
 
@@ -474,6 +531,94 @@ type EntityType =
 }
 ```
 
+**Session Properties:**
+
+```typescript
+{
+  userId: Id<"entities">,        // User this session belongs to
+  token: string,                 // Session token (hashed)
+  expiresAt: number,             // Expiration timestamp
+  ipAddress?: string,            // IP address
+  userAgent?: string,            // Browser/device info
+  lastActivityAt: number,        // Last activity timestamp
+  createdAt: number,
+}
+```
+
+**OAuth Account Properties:**
+
+```typescript
+{
+  userId: Id<"entities">,        // User this account belongs to
+  provider: "github" | "google" | "discord" | "twitter",
+  providerAccountId: string,     // Provider's user ID
+  accessToken?: string,          // Encrypted access token
+  refreshToken?: string,         // Encrypted refresh token
+  expiresAt?: number,            // Token expiration
+  tokenType?: string,            // Bearer, etc.
+  scope?: string,                // Granted scopes
+  idToken?: string,              // OpenID Connect ID token
+  createdAt: number,
+  updatedAt: number,
+}
+```
+
+**Verification Token Properties:**
+
+```typescript
+{
+  userId: Id<"entities">,        // User to verify
+  token: string,                 // Verification token (hashed)
+  type: "email" | "two_factor",  // Verification type
+  expiresAt: number,             // Expiration timestamp
+  attempts: number,              // Failed attempts count
+  maxAttempts: number,           // Max allowed attempts
+  verifiedAt?: number,           // When verified (if completed)
+  createdAt: number,
+}
+```
+
+**Password Reset Token Properties:**
+
+```typescript
+{
+  userId: Id<"entities">,        // User requesting reset
+  token: string,                 // Reset token (hashed)
+  expiresAt: number,             // Expiration timestamp (15-30 min)
+  usedAt?: number,               // When token was used
+  createdAt: number,
+}
+```
+
+**UI Preferences Properties:**
+
+```typescript
+{
+  userId: Id<"entities">,        // User these preferences belong to
+  theme: "light" | "dark" | "system",
+  language: string,              // ISO language code
+  timezone: string,              // IANA timezone
+  dashboardLayout: {
+    sidebarCollapsed: boolean,
+    defaultView: "grid" | "list" | "kanban",
+    itemsPerPage: number,
+  },
+  notifications: {
+    email: boolean,
+    push: boolean,
+    sms: boolean,
+    inApp: boolean,
+  },
+  accessibility: {
+    reducedMotion: boolean,
+    highContrast: boolean,
+    fontSize: "small" | "medium" | "large",
+  },
+  customSettings: any,           // App-specific settings
+  updatedAt: number,
+}
+```
+
 ---
 
 ## CONNECTIONS: All The Relationships
@@ -633,6 +778,36 @@ type ConnectionType =
 }
 ```
 
+**Pattern: Organization Membership**
+
+```typescript
+// User is member of organization with role
+{
+  fromEntityId: userId,
+  toEntityId: organizationId,
+  relationshipType: "member_of",
+  metadata: {
+    role: "org_owner" | "org_user",  // Organization-specific role
+    permissions: ["read", "write", "admin"],
+    invitedBy?: Id<"entities">,      // Who invited this user
+    invitedAt?: number,
+    joinedAt: Date.now(),
+  },
+  createdAt: Date.now()
+}
+
+// Organization owns content/resources
+{
+  fromEntityId: organizationId,
+  toEntityId: contentId,
+  relationshipType: "owns",
+  metadata: {
+    createdBy: userId,               // User who created it
+  },
+  createdAt: Date.now()
+}
+```
+
 **Pattern: Payment Transaction (Consolidated)**
 
 ```typescript
@@ -739,6 +914,27 @@ type EventType =
   | 'user_login'
   | 'user_logout'
   | 'profile_updated'
+
+  // AUTHENTICATION EVENTS (6)
+  | 'password_reset_requested'
+  | 'password_reset_completed'
+  | 'email_verification_sent'
+  | 'email_verified'
+  | 'two_factor_enabled'
+  | 'two_factor_disabled'
+
+  // ORGANIZATION EVENTS (5)
+  | 'organization_created'
+  | 'organization_updated'
+  | 'user_invited_to_org'
+  | 'user_joined_org'
+  | 'user_removed_from_org'
+
+  // DASHBOARD & UI EVENTS (4)
+  | 'dashboard_viewed'
+  | 'settings_updated'
+  | 'theme_changed'
+  | 'preferences_updated'
 
   // AI/CLONE EVENTS (4)
   | 'clone_created'
@@ -998,6 +1194,134 @@ The `metadata` field is flexible JSON that ALWAYS includes `protocol` for protoc
     value: 0.12,
     change: +0.05,
     changePercent: 4.2
+  }
+}
+```
+
+**Pattern: Authentication Events**
+
+```typescript
+// Password reset requested
+{
+  type: "password_reset_requested",
+  actorId: userId,
+  targetId: passwordResetTokenId,
+  timestamp: Date.now(),
+  metadata: {
+    email: "user@example.com",
+    ipAddress: "192.168.1.1",
+    expiresAt: Date.now() + 30 * 60 * 1000  // 30 minutes
+  }
+}
+
+// Email verified
+{
+  type: "email_verified",
+  actorId: userId,
+  targetId: verificationTokenId,
+  timestamp: Date.now(),
+  metadata: {
+    email: "user@example.com",
+    verificationMethod: "link" | "code"
+  }
+}
+
+// Two-factor enabled
+{
+  type: "two_factor_enabled",
+  actorId: userId,
+  timestamp: Date.now(),
+  metadata: {
+    method: "totp" | "sms" | "email",
+    backupCodesGenerated: 10
+  }
+}
+```
+
+**Pattern: Organization Events**
+
+```typescript
+// Organization created
+{
+  type: "organization_created",
+  actorId: creatorId,
+  targetId: organizationId,
+  timestamp: Date.now(),
+  metadata: {
+    name: "Acme Corp",
+    slug: "acme",
+    plan: "pro",
+    trialEndsAt: Date.now() + 14 * 24 * 60 * 60 * 1000  // 14 days
+  }
+}
+
+// User invited to organization
+{
+  type: "user_invited_to_org",
+  actorId: inviterId,
+  targetId: organizationId,
+  timestamp: Date.now(),
+  metadata: {
+    invitedEmail: "newuser@example.com",
+    role: "org_user",
+    inviteToken: "inv_123456",
+    expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000  // 7 days
+  }
+}
+
+// User joined organization
+{
+  type: "user_joined_org",
+  actorId: userId,
+  targetId: organizationId,
+  timestamp: Date.now(),
+  metadata: {
+    role: "org_user",
+    invitedBy: inviterId
+  }
+}
+```
+
+**Pattern: Dashboard & UI Events**
+
+```typescript
+// Dashboard viewed
+{
+  type: "dashboard_viewed",
+  actorId: userId,
+  timestamp: Date.now(),
+  metadata: {
+    dashboardType: "platform_owner" | "org_owner" | "org_user" | "customer",
+    organizationId?: organizationId,
+    route: "/admin/dashboard",
+    sessionDuration: 0  // Updated on session end
+  }
+}
+
+// Theme changed
+{
+  type: "theme_changed",
+  actorId: userId,
+  targetId: uiPreferencesId,
+  timestamp: Date.now(),
+  metadata: {
+    previousTheme: "light",
+    newTheme: "dark"
+  }
+}
+
+// Settings updated
+{
+  type: "settings_updated",
+  actorId: userId,
+  targetId: uiPreferencesId,
+  timestamp: Date.now(),
+  metadata: {
+    updatedFields: ["dashboardLayout", "notifications"],
+    changes: {
+      "dashboardLayout.sidebarCollapsed": { from: false, to: true },
+      "notifications.email": { from: true, to: false }
+    }
   }
 }
 ```
@@ -1631,8 +1955,8 @@ const byProtocol = allPayments.reduce((acc, e) => {
 
 ## Summary Statistics
 
-**Entity Types:** 56 total
-- Core: 3
+**Entity Types:** 66 total
+- Core: 4 (creator, ai_clone, audience_member, organization)
 - Business Agents: 10
 - Content: 7
 - Products: 4
@@ -1641,6 +1965,7 @@ const byProtocol = allPayments.reduce((acc, e) => {
 - Knowledge: 2
 - Platform: 6
 - Business: 7
+- Authentication & Session: 5 (session, oauth_account, verification_token, password_reset_token, ui_preferences)
 - Marketing: 6
 - External: 3
 - Protocol: 2
@@ -1649,9 +1974,19 @@ const byProtocol = allPayments.reduce((acc, e) => {
 - 18 specific semantic types
 - 7 consolidated types with metadata variants
 - Protocol-agnostic via metadata.protocol
+- Includes organization membership with role-based metadata
 
-**Event Types:** 35 total (Hybrid approach)
-- 24 specific event types
+**Event Types:** 55 total (Hybrid approach)
+- 4 Entity lifecycle
+- 5 User events
+- 6 Authentication events (NEW: password_reset, email_verification, 2FA)
+- 5 Organization events (NEW: org_created, user_invited, user_joined)
+- 4 Dashboard & UI events (NEW: dashboard_viewed, theme_changed, settings_updated)
+- 4 AI/Clone events
+- 4 Agent events
+- 7 Token events
+- 5 Course events
+- 5 Analytics events
 - 11 consolidated types with metadata variants
 - Protocol identification via metadata.protocol
 
@@ -1680,9 +2015,9 @@ This ontology proves that you don't need hundreds of event types or dozens of ta
 
 1. **4 tables** (entities, connections, events, tags)
 2. **56 entity types** (every "thing")
-3. **34 connection types** (every relationship)
-4. **48 event types** (every action)
-5. **Metadata** (for protocol identity)
+3. **25 connection types** (18 specific + 7 consolidated - every relationship)
+4. **35 event types** (24 specific + 11 consolidated - every action)
+5. **Metadata** (for protocol identity via metadata.protocol)
 
 That's it. Everything else is just data.
 
@@ -1712,6 +2047,334 @@ A database schema that:
 - Grows more powerful as it grows larger
 
 **This is what happens when you design for clarity first.**
+
+---
+
+## Frontend Integration Examples
+
+### How the Frontend Uses This Ontology
+
+The Astro frontend (documented in `docs/Frontend.md`) uses this ontology through:
+
+1. **Astro Content Collections** - Can load entities as typed collections
+2. **Convex Hooks** - Real-time subscriptions to entity/connection/event data
+3. **Hono API** - Complex mutations that create/update entities and log events
+
+**Example: Multi-Tenant Dashboard**
+
+```typescript
+// Frontend Component (src/components/admin/OrganizationList.tsx)
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+
+export function OrganizationList() {
+  // Query organizations (type: "organization")
+  const orgs = useQuery(api.queries.admin.listOrganizations);
+
+  return (
+    <div>
+      {orgs?.map(org => (
+        <Card key={org._id}>
+          <CardHeader>
+            <CardTitle>{org.name}</CardTitle>
+            <Badge>{org.properties.plan}</Badge>
+          </CardHeader>
+          <CardContent>
+            <p>{org.properties.usage.users} / {org.properties.limits.users} users</p>
+            <p>Status: {org.properties.status}</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+```
+
+**Example: Authentication Flow**
+
+```typescript
+// Password reset request creates:
+// 1. Entity: password_reset_token
+// 2. Event: password_reset_requested
+
+// Backend (Convex mutation)
+export const requestPasswordReset = mutation({
+  handler: async (ctx, { email }) => {
+    // 1. Find user entity
+    const user = await ctx.db.query("entities")
+      .filter(q => q.eq(q.field("properties.email"), email))
+      .first();
+
+    if (!user) return { success: true }; // Don't reveal if user exists
+
+    // 2. Create password_reset_token entity
+    const tokenId = await ctx.db.insert("entities", {
+      type: "password_reset_token",
+      name: `Reset token for ${email}`,
+      properties: {
+        userId: user._id,
+        token: hashedToken,
+        expiresAt: Date.now() + 30 * 60 * 1000,
+      },
+      status: "active",
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
+
+    // 3. Log event
+    await ctx.db.insert("events", {
+      type: "password_reset_requested",
+      actorId: user._id,
+      targetId: tokenId,
+      timestamp: Date.now(),
+      metadata: {
+        email,
+        ipAddress: ctx.auth.sessionId,
+        expiresAt: Date.now() + 30 * 60 * 1000,
+      },
+    });
+
+    return { success: true };
+  },
+});
+
+// Frontend usage
+import { useMutation } from 'convex/react';
+
+export function PasswordResetForm() {
+  const requestReset = useMutation(api.auth.requestPasswordReset);
+
+  const handleSubmit = async (email: string) => {
+    await requestReset({ email });
+    // Show success message
+  };
+}
+```
+
+**Example: Organization Membership Check**
+
+```typescript
+// Check if user is org_owner (Middleware.md pattern)
+export const checkOrgOwner = query({
+  args: { userId: v.id("entities"), orgId: v.id("entities") },
+  handler: async (ctx, { userId, orgId }) => {
+    // Query connection with role metadata
+    const membership = await ctx.db
+      .query("connections")
+      .withIndex("from_type", q =>
+        q.eq("fromEntityId", userId)
+         .eq("toEntityId", orgId)
+         .eq("relationshipType", "member_of")
+      )
+      .first();
+
+    return membership?.metadata?.role === "org_owner";
+  },
+});
+
+// Frontend usage in middleware
+import { ConvexHttpClient } from 'convex/browser';
+
+export async function checkAccess(userId: string, orgId: string) {
+  const convex = new ConvexHttpClient(env.CONVEX_URL);
+  const isOwner = await convex.query(api.auth.checkOrgOwner, { userId, orgId });
+
+  if (!isOwner) {
+    throw new Error("Forbidden: Org owner access required");
+  }
+}
+```
+
+**Example: Dashboard Analytics**
+
+```typescript
+// Query events for analytics (Dashboard.md pattern)
+export const getOrgAnalytics = query({
+  args: { orgId: v.id("entities"), days: v.number() },
+  handler: async (ctx, { orgId, days }) => {
+    const since = Date.now() - (days * 24 * 60 * 60 * 1000);
+
+    // Get all dashboard_viewed events for org users
+    const orgMembers = await ctx.db
+      .query("connections")
+      .withIndex("to_type", q =>
+        q.eq("toEntityId", orgId)
+         .eq("relationshipType", "member_of")
+      )
+      .collect();
+
+    const memberIds = orgMembers.map(m => m.fromEntityId);
+
+    const dashboardViews = await ctx.db
+      .query("events")
+      .withIndex("type_time", q =>
+        q.eq("type", "dashboard_viewed")
+         .gte("timestamp", since)
+      )
+      .filter(q => memberIds.includes(q.field("actorId")))
+      .collect();
+
+    return {
+      totalViews: dashboardViews.length,
+      uniqueUsers: new Set(dashboardViews.map(e => e.actorId)).size,
+      averageSessionDuration: dashboardViews.reduce(
+        (sum, e) => sum + (e.metadata.sessionDuration || 0), 0
+      ) / dashboardViews.length,
+    };
+  },
+});
+```
+
+**Example: UI Preferences Sync**
+
+```typescript
+// Update user preferences (creates ui_preferences entity if not exists)
+export const updatePreferences = mutation({
+  args: {
+    userId: v.id("entities"),
+    theme: v.optional(v.union(v.literal("light"), v.literal("dark"), v.literal("system"))),
+    language: v.optional(v.string()),
+  },
+  handler: async (ctx, { userId, theme, language }) => {
+    // Get or create ui_preferences entity
+    let prefs = await ctx.db
+      .query("entities")
+      .withIndex("by_type", q => q.eq("type", "ui_preferences"))
+      .filter(q => q.eq(q.field("properties.userId"), userId))
+      .first();
+
+    if (!prefs) {
+      // Create new preferences entity
+      const prefsId = await ctx.db.insert("entities", {
+        type: "ui_preferences",
+        name: `Preferences for user ${userId}`,
+        properties: {
+          userId,
+          theme: theme || "system",
+          language: language || "en",
+          timezone: "UTC",
+          dashboardLayout: { sidebarCollapsed: false, defaultView: "grid", itemsPerPage: 20 },
+          notifications: { email: true, push: false, sms: false, inApp: true },
+          accessibility: { reducedMotion: false, highContrast: false, fontSize: "medium" },
+          updatedAt: Date.now(),
+        },
+        status: "active",
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      });
+
+      prefs = await ctx.db.get(prefsId);
+    } else {
+      // Update existing preferences
+      await ctx.db.patch(prefs._id, {
+        properties: {
+          ...prefs.properties,
+          theme: theme || prefs.properties.theme,
+          language: language || prefs.properties.language,
+          updatedAt: Date.now(),
+        },
+        updatedAt: Date.now(),
+      });
+    }
+
+    // Log preferences_updated event
+    if (theme) {
+      await ctx.db.insert("events", {
+        type: "theme_changed",
+        actorId: userId,
+        targetId: prefs._id,
+        timestamp: Date.now(),
+        metadata: {
+          previousTheme: prefs.properties.theme,
+          newTheme: theme,
+        },
+      });
+    }
+
+    return { success: true };
+  },
+});
+
+// Frontend hook
+export function usePreferences(userId: string) {
+  const prefs = useQuery(api.queries.preferences.get, { userId });
+  const updatePrefs = useMutation(api.mutations.preferences.update);
+
+  return { preferences: prefs?.properties, updatePreferences: updatePrefs };
+}
+```
+
+### Key Frontend Patterns
+
+**1. Entity as Content Collection**
+```typescript
+// src/content/config.ts
+const agentsCollection = defineCollection({
+  type: 'data',
+  loader: async () => {
+    const convex = new ConvexHttpClient(env.CONVEX_URL);
+    const agents = await convex.query(api.queries.entities.list, {
+      type: "strategy_agent"
+    });
+    return agents;
+  },
+});
+```
+
+**2. Real-time Dashboard Stats**
+```tsx
+export function DashboardStats({ orgId }) {
+  // Subscribes to changes - auto-updates when events are logged!
+  const stats = useQuery(api.queries.dashboard.getStats, { orgId });
+
+  return <StatsCards data={stats} />;
+}
+```
+
+**3. Permission-Based Rendering**
+```tsx
+export function AdminPanel({ userId, orgId }) {
+  const membership = useQuery(api.queries.orgs.getMembership, { userId, orgId });
+
+  if (membership?.metadata?.role !== "org_owner") {
+    return <div>Access denied</div>;
+  }
+
+  return <AdminDashboard />;
+}
+```
+
+**4. Astro SSR with Ontology**
+```astro
+---
+// src/pages/org/[orgId]/dashboard.astro
+import { ConvexHttpClient } from 'convex/browser';
+import { api } from '@/convex/_generated/api';
+
+const convex = new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL);
+
+// Fetch organization entity
+const org = await convex.query(api.queries.entities.get, {
+  id: Astro.params.orgId
+});
+
+// Fetch org members (connections where relationshipType = "member_of")
+const members = await convex.query(api.queries.orgs.getMembers, {
+  orgId: Astro.params.orgId
+});
+---
+
+<Layout title={org.name}>
+  <h1>{org.name} Dashboard</h1>
+  <p>Plan: {org.properties.plan}</p>
+  <p>Members: {members.length} / {org.properties.limits.users}</p>
+
+  <!-- Real-time stats component -->
+  <OrgStats client:load orgId={org._id} />
+</Layout>
+```
+
+This demonstrates how the complete ontology (entities, connections, events, tags) powers the entire frontend architecture through clean, type-safe queries and real-time subscriptions.
 
 ---
 

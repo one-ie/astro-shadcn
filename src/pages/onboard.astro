@@ -1,0 +1,270 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+---
+
+<Layout title="Launch Your AI Clone - ONE Platform">
+  <div class="container max-w-5xl mx-auto px-4 py-12">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+        Launch Your AI Clone in 10 Minutes
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+        We'll create your AI clone, generate your website, and set up your token economy.
+        Just answer a few questions and we'll handle the rest.
+      </p>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="mb-12">
+      <div class="flex items-center justify-center gap-2 text-sm">
+        <div class="flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            1
+          </div>
+          <span class="font-medium">About You</span>
+        </div>
+        <div class="h-px w-12 bg-border"></div>
+        <div class="flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+            2
+          </div>
+          <span class="text-muted-foreground">AI Clone</span>
+        </div>
+        <div class="h-px w-12 bg-border"></div>
+        <div class="flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+            3
+          </div>
+          <span class="text-muted-foreground">Token Setup</span>
+        </div>
+        <div class="h-px w-12 bg-border"></div>
+        <div class="flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+            4
+          </div>
+          <span class="text-muted-foreground">Launch</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: About You -->
+    <form class="space-y-8">
+      <Card>
+        <CardHeader>
+          <CardTitle>Tell Us About You</CardTitle>
+          <CardDescription>
+            This information helps us create your AI clone and personalize your platform.
+          </CardDescription>
+        </CardHeader>
+        <CardContent class="space-y-6">
+          <!-- Creator Name -->
+          <div class="space-y-2">
+            <Label htmlFor="name">Your Name *</Label>
+            <Input
+              id="name"
+              placeholder="Sarah Johnson"
+              required
+            />
+          </div>
+
+          <!-- Username -->
+          <div class="space-y-2">
+            <Label htmlFor="username">Username *</Label>
+            <Input
+              id="username"
+              placeholder="sarahjohnson"
+              required
+            />
+            <p class="text-sm text-muted-foreground">
+              Your public profile will be at: one.ie/<span class="font-medium">sarahjohnson</span>
+            </p>
+          </div>
+
+          <!-- Niche -->
+          <div class="space-y-2">
+            <Label htmlFor="niche">What's Your Niche? *</Label>
+            <Input
+              id="niche"
+              placeholder="Fitness, Business, Art, Tech..."
+              required
+            />
+          </div>
+
+          <!-- Bio -->
+          <div class="space-y-2">
+            <Label htmlFor="bio">Short Bio *</Label>
+            <Textarea
+              id="bio"
+              placeholder="I'm a certified yoga instructor helping busy professionals find balance through mindful movement..."
+              rows={4}
+              required
+            />
+            <p class="text-sm text-muted-foreground">
+              This appears on your public profile. Make it compelling!
+            </p>
+          </div>
+
+          <!-- Social Links -->
+          <div class="space-y-4">
+            <Label>Connect Your Socials (Optional)</Label>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Input
+                  placeholder="Instagram @username"
+                />
+              </div>
+              <div>
+                <Input
+                  placeholder="YouTube channel URL"
+                />
+              </div>
+              <div>
+                <Input
+                  placeholder="TikTok @username"
+                />
+              </div>
+              <div>
+                <Input
+                  placeholder="Twitter/X @username"
+                />
+              </div>
+            </div>
+            <p class="text-sm text-muted-foreground">
+              We'll analyze your content to train your AI clone's personality.
+            </p>
+          </div>
+
+          <!-- Existing Audience Size -->
+          <div class="space-y-2">
+            <Label htmlFor="audience">Current Audience Size *</Label>
+            <select
+              id="audience"
+              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+              required
+            >
+              <option value="">Select...</option>
+              <option value="0-1k">Just starting (0-1K followers)</option>
+              <option value="1k-10k">Growing (1K-10K followers)</option>
+              <option value="10k-50k">Established (10K-50K followers)</option>
+              <option value="50k-100k">Influencer (50K-100K followers)</option>
+              <option value="100k+">Major Creator (100K+ followers)</option>
+            </select>
+          </div>
+
+          <!-- Goals -->
+          <div class="space-y-2">
+            <Label htmlFor="goals">What Are Your Goals with ONE? *</Label>
+            <Textarea
+              id="goals"
+              placeholder="I want to scale my course revenue to $10K/month while spending less time on content creation..."
+              rows={3}
+              required
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Next Steps Preview -->
+      <Card class="bg-muted">
+        <CardHeader>
+          <CardTitle>What Happens Next?</CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-3 text-sm">
+          <div class="flex items-start gap-3">
+            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+              ✓
+            </div>
+            <div>
+              <strong>Step 2: AI Clone Creation</strong>
+              <p class="text-muted-foreground">
+                Upload voice samples & photos. We'll create your AI clone (voice + appearance).
+              </p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+              ✓
+            </div>
+            <div>
+              <strong>Step 3: Token Launch</strong>
+              <p class="text-muted-foreground">
+                Set your token name, supply, and pricing. We'll deploy your creator token on Base L2.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+              ✓
+            </div>
+            <div>
+              <strong>Step 4: Launch Your Platform</strong>
+              <p class="text-muted-foreground">
+                We'll generate your beautiful website, set up your community, and you're live!
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-between gap-4">
+        <a href="/">
+          <Button variant="outline" type="button">
+            ← Back to Homepage
+          </Button>
+        </a>
+        <Button size="lg" type="submit">
+          Continue to AI Clone Setup →
+        </Button>
+      </div>
+    </form>
+
+    <!-- FAQ Section -->
+    <div class="mt-16 pt-16 border-t">
+      <h2 class="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle class="text-base">How long does setup take?</CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-muted-foreground">
+            About 10-15 minutes for the initial setup. Your AI clone will be trained within 24 hours.
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle class="text-base">Do I need technical skills?</CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-muted-foreground">
+            Not at all! We handle all the technical complexity. Just answer questions and upload content.
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle class="text-base">When can I start earning?</CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-muted-foreground">
+            Immediately after launch! Your token is live and you can start accepting payments for courses.
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle class="text-base">Can I customize everything?</CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-muted-foreground">
+            Yes! You have full control over your AI clone, website design, token economics, and more.
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  </div>
+</Layout>

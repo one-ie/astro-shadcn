@@ -1529,7 +1529,7 @@ connections: defineTable({
 
 ### Events Table
 
-**38 event types** (consolidated from 54).
+**35 event types** (consolidated from 54).
 
 ```typescript
 events: defineTable({

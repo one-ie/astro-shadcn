@@ -4,21 +4,45 @@ A production-ready, enterprise-grade starter template combining Astro's performa
 
 ## ✨ What's Inside
 
-- **Astro 5.14+** - Lightning-fast SSR with Cloudflare Pages
-- **React 19** - Latest React with edge-compatible server rendering
-- **Cloudflare Deployment** - Global edge network with full SSR support
-- **Tailwind CSS v4** - Modern CSS-based configuration with HSL colors
-- **Shadcn/UI** - Complete component library (50+ components)
-- **TypeScript 5.9+** - Full type safety with strict mode
-- **Convex Backend** - Real-time database with serverless functions
-- **Complete Auth System** - Email/password, OAuth (GitHub/Google), password reset, email verification
+### 🏗️ Architecture (The Beautiful Separation)
+
+Three-layer architecture with **Effect.ts as the glue**:
+
+```
+Frontend (Astro + React) → Effect.ts Services → Backend (Hono + Convex)
+```
+
+**Frontend Layer** ([docs/Frontend.md](./docs/Frontend.md)):
+- **Astro 5.14+** - Lightning-fast SSR with islands architecture
+- **React 19** - Edge-compatible server rendering
+- **shadcn/ui** - 50+ pre-installed components
+- **Tailwind CSS v4** - Modern CSS-based configuration
+- **Content Collections** - Type-safe blog with astro:content
+
+**Backend Layer** ([docs/Hono.md](./docs/Hono.md)):
+- **Hono API** - Lightweight REST API on Cloudflare Workers
+- **Convex** - Real-time database with typed functions
+- **Better Auth** - Authentication with Convex adapter
+- **4-Table Ontology** - entities, connections, events, tags
+
+**Glue Layer (Effect.ts 100%)** ([docs/Architecture.md](./docs/Architecture.md)):
+- **Effect.ts** - ALL business logic (pure functional programming)
+- **Service Providers** - External APIs (OpenAI, Stripe, Blockchain, etc.)
+- **Typed Errors** - Explicit error handling throughout
+- **Dependency Injection** - Automatic wiring of services
+
+### 🎯 Key Features
+
+- **Complete Auth System** - Email/password, OAuth (GitHub/Google), password reset, email verification, magic links, 2FA
 - **Rate Limiting** - Brute force protection with configurable limits
-- **@convex-dev/resend** - Transactional emails for auth and notifications
+- **Email Integration** - @convex-dev/resend for transactional emails
 - **Dark Mode** - Beautiful theme switching with no FOUC
 - **Blog System** - Full-featured with search, tags, categories, ToC
 - **SEO Optimized** - Sitemap, RSS feed, OG tags, canonical URLs
 - **Accessibility** - WCAG 2.1 AA compliant with keyboard navigation
 - **100/100 Lighthouse** - Perfect performance scores
+- **TypeScript 5.9+** - Full type safety with strict mode
+- **Cloudflare Deployment** - Global edge network with full SSR support
 
 ### 🎨 Screenshots
 

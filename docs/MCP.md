@@ -1233,6 +1233,883 @@ Uses existing types:
 
 🎉 **Result:** Universal AI connectivity with Model Context Protocol - "USB-C port for AI" integrated deeply into ONE platform.
 
+---
+
+## Part 8: MCP for IDE Development (Claude Code, Cursor, etc.)
+
+### Overview
+
+This section configures MCP to give IDE coding assistants **complete access** to the ONE Platform for rapid frontend development. With this setup, Claude Code, Cursor, or any MCP-compatible IDE can:
+
+- ✅ **Query the Convex database** - Read entities, connections, events, tags
+- ✅ **Access Hono API endpoints** - Full REST API documentation
+- ✅ **Use Middleware patterns** - API client, auth helpers, Effect.ts wrappers
+- ✅ **Generate Frontend code** - Astro pages, React components with full context
+- ✅ **Create new features** - Complete feature scaffolding with ontology mapping
+
+**Use Case:** "Vibe coding" frontends with full backend awareness - build UIs that perfectly match the API.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│         Claude Code / Cursor / AI IDE                           │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  AI Assistant asks MCP Server:                           │  │
+│  │  "Show me all available agents"                          │  │
+│  │  "What are the Hono API endpoints?"                      │  │
+│  │  "How do I use the Middleware API client?"              │  │
+│  │  "Generate a token purchase component"                   │  │
+│  └────────────────────────┬─────────────────────────────────┘  │
+└───────────────────────────┼─────────────────────────────────────┘
+                            │
+                            ↓ MCP Protocol (stdio)
+              ┌─────────────────────────────┐
+              │  ONE Platform MCP Server    │
+              │  (Development Mode)         │
+              └──────────────┬──────────────┘
+                             │
+         ┌───────────────────┼───────────────────┐
+         │                   │                   │
+         ↓                   ↓                   ↓
+  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+  │   Hono API  │   │   Convex    │   │ Middleware  │
+  │  (REST API) │   │  (Database) │   │ (Patterns)  │
+  └─────────────┘   └─────────────┘   └─────────────┘
+```
+
+### MCP Server Resources (For IDEs)
+
+**1. Hono API Specification**
+```typescript
+// Resource: one://api/spec
+{
+  uri: "one://api/spec",
+  name: "Hono API Specification",
+  description: "Complete REST API documentation with all endpoints",
+  mimeType: "application/json"
+}
+
+// Returns:
+{
+  endpoints: [
+    {
+      path: "/api/auth/signin",
+      method: "POST",
+      description: "Sign in with email/password",
+      body: { email: "string", password: "string" },
+      response: { user: "User", session: "Session" }
+    },
+    {
+      path: "/api/tokens/purchase",
+      method: "POST",
+      description: "Purchase tokens",
+      body: { tokenId: "string", amount: "number" },
+      response: { success: "boolean", balance: "number" }
+    },
+    // ... all other endpoints
+  ]
+}
+```
+
+**2. Convex Database Schema**
+```typescript
+// Resource: one://convex/schema
+{
+  uri: "one://convex/schema",
+  name: "Convex Database Schema",
+  description: "Complete ontology: entities, connections, events, tags",
+  mimeType: "application/json"
+}
+
+// Returns:
+{
+  tables: {
+    entities: {
+      fields: { type: "string", name: "string", properties: "any", ... },
+      indexes: ["by_type", "by_status", ...],
+      entityTypes: ["creator", "ai_clone", "organization", ...]
+    },
+    connections: { ... },
+    events: { ... },
+    tags: { ... }
+  }
+}
+```
+
+**3. Middleware Patterns**
+```typescript
+// Resource: one://middleware/patterns
+{
+  uri: "one://middleware/patterns",
+  name: "Middleware Integration Patterns",
+  description: "API client, auth helpers, Effect.ts wrappers",
+  mimeType: "text/markdown"
+}
+
+// Returns complete Middleware.md content with:
+// - API client setup (ConvexHttpClient, Hono fetch)
+// - Auth patterns (session management, OAuth)
+// - Effect.ts client services
+// - Real-time subscription patterns
+```
+
+**4. Component Examples**
+```typescript
+// Resource: one://components/examples
+{
+  uri: "one://components/examples",
+  name: "Component Examples",
+  description: "Pre-built React components for common features",
+  mimeType: "application/json"
+}
+
+// Returns:
+{
+  components: [
+    {
+      name: "TokenPurchaseButton",
+      path: "src/components/features/tokens/TokenPurchaseButton.tsx",
+      code: "...",
+      dependencies: ["@/components/ui/button", "convex/react"],
+      usage: "..."
+    },
+    // ... all other examples
+  ]
+}
+```
+
+**5. Live Database Queries**
+```typescript
+// Resource: one://convex/entities?type=creator
+{
+  uri: "one://convex/entities?type=creator",
+  name: "Live Entity Query",
+  description: "Query real-time data from Convex",
+  mimeType: "application/json"
+}
+
+// Returns actual data from database:
+[
+  {
+    _id: "jx7...",
+    type: "creator",
+    name: "Sarah Johnson",
+    properties: { email: "sarah@...", ... },
+    status: "active"
+  },
+  // ... other creators
+]
+```
+
+### MCP Server Tools (For IDEs)
+
+**1. Query Database**
+```typescript
+{
+  name: "query_database",
+  description: "Query Convex database with filters",
+  inputSchema: {
+    type: "object",
+    properties: {
+      table: {
+        type: "string",
+        enum: ["entities", "connections", "events", "tags"],
+        description: "Table to query"
+      },
+      filter: {
+        type: "object",
+        description: "Query filter (type, status, etc.)"
+      },
+      limit: {
+        type: "number",
+        default: 100
+      }
+    },
+    required: ["table"]
+  }
+}
+
+// Usage in Claude Code:
+// "Show me all organizations"
+// → calls query_database({ table: "entities", filter: { type: "organization" } })
+```
+
+**2. Generate Component**
+```typescript
+{
+  name: "generate_component",
+  description: "Generate React component with full API integration",
+  inputSchema: {
+    type: "object",
+    properties: {
+      componentName: {
+        type: "string",
+        description: "Component name (PascalCase)"
+      },
+      feature: {
+        type: "string",
+        description: "Feature type (tokens, agents, courses, etc.)"
+      },
+      apiEndpoint: {
+        type: "string",
+        description: "Hono API endpoint to use"
+      },
+      pattern: {
+        type: "string",
+        enum: ["query", "mutation", "subscription"],
+        description: "Integration pattern"
+      }
+    },
+    required: ["componentName", "feature"]
+  }
+}
+
+// Usage in Claude Code:
+// "Create a component to purchase tokens"
+// → calls generate_component({
+//     componentName: "TokenPurchase",
+//     feature: "tokens",
+//     apiEndpoint: "/api/tokens/purchase",
+//     pattern: "mutation"
+//   })
+// → Returns complete component code with:
+//   - Hono API call via Middleware
+//   - Error handling (Effect.ts)
+//   - UI using shadcn/ui
+//   - TypeScript types
+```
+
+**3. Scaffold Feature**
+```typescript
+{
+  name: "scaffold_feature",
+  description: "Create complete feature with pages, components, API calls",
+  inputSchema: {
+    type: "object",
+    properties: {
+      featureName: {
+        type: "string",
+        description: "Feature name (kebab-case)"
+      },
+      entityType: {
+        type: "string",
+        description: "Primary entity type"
+      },
+      operations: {
+        type: "array",
+        items: {
+          type: "string",
+          enum: ["list", "detail", "create", "update", "delete"]
+        },
+        description: "CRUD operations to generate"
+      }
+    },
+    required: ["featureName", "entityType"]
+  }
+}
+
+// Usage in Claude Code:
+// "Build a complete course marketplace feature"
+// → calls scaffold_feature({
+//     featureName: "course-marketplace",
+//     entityType: "course",
+//     operations: ["list", "detail", "create"]
+//   })
+// → Generates:
+//   - src/pages/courses/index.astro (list view)
+//   - src/pages/courses/[id].astro (detail view)
+//   - src/pages/courses/create.astro (create form)
+//   - src/components/features/courses/CourseCard.tsx
+//   - src/components/features/courses/CourseForm.tsx
+//   - All with Hono API integration via Middleware
+```
+
+**4. Call API Endpoint**
+```typescript
+{
+  name: "call_api",
+  description: "Test Hono API endpoint with parameters",
+  inputSchema: {
+    type: "object",
+    properties: {
+      method: {
+        type: "string",
+        enum: ["GET", "POST", "PUT", "DELETE"]
+      },
+      path: {
+        type: "string",
+        description: "API path (e.g., /api/tokens/list)"
+      },
+      body: {
+        type: "object",
+        description: "Request body (for POST/PUT)"
+      },
+      headers: {
+        type: "object",
+        description: "Request headers"
+      }
+    },
+    required: ["method", "path"]
+  }
+}
+
+// Usage in Claude Code:
+// "Test the token purchase endpoint"
+// → calls call_api({
+//     method: "POST",
+//     path: "/api/tokens/purchase",
+//     body: { tokenId: "...", amount: 100 }
+//   })
+// → Returns actual API response
+```
+
+**5. Generate Middleware Integration**
+```typescript
+{
+  name: "generate_middleware",
+  description: "Generate Middleware integration code (API client, auth, Effect.ts)",
+  inputSchema: {
+    type: "object",
+    properties: {
+      integrationType: {
+        type: "string",
+        enum: ["api-client", "auth-helper", "effect-service", "subscription"],
+        description: "Type of middleware to generate"
+      },
+      config: {
+        type: "object",
+        description: "Configuration options"
+      }
+    },
+    required: ["integrationType"]
+  }
+}
+
+// Usage in Claude Code:
+// "Create an Effect.ts service for token operations"
+// → calls generate_middleware({
+//     integrationType: "effect-service",
+//     config: { feature: "tokens", operations: ["list", "purchase", "stake"] }
+//   })
+// → Returns complete Effect.ts client service code
+```
+
+### Complete .mcp.json Configuration
+
+**File:** `.mcp.json` (for Claude Code, Cursor, etc.)
+
+```json
+{
+  "$schema": "https://modelcontextprotocol.io/schema/mcp.json",
+  "mcpServers": {
+    "one-platform-dev": {
+      "command": "bun",
+      "args": ["run", "convex/mcp/dev-server.ts"],
+      "description": "ONE Platform Development Server - Full API/DB/Middleware access for frontend development",
+      "env": {
+        "CONVEX_URL": "${CONVEX_URL}",
+        "HONO_API_URL": "${HONO_API_URL}",
+        "NODE_ENV": "development"
+      }
+    },
+    "one-platform-api": {
+      "command": "bun",
+      "args": ["run", "convex/mcp/api-server.ts"],
+      "description": "ONE Platform API Documentation - Hono REST API spec",
+      "resources": [
+        "one://api/spec",
+        "one://api/endpoints",
+        "one://api/schemas"
+      ],
+      "tools": [
+        "call_api",
+        "generate_api_client"
+      ]
+    },
+    "one-platform-convex": {
+      "command": "bun",
+      "args": ["run", "convex/mcp/convex-server.ts"],
+      "description": "ONE Platform Convex Database - Query schema and data",
+      "resources": [
+        "one://convex/schema",
+        "one://convex/entities",
+        "one://convex/connections",
+        "one://convex/events",
+        "one://convex/tags"
+      ],
+      "tools": [
+        "query_database",
+        "get_schema",
+        "search_entities"
+      ]
+    },
+    "one-platform-middleware": {
+      "command": "bun",
+      "args": ["run", "convex/mcp/middleware-server.ts"],
+      "description": "ONE Platform Middleware Patterns - API client, auth, Effect.ts",
+      "resources": [
+        "one://middleware/patterns",
+        "one://middleware/examples",
+        "one://middleware/auth-helpers"
+      ],
+      "tools": [
+        "generate_middleware",
+        "generate_effect_service",
+        "generate_api_hook"
+      ]
+    },
+    "one-platform-components": {
+      "command": "bun",
+      "args": ["run", "convex/mcp/components-server.ts"],
+      "description": "ONE Platform Components - React components and examples",
+      "resources": [
+        "one://components/examples",
+        "one://components/shadcn",
+        "one://components/features"
+      ],
+      "tools": [
+        "generate_component",
+        "scaffold_feature",
+        "generate_page"
+      ]
+    },
+    "one-docs": {
+      "command": "bun",
+      "args": ["run", "convex/mcp/docs-server.ts"],
+      "description": "ONE Platform Documentation - All 48 docs with smart search",
+      "resources": [
+        "one://docs/ontology",
+        "one://docs/hono",
+        "one://docs/middleware",
+        "one://docs/frontend",
+        "one://docs/architecture",
+        "one://docs/all"
+      ],
+      "tools": [
+        "search_docs",
+        "get_implementation_guide"
+      ]
+    }
+  }
+}
+```
+
+### MCP Development Server Implementation
+
+**File:** `convex/mcp/dev-server.ts`
+
+```typescript
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import {
+  ListResourcesRequestSchema,
+  ReadResourceRequestSchema,
+  ListToolsRequestSchema,
+  CallToolRequestSchema,
+} from '@modelcontextprotocol/sdk/types.js';
+import { ConvexHttpClient } from 'convex/browser';
+import { api } from '../_generated/api';
+import fs from 'fs/promises';
+import path from 'path';
+
+const convexUrl = process.env.CONVEX_URL!;
+const honoApiUrl = process.env.HONO_API_URL || 'http://localhost:3000';
+const convex = new ConvexHttpClient(convexUrl);
+
+const server = new Server(
+  {
+    name: 'one-platform-dev',
+    version: '1.0.0',
+  },
+  {
+    capabilities: {
+      resources: {},
+      tools: {},
+    },
+  }
+);
+
+// ========================================
+// RESOURCES
+// ========================================
+
+server.setRequestHandler(ListResourcesRequestSchema, async () => {
+  return {
+    resources: [
+      // API
+      { uri: 'one://api/spec', name: 'Hono API Specification', mimeType: 'application/json' },
+      { uri: 'one://api/endpoints', name: 'All API Endpoints', mimeType: 'application/json' },
+
+      // Convex
+      { uri: 'one://convex/schema', name: 'Database Schema', mimeType: 'application/json' },
+      { uri: 'one://convex/entities', name: 'All Entities', mimeType: 'application/json' },
+
+      // Middleware
+      { uri: 'one://middleware/patterns', name: 'Integration Patterns', mimeType: 'text/markdown' },
+      { uri: 'one://middleware/examples', name: 'Code Examples', mimeType: 'application/json' },
+
+      // Components
+      { uri: 'one://components/examples', name: 'Component Library', mimeType: 'application/json' },
+
+      // Docs
+      { uri: 'one://docs/hono', name: 'Hono.md', mimeType: 'text/markdown' },
+      { uri: 'one://docs/middleware', name: 'Middleware.md', mimeType: 'text/markdown' },
+      { uri: 'one://docs/frontend', name: 'Frontend.md', mimeType: 'text/markdown' },
+    ],
+  };
+});
+
+server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+  const uri = request.params.uri;
+
+  if (uri === 'one://api/spec') {
+    // Read Hono.md and extract API endpoints
+    const honoDoc = await fs.readFile('docs/Hono.md', 'utf-8');
+    const endpoints = parseApiEndpoints(honoDoc);
+
+    return {
+      contents: [{
+        uri,
+        mimeType: 'application/json',
+        text: JSON.stringify({ endpoints }, null, 2)
+      }]
+    };
+  }
+
+  if (uri === 'one://convex/schema') {
+    // Read Ontology.md
+    const ontologyDoc = await fs.readFile('docs/Ontology.md', 'utf-8');
+    const schema = parseOntologySchema(ontologyDoc);
+
+    return {
+      contents: [{
+        uri,
+        mimeType: 'application/json',
+        text: JSON.stringify(schema, null, 2)
+      }]
+    };
+  }
+
+  if (uri === 'one://convex/entities') {
+    // Query live Convex data
+    const entities = await convex.query(api.queries.entities.list, { limit: 100 });
+
+    return {
+      contents: [{
+        uri,
+        mimeType: 'application/json',
+        text: JSON.stringify(entities, null, 2)
+      }]
+    };
+  }
+
+  if (uri === 'one://middleware/patterns') {
+    // Read Middleware.md
+    const middlewareDoc = await fs.readFile('docs/Middleware.md', 'utf-8');
+
+    return {
+      contents: [{
+        uri,
+        mimeType: 'text/markdown',
+        text: middlewareDoc
+      }]
+    };
+  }
+
+  if (uri.startsWith('one://docs/')) {
+    const docName = uri.replace('one://docs/', '');
+    const docPath = `docs/${docName.charAt(0).toUpperCase() + docName.slice(1)}.md`;
+    const content = await fs.readFile(docPath, 'utf-8');
+
+    return {
+      contents: [{
+        uri,
+        mimeType: 'text/markdown',
+        text: content
+      }]
+    };
+  }
+
+  throw new Error(`Unknown resource: ${uri}`);
+});
+
+// ========================================
+// TOOLS
+// ========================================
+
+server.setRequestHandler(ListToolsRequestSchema, async () => {
+  return {
+    tools: [
+      {
+        name: 'query_database',
+        description: 'Query Convex database (entities, connections, events, tags)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            table: { type: 'string', enum: ['entities', 'connections', 'events', 'tags'] },
+            filter: { type: 'object' },
+            limit: { type: 'number', default: 100 }
+          },
+          required: ['table']
+        }
+      },
+      {
+        name: 'generate_component',
+        description: 'Generate React component with Hono API + Middleware integration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            componentName: { type: 'string' },
+            feature: { type: 'string' },
+            apiEndpoint: { type: 'string' },
+            pattern: { type: 'string', enum: ['query', 'mutation', 'subscription'] }
+          },
+          required: ['componentName', 'feature']
+        }
+      },
+      {
+        name: 'scaffold_feature',
+        description: 'Scaffold complete feature (pages + components + API integration)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            featureName: { type: 'string' },
+            entityType: { type: 'string' },
+            operations: { type: 'array', items: { type: 'string' } }
+          },
+          required: ['featureName', 'entityType']
+        }
+      },
+      {
+        name: 'call_api',
+        description: 'Call Hono API endpoint to test',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            method: { type: 'string', enum: ['GET', 'POST', 'PUT', 'DELETE'] },
+            path: { type: 'string' },
+            body: { type: 'object' },
+            headers: { type: 'object' }
+          },
+          required: ['method', 'path']
+        }
+      },
+      {
+        name: 'generate_middleware',
+        description: 'Generate Middleware code (API client, Effect.ts service, auth helper)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            integrationType: {
+              type: 'string',
+              enum: ['api-client', 'auth-helper', 'effect-service', 'subscription']
+            },
+            config: { type: 'object' }
+          },
+          required: ['integrationType']
+        }
+      }
+    ]
+  };
+});
+
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
+  const { name, arguments: args } = request.params;
+
+  if (name === 'query_database') {
+    const { table, filter, limit } = args as any;
+    const results = await convex.query(api.queries[table].list as any, { filter, limit });
+
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify(results, null, 2)
+      }]
+    };
+  }
+
+  if (name === 'generate_component') {
+    const { componentName, feature, apiEndpoint, pattern } = args as any;
+    const code = generateComponentCode(componentName, feature, apiEndpoint, pattern);
+
+    return {
+      content: [{
+        type: 'text',
+        text: code
+      }]
+    };
+  }
+
+  if (name === 'scaffold_feature') {
+    const { featureName, entityType, operations } = args as any;
+    const files = scaffoldFeature(featureName, entityType, operations);
+
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify(files, null, 2)
+      }]
+    };
+  }
+
+  if (name === 'call_api') {
+    const { method, path, body, headers } = args as any;
+    const response = await fetch(`${honoApiUrl}${path}`, {
+      method,
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await response.json();
+
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify({ status: response.status, data }, null, 2)
+      }]
+    };
+  }
+
+  if (name === 'generate_middleware') {
+    const { integrationType, config } = args as any;
+    const code = generateMiddlewareCode(integrationType, config);
+
+    return {
+      content: [{
+        type: 'text',
+        text: code
+      }]
+    };
+  }
+
+  throw new Error(`Unknown tool: ${name}`);
+});
+
+// Helper functions
+function parseApiEndpoints(honoDoc: string) {
+  // Parse Hono.md to extract API endpoints
+  // Returns array of { path, method, description, body, response }
+  return [];
+}
+
+function parseOntologySchema(ontologyDoc: string) {
+  // Parse Ontology.md to extract schema
+  // Returns { tables: { entities: {...}, connections: {...}, ... } }
+  return {};
+}
+
+function generateComponentCode(name: string, feature: string, endpoint: string, pattern: string) {
+  // Generate React component code
+  return `// Generated component: ${name}`;
+}
+
+function scaffoldFeature(name: string, entityType: string, operations: string[]) {
+  // Generate complete feature scaffold
+  return {};
+}
+
+function generateMiddlewareCode(type: string, config: any) {
+  // Generate middleware integration code
+  return `// Generated middleware: ${type}`;
+}
+
+// Start server
+const transport = new StdioServerTransport();
+server.connect(transport);
+console.error('ONE Platform MCP Development Server running on stdio');
+```
+
+### Usage in Claude Code
+
+**Example 1: Query Database**
+```
+User: "Show me all organizations in the database"
+
+Claude Code (via MCP):
+→ Calls tool: query_database({ table: "entities", filter: { type: "organization" } })
+→ Returns: [{ _id: "...", name: "Acme Corp", properties: {...} }, ...]
+
+Claude Code responds:
+"Here are all organizations:
+1. Acme Corp (Plan: Pro, Users: 25/50)
+2. Tech Startup (Plan: Starter, Users: 5/10)
+..."
+```
+
+**Example 2: Generate Component**
+```
+User: "Create a component to purchase tokens with error handling"
+
+Claude Code (via MCP):
+→ Calls tool: generate_component({
+    componentName: "TokenPurchaseButton",
+    feature: "tokens",
+    apiEndpoint: "/api/tokens/purchase",
+    pattern: "mutation"
+  })
+→ Returns complete TypeScript React component code
+
+Claude Code creates file:
+src/components/features/tokens/TokenPurchaseButton.tsx
+```
+
+**Example 3: Scaffold Feature**
+```
+User: "Build a complete course marketplace with list, detail, and create pages"
+
+Claude Code (via MCP):
+→ Calls tool: scaffold_feature({
+    featureName: "course-marketplace",
+    entityType: "course",
+    operations: ["list", "detail", "create"]
+  })
+→ Returns file structure with all code
+
+Claude Code creates:
+- src/pages/courses/index.astro
+- src/pages/courses/[id].astro
+- src/pages/courses/create.astro
+- src/components/features/courses/CourseCard.tsx
+- src/components/features/courses/CourseForm.tsx
+```
+
+**Example 4: Test API**
+```
+User: "Test the token purchase API with 100 tokens"
+
+Claude Code (via MCP):
+→ Calls tool: call_api({
+    method: "POST",
+    path: "/api/tokens/purchase",
+    body: { tokenId: "token_abc", amount: 100 }
+  })
+→ Returns: { status: 200, data: { success: true, balance: 1100 } }
+
+Claude Code responds:
+"✅ API test successful! Token purchase completed. New balance: 1100"
+```
+
+### Benefits for IDE Development
+
+**For Developers:**
+- ✅ **Full Context** - AI has complete knowledge of API, DB, and patterns
+- ✅ **Instant Scaffolding** - Generate complete features in seconds
+- ✅ **Type Safety** - Generated code uses correct TypeScript types
+- ✅ **Best Practices** - Follows Middleware, Effect.ts, and Ontology patterns
+- ✅ **Live Testing** - Test API endpoints directly from IDE
+- ✅ **Documentation Aware** - AI reads all 48 docs for accurate code
+
+**For Teams:**
+- ✅ **Consistency** - All developers use same patterns
+- ✅ **Onboarding** - New devs productive immediately
+- ✅ **Quality** - AI-generated code follows project standards
+- ✅ **Speed** - 10x faster frontend development
+
+**Setup Time:** < 5 minutes
+**Result:** AI coding assistant with complete ONE Platform knowledge 🚀
+
+---
+
 ## Resources
 
 - **MCP Website**: https://modelcontextprotocol.io/
@@ -1241,3 +2118,4 @@ Uses existing types:
 - **Python SDK**: https://github.com/modelcontextprotocol/python-sdk
 - **MCP Servers**: https://github.com/modelcontextprotocol/servers
 - **Anthropic MCP Docs**: https://docs.anthropic.com/en/docs/build-with-claude/mcp
+- **Claude Code MCP Guide**: https://docs.claude.com/en/docs/claude-code/mcp

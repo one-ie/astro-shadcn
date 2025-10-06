@@ -64,9 +64,9 @@ tags:
   - name: Entities
     description: Entity CRUD operations (46 entity types)
   - name: Connections
-    description: Relationship management (24 connection types)
+    description: Relationship management (25 connection types)
   - name: Events
-    description: Event logging and history (38 event types)
+    description: Event logging and history (35 event types)
   - name: Tags
     description: Taxonomy and categorization
   - name: AI Clones
@@ -920,7 +920,7 @@ paths:
       security:
         - sessionToken: []
       description: |
-        Create relationship between two entities using one of 24 connection types.
+        Create relationship between two entities using one of 25 connection types.
 
         **Connection Types:**
         - Ownership: owns, created_by
@@ -1049,7 +1049,7 @@ paths:
       security:
         - sessionToken: []
       description: |
-        Log any of the 38 event types in the ONE platform.
+        Log any of the 35 event types in the ONE platform.
 
         **Event Types:**
         - Creator: creator_created, creator_updated, content_uploaded

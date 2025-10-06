@@ -1,9 +1,195 @@
 # ONE Platform - System Architecture
 
-**Version:** 1.0.0  
-**Purpose:** Explain how all pieces fit together and why functional programming enables superior AI code generation
+**Version:** 2.0.0
+**Purpose:** Explain the beautiful three-layer separation with Effect.ts as the glue layer
 
 ---
+
+## 🎯 The Beautiful Separation
+
+This architecture achieves **perfect separation of concerns** with three distinct layers:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                  LAYER 1: ASTRO FRONTEND                            │
+│  Documentation: docs/Frontend.md                                    │
+├─────────────────────────────────────────────────────────────────────┤
+│  ✅ User-customizable "vibe code"                                   │
+│  ✅ Islands architecture (static + selective hydration)             │
+│  ✅ Content collections (type-safe blog, docs, marketing)           │
+│  ✅ shadcn/ui components + Tailwind v4                             │
+│  ✅ Deployed to Cloudflare Pages (global edge SSR)                 │
+│                                                                     │
+│  Pages (.astro)     React Islands         Content Collections      │
+│  ├─ SEO-optimized   ├─ Interactive UI    ├─ Type-safe schemas     │
+│  ├─ Fast load       ├─ Real-time data    ├─ References            │
+│  └─ Static gen      └─ Convex hooks      └─ Search/filter         │
+└──────────────────┬──────────────────────────────────────────────────┘
+                   │
+                   │ Convex hooks (useQuery, useMutation)
+                   │ Hono API client (REST for mutations)
+                   ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│           LAYER 2: EFFECT.TS GLUE LAYER (100% Coverage)            │
+│  Documentation: docs/Hono.md + docs/Architecture.md                │
+├─────────────────────────────────────────────────────────────────────┤
+│  ✅ ALL business logic (pure functional programming)                │
+│  ✅ Service providers for external APIs                             │
+│  ✅ Typed errors throughout (no try/catch)                         │
+│  ✅ Automatic dependency injection                                  │
+│  ✅ Built-in retry, timeout, resource management                   │
+│                                                                     │
+│  Services            Providers           Layers                    │
+│  ├─ TokenService    ├─ StripeProvider   ├─ MainLayer              │
+│  ├─ AgentService    ├─ SuiProvider      ├─ TestLayer              │
+│  ├─ ContentService  ├─ OpenAIProvider   ├─ DevLayer               │
+│  └─ 100% Effect.ts  └─ ResendProvider   └─ DI automatic           │
+└──────────────────┬──────────────────────────────────────────────────┘
+                   │
+                   │ Confect bridge (Effect.ts ↔ Convex)
+                   │ Hono routes (Effect.ts ↔ HTTP)
+                   ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│              LAYER 3: BACKEND (Hono + Convex)                      │
+│  Documentation: docs/Hono.md                                       │
+├─────────────────────────────────────────────────────────────────────┤
+│  ✅ Hono: REST API routes (Cloudflare Workers)                     │
+│  ✅ Convex: Real-time database + typed functions                   │
+│  ✅ Better Auth: Authentication with Convex adapter                │
+│  ✅ 4-Table Ontology: Simple, flexible data model                  │
+│                                                                     │
+│  Hono API Routes       Convex Functions      4-Table Ontology      │
+│  ├─ /api/auth/*       ├─ Queries (reads)    ├─ entities           │
+│  ├─ /api/tokens/*     ├─ Mutations (writes) ├─ connections        │
+│  ├─ /api/agents/*     ├─ Actions (external) ├─ events             │
+│  └─ /api/content/*    └─ Real-time subs     └─ tags               │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## 🔑 Key Architectural Decisions
+
+### 1. Effect.ts as the Glue Layer (100% Coverage)
+
+**Decision:** ALL business logic uses Effect.ts (no raw async/await)
+
+**Why:**
+- **Consistency:** Same patterns across entire codebase
+- **Type Safety:** Errors are explicit in type signatures
+- **Composability:** Services combine cleanly without callback hell
+- **Testability:** Easy to mock dependencies via layers
+- **Observability:** Built-in tracing, logging, metrics
+
+**Example:**
+```typescript
+// ❌ WRONG: Raw async/await in business logic
+export const purchaseTokens = mutation({
+  handler: async (ctx, args) => {
+    try {
+      const payment = await stripe.charge(args.amount);
+      const tokens = await blockchain.mint(args.tokenId);
+      await ctx.db.insert("events", { /* ... */ });
+      return { success: true };
+    } catch (error) {
+      throw new Error("Purchase failed");
+    }
+  }
+});
+
+// ✅ CORRECT: 100% Effect.ts
+export const purchaseTokens = confect.mutation({
+  handler: (ctx, args) =>
+    Effect.gen(function* () {
+      const tokenService = yield* TokenService;
+      return yield* tokenService.purchase(args);
+    }).pipe(Effect.provide(MainLayer))
+});
+
+// Business logic in pure Effect service
+export class TokenService extends Effect.Service<TokenService>()(
+  "TokenService",
+  {
+    effect: Effect.gen(function* () {
+      const stripe = yield* StripeProvider;
+      const blockchain = yield* BlockchainProvider;
+
+      return {
+        purchase: (args) =>
+          Effect.gen(function* () {
+            const payment = yield* stripe.charge(args.amount);
+            const tokens = yield* blockchain.mint(args.tokenId);
+            return { success: true, payment, tokens };
+          }).pipe(
+            Effect.retry({ times: 3 }),
+            Effect.timeout("30 seconds"),
+            Effect.onError((e) => /* automatic rollback */)
+          )
+      };
+    }),
+    dependencies: [StripeProvider.Default, BlockchainProvider.Default]
+  }
+) {}
+```
+
+### 2. Hono for API Backend Separation
+
+**Decision:** Separate Hono API backend from Astro frontend
+
+**Why:**
+- **Multi-Tenancy:** Different orgs can customize frontend while sharing backend
+- **API Portability:** Backend logic reusable across web, mobile, desktop
+- **Clear Contracts:** REST API endpoints define clear boundaries
+- **Independent Deployment:** Deploy frontend and backend separately
+- **Team Specialization:** Frontend devs work on UI, backend devs work on logic
+
+**Workflow:**
+```
+User clicks "Buy Tokens"
+    ↓
+React component calls Hono API (POST /api/tokens/purchase)
+    ↓
+Hono route validates session (Better Auth)
+    ↓
+Effect.ts service processes business logic
+    ↓
+Service calls Convex mutation via ConvexHttpClient
+    ↓
+Convex updates entities/events tables
+    ↓
+Convex real-time subscription pushes update to UI
+    ↓
+Component re-renders with new balance ✅
+```
+
+### 3. Dual Integration Pattern (Frontend)
+
+**Decision:** Convex hooks for queries, Hono API for mutations
+
+**Why:**
+- **Real-Time Data:** Convex hooks provide live subscriptions
+- **Business Logic:** Hono API handles complex validation, payments, external APIs
+- **Best of Both:** Real-time updates + robust backend processing
+
+**Example:**
+```typescript
+// src/components/TokenPurchase.tsx
+export function TokenPurchase({ tokenId }) {
+  // Real-time data via Convex hook
+  const token = useQuery(api.queries.tokens.get, { id: tokenId });
+
+  // Purchase via Hono API (handles validation, payment, etc.)
+  const handlePurchase = async () => {
+    const result = await honoApi.purchaseTokens(tokenId, 100);
+    // Convex subscription automatically updates balance!
+  };
+
+  return (
+    <div>
+      <p>Balance: {token?.properties.balance || 0}</p>
+      <Button onClick={handlePurchase}>Buy 100 Tokens</Button>
+    </div>
+  );
+}
+```
 
 ## System Overview
 
@@ -19,28 +205,34 @@
                    │                          │
                    ↓                          ↓
            ┌───────────────┐          ┌──────────────┐
-           │  Convex Hooks │          │  shadcn/ui   │
-           │  useQuery     │          │  Components  │
-           │  useMutation  │          │  Tailwind v4 │
-           └───────┬───────┘          └──────────────┘
+           │  Convex Hooks │          │  Hono API    │
+           │  useQuery     │          │  Client      │
+           │  useMutation  │          │  REST calls  │
+           └───────┬───────┘          └──────┬───────┘
+                   │                         │
+                   ↓                         ↓
+           ┌───────────────────────────────────────┐
+           │      EFFECT.TS GLUE LAYER             │
+           │  - Services (business logic)          │
+           │  - Providers (external APIs)          │
+           │  - Layers (dependency injection)      │
+           └───────┬───────────────────────────────┘
                    │
-                   ↓
-┌─────────────────────────────────────────────────────────────────────┐
-│                      CONVEX BACKEND (Edge)                          │
-├─────────────────────────────────────────────────────────────────────┤
-│  Queries (reads)         Mutations (writes)      Actions (external) │
-│  ├─ Real-time            ├─ Transactions         ├─ Effect.ts       │
-│  ├─ Reactive             ├─ Optimistic UI        ├─ All external    │
-│  └─ Cached               └─ Validated            └─ via services    │
-└──────────────────┬──────────────────────────────────────────────────┘
-                   │
-                   ↓
-           ┌───────────────┐
-           │   Confect     │  ← Bridge Layer (Convex ↔ Effect)
-           │  (E→C Bridge) │
-           └───────┬───────┘
-                   │
-                   ↓
+                   ├──────────────────┬──────────────┐
+                   ↓                  ↓              ↓
+           ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+           │ HONO API     │   │ CONVEX       │   │ EXTERNAL     │
+           │ /api/auth/*  │   │ Real-time DB │   │ PROVIDERS    │
+           │ /api/tokens/*│   │ Functions    │   │ Stripe, etc. │
+           └──────────────┘   └──────────────┘   └──────────────┘
+                                      │
+                                      ↓
+                              ┌───────────────┐
+                              │   Confect     │  ← Bridge Layer (Convex ↔ Effect)
+                              │  (E→C Bridge) │
+                              └───────┬───────┘
+                                      │
+                                      ↓
 ┌─────────────────────────────────────────────────────────────────────┐
 │              EFFECT.TS SERVICE LAYER (100% Coverage)                │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -421,7 +613,7 @@ See `docs/Ontology.md` for complete details.
 #### Type System Optimization: 24 Connections + 38 Events
 
 **Previous Approach:** 33 connection types + 54 event types = 87 total types
-**Optimized Approach:** 24 connection types + 38 event types = 62 total types (-29% reduction)
+**Optimized Approach:** 25 connection types + 35 event types = 62 total types (-29% reduction)
 
 **Why Fewer Types is Better:**
 - Less cognitive load for AI agents
@@ -1371,26 +1563,126 @@ Functional programming
 
 ---
 
+## 🎯 Benefits of the Three-Layer Architecture
+
+### For Developers
+
+**Frontend Developers:**
+- Work independently with Astro + React
+- Use Convex hooks for real-time data (no backend changes needed)
+- Call Hono API for complex operations (clear contracts)
+- Rapid prototyping with "vibe code"
+- Full TypeScript support with generated types
+
+**Backend Developers:**
+- Focus on business logic in Effect.ts services
+- Clear separation between API layer (Hono) and data layer (Convex)
+- Easy to test (mock dependencies via Effect layers)
+- Composable services (combine small functions into larger ones)
+- Automatic retry, timeout, error handling
+
+**Full-Stack Developers:**
+- Clear boundaries between layers
+- Easy to understand data flow (Frontend → Effect.ts → Backend)
+- Consistent patterns across entire stack
+- Type safety end-to-end (TypeScript + Effect.ts)
+
+### For AI Code Generation
+
+**Why This Architecture Works for AI:**
+
+1. **Predictable Patterns:** Same structure for every feature (map to ontology → Effect.ts service → Hono route → React component)
+2. **Explicit Types:** AI knows exactly what inputs, outputs, errors, and dependencies are needed
+3. **Composable:** AI can combine existing services to create new features
+4. **Testable:** AI can generate tests by mocking Effect layers
+5. **Self-Improving:** Each new feature makes the next feature easier (AI learns patterns)
+
+**Example: AI generates a new feature in minutes:**
+```
+1. Read docs/Ontology.md (understand 4-table model)
+2. Read docs/Frontend.md (understand Astro + React patterns)
+3. Read docs/Hono.md (understand Effect.ts service patterns)
+4. Generate Effect.ts service (pure business logic)
+5. Generate Hono route (thin wrapper)
+6. Generate Convex wrapper (confect bridge)
+7. Generate React component (uses Convex hooks + Hono API)
+8. Generate tests (mock Effect layers)
+9. Done! Feature is complete, type-safe, tested
+```
+
+### For Multi-Tenancy
+
+**Different orgs can customize their frontend:**
+- Each org has their own Astro deployment (unique branding, features)
+- All orgs share the same Hono API + Convex backend
+- Backend remains stable while frontends evolve independently
+- API contracts ensure compatibility
+
+**Example:**
+```
+Org A: Marketing site with blog (Astro + shadcn/ui dark theme)
+Org B: E-commerce store (Astro + shadcn/ui + custom components)
+Org C: Dashboard app (Astro + custom charting library)
+
+All three: Share same Hono API + Convex backend (auth, tokens, content)
+```
+
+### For Performance
+
+**Deployment Strategy:**
+```
+Frontend: Cloudflare Pages (global edge network)
+    ↓
+Hono API: Cloudflare Workers (edge compute, sub-100ms)
+    ↓
+Convex: Real-time database (global replication)
+```
+
+**Result:**
+- Sub-100ms response times globally
+- Real-time data subscriptions via Convex
+- Static pages cached at the edge (Cloudflare Pages)
+- API routes execute at the edge (Cloudflare Workers)
+- Database queries optimized with indexes
+
 ## Next Steps for AI Agents
 
 When implementing a new feature:
 
-1. **Read the ontology** - Map feature to 4 tables (entities, connections, events, tags)
-2. **Design service** - 100% Effect.ts, no async/await in business logic
-3. **Define types** - Input/output/errors explicit, use consolidated types
-4. **Choose providers** - Multi-chain (Sui/Base/Solana) for crypto, Stripe for fiat only
-5. **Implement service** - Business logic with DI, automatic retry/timeout/rollback
-6. **Write Convex wrappers** - Thin confect.mutation/query, direct DB access (no Ents)
-7. **Create React components** - Use Convex hooks
-8. **Generate tests** - Mock Effect services, verify behavior per chain
-9. **Document patterns** - Add to patterns.md for future AI
+1. **Read the documentation:**
+   - **docs/Frontend.md** - If building UI components or pages
+   - **docs/Hono.md** - If building API routes or Effect.ts services
+   - **docs/Architecture.md** - To understand how everything fits together
+   - **docs/Ontology.md** - Map feature to 4 tables (entities, connections, events, tags)
+
+2. **Design the layers:**
+   - **Frontend:** Astro page + React component (uses Convex hooks + Hono API)
+   - **Glue:** Effect.ts service (pure business logic)
+   - **Backend:** Hono route (thin wrapper) + Convex wrapper (confect bridge)
+
+3. **Implement with patterns:**
+   - 100% Effect.ts for business logic (NO async/await)
+   - Typed errors with `_tag` pattern
+   - Dependency injection via Effect layers
+   - Automatic retry, timeout, rollback
+
+4. **Test thoroughly:**
+   - Unit tests for Effect.ts services (mock layers)
+   - Integration tests for Hono routes
+   - E2E tests for React components
+
+5. **Document patterns:**
+   - Add to `docs/Patterns.md` for future AI
+   - Update `docs/Files.md` with new file locations
 
 **Key Reminders:**
+- **Frontend Layer:** Astro + React, content collections, Convex hooks + Hono API client
+- **Glue Layer:** Effect.ts services (100% coverage), typed errors, DI
+- **Backend Layer:** Hono API routes, Convex database (4-table ontology), Better Auth
 - Stripe = fiat only (NOT crypto)
 - Cloudflare = livestreaming only (NOT web hosting)
-- 100% Effect.ts (NO try/catch in business logic)
 - Plain Convex schema (NO Convex Ents)
 - Multi-chain providers (separate services per blockchain)
 - 24 connection types + 38 event types (optimized, generic)
 
-Each feature makes the next feature easier because AI has more patterns to learn from.
+**The Result:** Each feature makes the next feature easier because AI has more patterns to learn from, and the architecture ensures consistency across all layers.

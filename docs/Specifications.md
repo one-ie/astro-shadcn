@@ -788,8 +788,8 @@ const totalByProtocol = allRevenue.reduce((acc, event) => {
 ### Why This Architecture Wins
 
 **1. Clean Ontology**
-- Only 38 event types total (not 100+)
-- Only 34 connection types (not 80+)
+- Only 35 event types total (not 100+)
+- Only 25 connection types (not 80+)
 - No protocol pollution
 - Single source of truth
 

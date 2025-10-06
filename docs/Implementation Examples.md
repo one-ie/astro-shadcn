@@ -958,7 +958,7 @@ export const getPaymentAnalytics = query({
 ```
 
 **Benefits of Metadata-Based Queries**:
-- **Simpler schema**: 24 connection types vs. 30+, 38 event types vs. 50+
+- **Simpler schema**: 25 connection types vs. 30+, 35 event types vs. 50+
 - **Easier analytics**: Single event type aggregation vs. multiple OR conditions
 - **More flexible**: Add new statuses without schema migrations
 - **Better performance**: Index on single eventType, filter on metadata

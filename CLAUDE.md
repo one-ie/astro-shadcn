@@ -4,13 +4,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Quick Reference for Agents
 
+**FIRST: Understand the Documentation Ecosystem**
+- **[docs/Documentation-Map.md](./docs/Documentation-Map.md)** - Complete map of how all 48 documentation files work together
+
+**For Developer Quick Start (Using ONE Platform):**
+- **[docs/Modes.md](./docs/Modes.md)** - **START HERE**: Two operating modes (Standalone vs API mode)
+- **[docs/Development.md](./docs/Development.md)** - Complete guide for using `npx oneie` CLI with Claude Code, connecting to api.one.ie, and vibe coding frontends
+
 **BEFORE starting ANY task, read these in order:**
 1. **[AGENTS.md](./AGENTS.md)** - Convex development patterns (queries, mutations, actions, schema)
 2. **[docs/Rules.md](./docs/Rules.md)** - Golden rules for AI code generation
 3. **[docs/Workflow.md](./docs/Workflow.md)** - Ontology-driven development flow
 4. **[docs/Patterns.md](./docs/Patterns.md)** - Proven code patterns to replicate
 5. **[docs/Architecture.md](./docs/Architecture.md)** - System architecture & functional programming
-6. **[docs/Files.md](./docs/Files.md)** - File system map (where everything goes)
+6. **[docs/Frontend.md](./docs/Frontend.md)** - Astro frontend with content collections & dual integration
+7. **[docs/Middleware.md](./docs/Middleware.md)** - The glue layer (Convex hooks, API client, Effect.ts services)
+8. **[docs/Hono.md](./docs/Hono.md)** - Hono API backend with Effect.ts services
+9. **[docs/Files.md](./docs/Files.md)** - File system map (where everything goes)
+
+**For Complex Features (read additional context):**
+- **[docs/Strategy.md](./docs/Strategy.md)** - Platform vision & 8 core features
+- **[docs/Ontology.md](./docs/Ontology.md)** - 4-table data model (66 entities, 25 connections, 55 events) - **Frontend Complete**
+- **[docs/Dashboard.md](./docs/Dashboard.md)** - Multi-tenant UI (platform owner, org owner, org user, customer)
+- **[docs/Specifications.md](./docs/Specifications.md)** - How all 5 protocols work together
+- **[docs/Implementation.md](./docs/Implementation.md)** - 12-week implementation roadmap
 
 ## Development Commands
 
@@ -39,8 +56,50 @@ This project uses **bun** as the preferred package manager (evidenced by `bun.lo
 
 ## Architecture Overview
 
+### The Beautiful Separation
+
+This project implements a **three-layer architecture** where Effect.ts acts as the glue between frontend and backend:
+
+```
+┌──────────────────────────────────────────────────┐
+│         ASTRO FRONTEND LAYER                     │
+│  - Pages: .astro files (SSR)                     │
+│  - Components: React 19 islands                   │
+│  - UI: shadcn/ui + Tailwind v4                   │
+│  - Content: Type-safe collections                │
+│  See: docs/Frontend.md                           │
+└────────────────┬─────────────────────────────────┘
+                 │
+                 ↓ (Convex hooks + Hono API client)
+┌──────────────────────────────────────────────────┐
+│         EFFECT.TS GLUE LAYER                     │
+│  - Services: Pure business logic                 │
+│  - Providers: External APIs (typed)              │
+│  - Layers: Dependency injection                  │
+│  - Errors: Typed error handling                  │
+│  See: docs/Hono.md                              │
+└────────────────┬─────────────────────────────────┘
+                 │
+                 ↓ (Confect bridge + Hono routes)
+┌──────────────────────────────────────────────────┐
+│         BACKEND LAYER                            │
+│  - Hono: API routes (REST endpoints)             │
+│  - Convex: Real-time database + functions        │
+│  - 4-Table Ontology: entities, connections,      │
+│    events, tags                                  │
+│  See: docs/Hono.md                              │
+└──────────────────────────────────────────────────┘
+```
+
+**Key Documents for Understanding Architecture:**
+- **[docs/Frontend.md](./docs/Frontend.md)** - Astro + React frontend with content collections
+- **[docs/Middleware.md](./docs/Middleware.md)** - The glue layer connecting frontend and backend
+- **[docs/Hono.md](./docs/Hono.md)** - Hono API backend with Better Auth + Convex
+- **[docs/Architecture.md](./docs/Architecture.md)** - Complete system architecture explanation
+
 ### Core Stack
 
+**Frontend Layer:**
 - **Astro 5.14+** with server-side rendering (`output: 'server'`)
 - **React 19** components with selective hydration via `client:load`
 - **@astrojs/cloudflare** adapter for Cloudflare Pages deployment with edge SSR
@@ -51,9 +110,17 @@ This project uses **bun** as the preferred package manager (evidenced by `bun.lo
 - **Recharts 2.15+** for data visualization
 - **@astrojs/sitemap** for automatic sitemap generation
 - **@astrojs/rss** for RSS feed generation
-- **Convex** for real-time backend and authentication
-- **Better Auth** for authentication with GitHub and Google OAuth
+
+**Backend Layer:**
+- **Hono** lightweight web framework for API routes (Cloudflare Workers)
+- **Convex** for real-time database and typed functions
+- **Better Auth** for authentication with Convex adapter
 - **@convex-dev/resend** component for email functionality
+
+**Glue Layer (Effect.ts 100% Coverage):**
+- **Effect.ts** for ALL business logic (pure functional programming)
+- **Confect** for bridging Convex ↔ Effect.ts
+- **Service Providers** for external APIs (OpenAI, Stripe, Blockchain, etc.)
 
 ### Key Architectural Patterns
 
@@ -499,6 +566,8 @@ Create a KV namespace in the Cloudflare dashboard and add the ID to your configu
 
 This section defines the exact process AI agents must follow when implementing features. This ensures consistency, quality, and adherence to the ontology-driven architecture.
 
+**IMPORTANT:** This process follows the complete workflow defined in **[docs/Workflow.md](./docs/Workflow.md)**. Read that document for the full 6-phase workflow with detailed examples.
+
 ### The 4-Table Ontology (MEMORIZE THIS)
 
 **Every feature MUST use these 4 tables:**
@@ -531,13 +600,23 @@ This section defines the exact process AI agents must follow when implementing f
 
 #### Step 1: Read Context (MANDATORY)
 
-Before writing ANY code, read these files:
+Before writing ANY code, understand the documentation ecosystem:
 
-1. **AGENTS.md** - Convex patterns
-2. **docs/Rules.md** - Golden rules
-3. **docs/Workflow.md** - Ontology flow
-4. **docs/Patterns.md** - Code patterns
-5. **docs/Files.md** - File locations
+1. **docs/Documentation-Map.md** - How all 41 docs work together (read FIRST to understand context)
+2. **AGENTS.md** - Convex patterns
+3. **docs/Rules.md** - Golden rules
+4. **docs/Workflow.md** - Ontology flow
+5. **docs/Patterns.md** - Code patterns
+6. **docs/Files.md** - File locations
+
+**For protocol-related features, also read:**
+- **docs/README-Protocols.md** - Protocol overview
+- **docs/Specifications.md** - Protocol integration patterns
+- Specific protocol doc (A2A.md, ACP.md, AP2.md, X402.md, ACPayments.md, AGUI.md)
+
+**For external integrations, also read:**
+- **docs/Agent-Communications.md** - Communication patterns
+- Specific integration doc (ElizaOS.md, CopilotKit.md, PromptKit.md, MCP.md, N8N.md)
 
 #### Step 2: Map Feature to Ontology
 
@@ -846,9 +925,13 @@ Effect.gen(function* () {
 
 Before generating ANY code, verify:
 
-- [ ] I have read the required documentation
+- [ ] I have read **docs/Documentation-Map.md** to understand the doc ecosystem
+- [ ] I have identified which layer this feature belongs to (Strategy → Ontology → Protocols → Implementation)
+- [ ] I have read the required documentation (follow the critical path for my use case)
 - [ ] I understand which entities/connections/events are involved
 - [ ] I know the file locations per `docs/Files.md`
+- [ ] For protocols: I have read the protocol spec and `docs/Specifications.md`
+- [ ] For integrations: I have read the integration doc and `docs/Agent-Communications.md`
 - [ ] I will use Effect.ts for business logic
 - [ ] I will use explicit types everywhere
 - [ ] I will write tests
@@ -893,26 +976,84 @@ Map to ontology → Design types → Generate code → Tests pass → Done
 If unsure about ANYTHING:
 
 1. **STOP** - Don't generate code
-2. **READ** - Re-read ontology and patterns
-3. **SEARCH** - Find similar existing code
-4. **ASK** - Request clarification from human
-5. **SIMPLIFY** - Start with simplest solution
+2. **READ** - Consult **docs/Documentation-Map.md** to find the right doc to read
+3. **FOLLOW PATH** - Use the critical paths in Documentation-Map.md to understand dependencies
+4. **SEARCH** - Find similar existing code
+5. **ASK** - Request clarification from human
+6. **SIMPLIFY** - Start with simplest solution
+
+**Use Documentation-Map.md to:**
+- Understand which docs to read for your specific feature type
+- Follow the information flow from Strategy → Ontology → Protocols → Implementation
+- Find the file relationship matrix to understand dependencies
+- Use the layer-by-layer breakdown to navigate the 41 documentation files
 
 **NEVER:**
 - Generate code you're uncertain about
 - Use `any` because you don't know the type
 - Skip reading documentation
+- Start coding without understanding the documentation ecosystem
 - Modify files outside your domain
 - Skip writing tests
 
 ### Key Principles
 
-1. **Ontology First** - Map feature to 4 tables before coding
-2. **Types Everywhere** - Explicit types catch errors at compile time
-3. **Pure Functions** - Business logic in Effect.ts services
-4. **Thin Wrappers** - Convex functions call services
-5. **Test Everything** - Tests define expected behavior
-6. **Follow Patterns** - Replicate proven patterns exactly
-7. **Update Docs** - Keep documentation current
+1. **Documentation First** - Use **docs/Documentation-Map.md** to understand the ecosystem before coding
+2. **Ontology First** - Map feature to 4 tables before coding
+3. **Types Everywhere** - Explicit types catch errors at compile time
+4. **Pure Functions** - Business logic in Effect.ts services
+5. **Thin Wrappers** - Convex functions call services
+6. **Test Everything** - Tests define expected behavior
+7. **Follow Patterns** - Replicate proven patterns exactly
+8. **Update Docs** - Keep documentation current
 
 **This process ensures every feature makes the codebase BETTER, not worse.**
+
+### Documentation Navigation Strategy
+
+The ONE Platform has **41 documentation files** organized in **8 layers**. Instead of reading everything, use this strategy:
+
+**For ANY Feature:**
+1. Read **docs/Documentation-Map.md** (5 min) - Understand the ecosystem
+2. Identify your layer: Strategy → Ontology → Protocols → Services → Implementation
+3. Follow the critical path for your use case (shown in Documentation-Map.md)
+4. Read only the docs in your dependency chain
+
+**Example: Building a Token Purchase Feature**
+```
+Critical Path:
+Strategy.md (Token Economy feature)
+→ Ontology.md (token entity, transacted connection, payment_event)
+→ Service Layer.md (Effect.ts patterns)
+→ Service Providers.md (Stripe provider)
+→ Patterns.md (purchase pattern)
+→ Files.md (file locations)
+→ Generate code
+```
+
+**Example: Implementing A2A Protocol Integration**
+```
+Critical Path:
+README-Protocols.md (protocol overview)
+→ A2A.md (protocol spec)
+→ Specifications.md (integration patterns)
+→ Ontology.md (communication_event with metadata.protocol: "a2a")
+→ Service Layer.md (Effect.ts patterns)
+→ Agent-Communications.md (communication patterns)
+→ Files.md (convex/services/protocols/a2a/)
+→ Generate code
+```
+
+**Example: Adding ElizaOS Integration**
+```
+Critical Path:
+ElizaOS.md (integration overview)
+→ A2A.md (uses A2A protocol)
+→ Agent-Communications.md (communication patterns)
+→ Ontology.md (external_agent entity, communicated connection)
+→ Service Providers.md (ElizaOS provider pattern)
+→ Files.md (convex/services/providers/elizaos.ts)
+→ Generate code
+```
+
+**This targeted approach saves time and ensures you read the RIGHT docs, not ALL docs.**

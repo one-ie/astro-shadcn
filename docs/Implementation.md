@@ -1,3 +1,14 @@
+
+Follow this ... 
+
+Backend
+Install convect 
+Make Auth with with 4 table schema
+Test 
+
+
+
+
 # ONE Platform - Implementation Guide
 
 **Version**: 1.0.0
@@ -32,7 +43,7 @@ Ontology → Schema → Types → Services → Functions → Features
 SOURCE   DEFINES  ENFORCES  COMPOSES   BUILDS    DELIVERS
 ```
 
-**Key Insight**: By constraining AI generation to a fixed ontology (46 entity types, 24 connection types, 38 event types), TypeScript enforces consistency. AI can't generate invalid code even if it tries.
+**Key Insight**: By constraining AI generation to a fixed ontology (46 entity types, 25 connection types, 35 event types), TypeScript enforces consistency. AI can't generate invalid code even if it tries.
 
 ### Current State
 
@@ -101,7 +112,7 @@ export default defineSchema({
       filterFields: ["type", "status"]
     }),
 
-  // 24 connection types (optimized from 33)
+  // 25 connection types (optimized from 33)
   connections: defineTable({
     fromEntityId: v.id("entities"),
     toEntityId: v.id("entities"),
@@ -120,7 +131,7 @@ export default defineSchema({
     .index("from_type", ["fromEntityId", "relationshipType"])
     .index("to_type", ["toEntityId", "relationshipType"]),
 
-  // 38 event types (optimized from 54)
+  // 35 event types (optimized from 54)
   events: defineTable({
     type: v.union(
       v.literal("creator_created"),
@@ -151,8 +162,8 @@ export default defineSchema({
 **Success Criteria**:
 - ✅ Schema deploys to Convex without errors
 - ✅ Can create all 46 entity types
-- ✅ All 24 connection types work
-- ✅ All 38 event types log correctly
+- ✅ All 25 connection types work
+- ✅ All 35 event types log correctly
 - ✅ Indexes return results < 100ms
 
 **Reference**: See `docs/Schema.md` for complete specification
@@ -279,8 +290,7 @@ convex/services/providers/
 ├── did.ts             # AI appearance (D-ID)
 ├── heygen.ts          # AI appearance (HeyGen)
 ├── twilio.ts          # SMS, 2FA
-├── sendgrid.ts        # Email analytics
-├── aws.ts             # General media (S3 + CloudFront)
+├── resend.ts        # Email 
 ├── cloudflare.ts      # Livestreaming ONLY
 └── index.ts           # AllProviders layer
 ```
@@ -1609,8 +1619,8 @@ DO TOGETHER: CALL Stripe, CALL Blockchain
 ### ✅ Checkpoint 1: Schema Migration (Week 1)
 - Schema deploys without errors
 - All 46 entity types creatable
-- All 24 connection types work
-- All 38 event types log correctly
+- All 25 connection types work
+- All 35 event types log correctly
 - Indexes performant (< 100ms queries)
 
 ### ✅ Checkpoint 2: Database Service (Week 2)
