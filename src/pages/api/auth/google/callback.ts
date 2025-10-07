@@ -24,6 +24,8 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
+        "User-Agent": "stack.one OAuth (google-callback)",
       },
       body: JSON.stringify({
         client_id: clientId,
@@ -34,20 +36,48 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       }),
     });
 
-    const tokenData = await tokenResponse.json();
+    if (!tokenResponse.ok) {
+      const text = await tokenResponse.text();
+      console.error("Google token exchange failed:", tokenResponse.status, text.substring(0, 200));
+      return redirect(`/login?error=google_token_failed&details=${encodeURIComponent('Google API error: ' + tokenResponse.status)}`);
+    }
+
+    const tokenText = await tokenResponse.text();
+    let tokenData: any;
+    try {
+      tokenData = JSON.parse(tokenText);
+    } catch (e) {
+      console.error("Failed to parse Google token response:", tokenText.substring(0, 200));
+      return redirect(`/login?error=google_token_invalid&details=${encodeURIComponent('Invalid response from Google token API')}`);
+    }
 
     if (!tokenData.access_token) {
-      return redirect("/login?error=google_token_failed");
+      return redirect(`/login?error=google_token_failed&details=${encodeURIComponent(tokenData.error_description || tokenData.error || 'No access token')}`);
     }
 
     // Get user info from Google
     const userResponse = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
       headers: {
         Authorization: `Bearer ${tokenData.access_token}`,
+        Accept: "application/json",
+        "User-Agent": "stack.one OAuth (google-callback)",
       },
     });
 
-    const googleUser = await userResponse.json();
+    if (!userResponse.ok) {
+      const text = await userResponse.text();
+      console.error("Google user fetch failed:", userResponse.status, text.substring(0, 200));
+      return redirect(`/login?error=google_user_failed&details=${encodeURIComponent('Google API error: ' + userResponse.status)}`);
+    }
+
+    let googleUser: any;
+    try {
+      googleUser = await userResponse.json();
+    } catch (e) {
+      const text = await userResponse.text();
+      console.error("Failed to parse Google user response:", text.substring(0, 200));
+      return redirect(`/login?error=google_user_invalid&details=${encodeURIComponent('Invalid response from Google user API')}`);
+    }
 
     if (!googleUser.email) {
       return redirect("/login?error=no_email");
