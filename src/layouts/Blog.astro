@@ -40,12 +40,12 @@ function formatDate(date: Date) {
       <!-- Main content -->
       <article class="min-w-0">
         <header class="mb-8">
-          <h1 class="text-4xl font-bold mb-4">
+          <h1 class="text-4xl font-bold mb-4" data-usal="fade-up duration-700">
             {entry.data.title}
           </h1>
 
           <!-- Meta info -->
-          <div class="flex flex-wrap items-center gap-3 mb-4">
+          <div class="flex flex-wrap items-center gap-3 mb-4" data-usal="fade-up duration-700 delay-100">
             <Badge variant="secondary">{entry.data.category}</Badge>
             <span class="text-sm text-muted-foreground">
               {formatDate(new Date(entry.data.date))}
@@ -62,7 +62,7 @@ function formatDate(date: Date) {
           {/* Tags */}
           {
             entry.data.tags && entry.data.tags.length > 0 && (
-              <div class="flex flex-wrap gap-2 mb-4">
+              <div class="flex flex-wrap gap-2 mb-4" data-usal="fade-up duration-700 delay-200">
                 {entry.data.tags.map((tag) => (
                   <span class="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground">
                     {tag}
@@ -74,14 +74,14 @@ function formatDate(date: Date) {
 
           {
             entry.data.description && (
-              <p class="text-xl text-muted-foreground mb-6">
+              <p class="text-xl text-muted-foreground mb-6" data-usal="fade-up duration-700 delay-300">
                 {entry.data.description}
               </p>
             )
           }
 
           {/* Share buttons */}
-          <div class="mb-6">
+          <div class="mb-6" data-usal="fade-in duration-700 delay-400">
             <ShareButtons
               client:load
               title={entry.data.title}
@@ -97,12 +97,13 @@ function formatDate(date: Date) {
                 width={1200}
                 height={630}
                 class="w-full object-cover rounded-lg"
+                data-usal="fade-up duration-700 delay-200"
               />
             )
           }
         </header>
 
-        <div class="prose dark:prose-invert max-w-none">
+        <div class="prose dark:prose-invert max-w-none" data-usal="fade-up duration-700 delay-300">
           <slot />
         </div>
 
@@ -113,7 +114,7 @@ function formatDate(date: Date) {
       </article>
 
       {/* Sidebar with Table of Contents */}
-      <aside class="hidden lg:block">
+      <aside class="hidden lg:block" data-usal="fade-left duration-700 delay-400">
         <div class="sticky top-6">
           <TableOfContents client:load headings={headings} />
         </div>

@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url, cookies, redirect }) => {
+export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
   const code = url.searchParams.get("code");
 
   if (!code) {
@@ -10,9 +10,14 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
   }
 
   try {
-    const clientId = import.meta.env.GOOGLE_CLIENT_ID;
-    const clientSecret = import.meta.env.GOOGLE_CLIENT_SECRET;
-    const redirectUri = `${import.meta.env.BETTER_AUTH_URL || "http://localhost:4321"}/api/auth/google/callback`;
+    // Access runtime environment variables from Cloudflare context
+    // @ts-ignore - Cloudflare runtime is available but not typed
+    const runtime = locals.runtime;
+    const env = runtime?.env || {};
+
+    const clientId = env.GOOGLE_CLIENT_ID || import.meta.env.GOOGLE_CLIENT_ID;
+    const clientSecret = env.GOOGLE_CLIENT_SECRET || import.meta.env.GOOGLE_CLIENT_SECRET;
+    const redirectUri = `${url.origin}/api/auth/google/callback`;
 
     // Exchange code for access token
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {

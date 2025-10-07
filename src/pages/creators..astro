@@ -1,0 +1,424 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+---
+
+<Layout title="ONE Platform - The AI-Powered Creator Operating System">
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-background to-muted px-4 pb-16 pt-20 md:px-6 md:pb-24 md:pt-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="flex flex-col items-center gap-8 text-center">
+        <div data-usal="fade-down duration-600">
+          <Badge variant="secondary" className="text-sm">
+            🚀 The Future of Creator Economy
+          </Badge>
+        </div>
+
+        <h1 class="font-heading text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl" data-usal="fade-up duration-700 delay-100">
+          Your AI Clone Runs Your <span class="text-primary">Creator Business</span>
+        </h1>
+
+        <p class="max-w-2xl text-lg text-muted-foreground sm:text-xl" data-usal="fade-up duration-700 delay-200">
+          Create an AI clone of yourself. It creates content, teaches courses, and engages your community 24/7.
+          You work 10% of the time. Make 10x the money.
+        </p>
+
+        <div class="flex flex-col gap-4 sm:flex-row" data-usal="fade-up duration-700 delay-300">
+          <a href="/onboard">
+            <Button size="lg" className="h-12 px-8 text-base">
+              Launch Your AI Clone
+            </Button>
+          </a>
+          <a href="/demo">
+            <Button variant="outline" size="lg" className="h-12 px-8 text-base">
+              See It In Action
+            </Button>
+          </a>
+        </div>
+
+        <div class="flex items-center gap-6 text-sm text-muted-foreground">
+          <span>✓ No credit card required</span>
+          <span>✓ Setup in 10 minutes</span>
+          <span>✓ €100K+ potential revenue</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="px-4 py-16 md:px-6 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div class="text-center mb-12" data-usal="fade-up duration-600">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+          The Creator Trap
+        </h2>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          You're stuck trading time for money. Creating content manually. Answering DMs. Teaching 1-on-1.
+          <strong>There's a ceiling to your income because there's only one of you.</strong>
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <div data-usal="fade-up duration-600 delay-100">
+          <Card className="border-destructive/20">
+          <CardHeader>
+            <CardTitle className="text-lg">⏰ Time Trapped</CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-muted-foreground">
+            You spend 60+ hours/week creating content, managing community, and delivering courses.
+            No time to scale.
+          </CardContent>
+        </Card>
+        </div>
+
+        <div data-usal="fade-up duration-600 delay-200">
+          <Card className="border-destructive/20">
+          <CardHeader>
+            <CardTitle className="text-lg">💸 Revenue Ceiling</CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-muted-foreground">
+            Monthly subscriptions cap out. Courses require your time. You can't be in 10 places at once.
+            Growth = burnout.
+          </CardContent>
+        </Card>
+        </div>
+
+        <div data-usal="fade-up duration-600 delay-300">
+          <Card className="border-destructive/20">
+          <CardHeader>
+            <CardTitle className="text-lg">😴 Never Off</CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-muted-foreground">
+            Your community expects instant responses. Miss a day and engagement drops.
+            Your business stops when you sleep.
+          </CardContent>
+        </Card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Section -->
+  <section class="bg-muted px-4 py-16 md:px-6 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div class="text-center mb-16" data-usal="fade-up duration-600">
+        <div>
+          <Badge variant="default" className="mb-4">The Solution</Badge>
+        </div>
+        <h2 class="text-3xl font-bold tracking-tight sm:text-5xl mb-4">
+          Your AI Clone Changes Everything
+        </h2>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Imagine a perfect digital version of you that works 24/7, never gets tired, and scales infinitely.
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4" data-usal="fade-up duration-700 delay-200">
+        <Card>
+          <CardHeader>
+            <div class="text-4xl mb-2">🤖</div>
+            <CardTitle>AI Clone You</CardTitle>
+            <CardDescription>
+              Your voice. Your appearance. Your personality. Trained on all your content.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <div class="text-4xl mb-2">📝</div>
+            <CardTitle>Creates Content</CardTitle>
+            <CardDescription>
+              Generates posts, videos, courses in your exact style. 10x output. 10% of your time.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <div class="text-4xl mb-2">💬</div>
+            <CardTitle>Engages Community</CardTitle>
+            <CardDescription>
+              Chats with fans 24/7. Personalized responses. Like talking to the real you.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <div class="text-4xl mb-2">🎓</div>
+            <CardTitle>Teaches Courses</CardTitle>
+            <CardDescription>
+              AI-generated personalized courses. Your clone is the teacher. Infinite scale.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="px-4 py-16 md:px-6 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div class="text-center mb-16" data-usal="fade-up duration-600">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+          Complete Creator Operating System
+        </h2>
+        <p class="text-lg text-muted-foreground">
+          Everything you need to run a million-dollar creator business
+        </p>
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-2" data-usal="fade-up duration-700 delay-200">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">🎭</span>
+              AI Clone Technology
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ Voice cloning (ElevenLabs, sounds exactly like you)</p>
+            <p>✓ Appearance cloning (D-ID, looks exactly like you)</p>
+            <p>✓ RAG knowledge base (knows everything you know)</p>
+            <p>✓ Personality modeling (talks exactly like you)</p>
+            <p>✓ Mix AI + human in livestreams</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">📱</span>
+              Content Automation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ AI generates content in your style</p>
+            <p>✓ Auto-publish to all social platforms</p>
+            <p>✓ Beautiful auto-generated website</p>
+            <p>✓ Content calendar & scheduling</p>
+            <p>✓ Performance analytics & optimization</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">🎓</span>
+              AI-Powered LMS
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ AI generates full courses from your expertise</p>
+            <p>✓ Your AI clone teaches personalized lessons</p>
+            <p>✓ Gamified learning paths</p>
+            <p>✓ Automated grading & feedback</p>
+            <p>✓ NFT certificates on completion</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">💰</span>
+              Token Economy
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ Launch your own creator token</p>
+            <p>✓ Fans buy tokens for course access</p>
+            <p>✓ Early supporters are rewarded</p>
+            <p>✓ Token value grows with your success</p>
+            <p>✓ Community becomes investors</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">👥</span>
+              Living Community
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ AI clone engages 24/7</p>
+            <p>✓ Real-time chat & discussions</p>
+            <p>✓ Token-gated premium features</p>
+            <p>✓ Community polls & governance</p>
+            <p>✓ AI moderation keeps it healthy</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">🎨</span>
+              UGC Engine
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ Fans create content FOR you using AI</p>
+            <p>✓ Earn tokens for sharing</p>
+            <p>✓ Built-in viral mechanics</p>
+            <p>✓ Turn audience into content army</p>
+            <p>✓ Exponential growth built-in</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">📊</span>
+              Business OS
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ Complete analytics dashboard</p>
+            <p>✓ AI insights & predictions</p>
+            <p>✓ Revenue tracking & forecasting</p>
+            <p>✓ Audience insights & segmentation</p>
+            <p>✓ 10 AI agents run your business</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span class="text-2xl">🔥</span>
+              Viral Mechanics
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p>✓ Share-to-earn token rewards</p>
+            <p>✓ Referral tracking & bonuses</p>
+            <p>✓ Success stories spread naturally</p>
+            <p>✓ K-factor optimization built-in</p>
+            <p>✓ Exponential growth by design</p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="bg-muted px-4 py-16 md:px-6 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div class="text-center mb-12" data-usal="fade-up duration-600">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+          Simple, Transparent Pricing
+        </h2>
+        <p class="text-lg text-muted-foreground">
+          Choose the plan that fits your creator journey
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3" data-usal="fade-up duration-700 delay-200">
+        <Card>
+          <CardHeader>
+            <CardTitle>Starter</CardTitle>
+            <div class="mt-4">
+              <span class="text-4xl font-bold">€99</span>
+              <span class="text-muted-foreground">/month</span>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ul class="space-y-2 text-sm">
+              <li>✓ Basic AI clone (text only)</li>
+              <li>✓ 1 course</li>
+              <li>✓ Up to 1,000 community members</li>
+              <li>✓ Auto-generated website</li>
+              <li>✓ Social media scheduling</li>
+            </ul>
+            <a href="/signup" class="block">
+              <Button className="w-full" variant="outline">Get Started</Button>
+            </a>
+          </CardContent>
+        </Card>
+
+        <Card className="border-primary">
+          <CardHeader>
+            <div class="flex items-center justify-between">
+              <CardTitle>Pro</CardTitle>
+              <Badge>Most Popular</Badge>
+            </div>
+            <div class="mt-4">
+              <span class="text-4xl font-bold">€299</span>
+              <span class="text-muted-foreground">/month</span>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ul class="space-y-2 text-sm">
+              <li>✓ Full AI clone (voice + appearance)</li>
+              <li>✓ Unlimited courses</li>
+              <li>✓ Unlimited community members</li>
+              <li>✓ Launch creator token</li>
+              <li>✓ AI content generation</li>
+              <li>✓ Advanced analytics</li>
+            </ul>
+            <a href="/signup" class="block">
+              <Button className="w-full">Get Started</Button>
+            </a>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Enterprise</CardTitle>
+            <div class="mt-4">
+              <span class="text-4xl font-bold">€999</span>
+              <span class="text-muted-foreground">/month</span>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ul class="space-y-2 text-sm">
+              <li>✓ Everything in Pro</li>
+              <li>✓ White-label platform</li>
+              <li>✓ Multiple AI clones</li>
+              <li>✓ Custom integrations</li>
+              <li>✓ Dedicated support</li>
+              <li>✓ Custom domain</li>
+            </ul>
+            <a href="/contact" class="block">
+              <Button className="w-full" variant="outline">Contact Sales</Button>
+            </a>
+          </CardContent>
+        </Card>
+      </div>
+
+      <p class="text-center text-sm text-muted-foreground mt-8">
+        + 5% fee on token sales | + 10% fee on course sales
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="px-4 py-16 md:px-6 md:py-24">
+    <div class="mx-auto max-w-4xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight sm:text-5xl mb-6" data-usal="fade-up duration-600">
+        Ready to Clone Yourself?
+      </h2>
+      <p class="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto" data-usal="fade-up duration-700 delay-100">
+        Join the creators who are scaling to millions with AI. Work less. Earn more.
+        <strong>Your AI clone is waiting.</strong>
+      </p>
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-center" data-usal="fade-up duration-700 delay-200">
+        <a href="/onboard">
+          <Button size="lg" className="h-14 px-8 text-base">
+            Launch Your AI Clone Now
+          </Button>
+        </a>
+        <a href="/demo">
+          <Button variant="outline" size="lg" className="h-14 px-8 text-base">
+            Book a Demo
+          </Button>
+        </a>
+      </div>
+      <p class="text-sm text-muted-foreground mt-6">
+        ✓ Free 14-day trial | ✓ No credit card required | ✓ Cancel anytime
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 <Layout title="Launch Your AI Clone - ONE Platform">
   <div class="container max-w-5xl mx-auto px-4 py-12">
     <!-- Header -->
-    <div class="text-center mb-12">
+    <div class="text-center mb-12" data-usal="fade-down duration-600">
       <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
         Launch Your AI Clone in 10 Minutes
       </h1>
@@ -21,7 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
     </div>
 
     <!-- Progress Steps -->
-    <div class="mb-12">
+    <div class="mb-12" data-usal="fade-up duration-700 delay-100">
       <div class="flex items-center justify-center gap-2 text-sm">
         <div class="flex items-center gap-2">
           <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
@@ -55,14 +55,15 @@ import { Textarea } from '@/components/ui/textarea';
 
     <!-- Step 1: About You -->
     <form class="space-y-8">
-      <Card>
+      <div data-usal="fade-up duration-700 delay-200">
+        <Card>
         <CardHeader>
           <CardTitle>Tell Us About You</CardTitle>
           <CardDescription>
             This information helps us create your AI clone and personalize your platform.
           </CardDescription>
         </CardHeader>
-        <CardContent class="space-y-6">
+        <CardContent className="space-y-6">
           <!-- Creator Name -->
           <div class="space-y-2">
             <Label htmlFor="name">Your Name *</Label>
@@ -169,13 +170,15 @@ import { Textarea } from '@/components/ui/textarea';
           </div>
         </CardContent>
       </Card>
+      </div>
 
       <!-- Next Steps Preview -->
-      <Card class="bg-muted">
+      <div data-usal="fade-up duration-700 delay-300">
+        <Card className="bg-muted">
         <CardHeader>
           <CardTitle>What Happens Next?</CardTitle>
         </CardHeader>
-        <CardContent class="space-y-3 text-sm">
+        <CardContent className="space-y-3 text-sm">
           <div class="flex items-start gap-3">
             <div class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
               ✓
@@ -211,6 +214,7 @@ import { Textarea } from '@/components/ui/textarea';
           </div>
         </CardContent>
       </Card>
+      </div>
 
       <!-- Action Buttons -->
       <div class="flex items-center justify-between gap-4">
@@ -227,40 +231,40 @@ import { Textarea } from '@/components/ui/textarea';
 
     <!-- FAQ Section -->
     <div class="mt-16 pt-16 border-t">
-      <h2 class="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
-      <div class="grid gap-6 md:grid-cols-2">
+      <h2 class="text-2xl font-bold mb-8 text-center" data-usal="fade-up duration-600">Frequently Asked Questions</h2>
+      <div class="grid gap-6 md:grid-cols-2" data-usal="fade-up duration-700 delay-200">
         <Card>
           <CardHeader>
-            <CardTitle class="text-base">How long does setup take?</CardTitle>
+            <CardTitle className="text-base">How long does setup take?</CardTitle>
           </CardHeader>
-          <CardContent class="text-sm text-muted-foreground">
+          <CardContent className="text-sm text-muted-foreground">
             About 10-15 minutes for the initial setup. Your AI clone will be trained within 24 hours.
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle class="text-base">Do I need technical skills?</CardTitle>
+            <CardTitle className="text-base">Do I need technical skills?</CardTitle>
           </CardHeader>
-          <CardContent class="text-sm text-muted-foreground">
+          <CardContent className="text-sm text-muted-foreground">
             Not at all! We handle all the technical complexity. Just answer questions and upload content.
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle class="text-base">When can I start earning?</CardTitle>
+            <CardTitle className="text-base">When can I start earning?</CardTitle>
           </CardHeader>
-          <CardContent class="text-sm text-muted-foreground">
+          <CardContent className="text-sm text-muted-foreground">
             Immediately after launch! Your token is live and you can start accepting payments for courses.
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle class="text-base">Can I customize everything?</CardTitle>
+            <CardTitle className="text-base">Can I customize everything?</CardTitle>
           </CardHeader>
-          <CardContent class="text-sm text-muted-foreground">
+          <CardContent className="text-sm text-muted-foreground">
             Yes! You have full control over your AI clone, website design, token economics, and more.
           </CardContent>
         </Card>

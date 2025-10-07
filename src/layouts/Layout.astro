@@ -51,6 +51,39 @@ const imageURL = new URL(image, Astro.site);
     <meta property="twitter:image" content={imageURL} />
 
     <ThemeInit />
+
+    <!-- USAL scroll animations -->
+    <script src="https://cdn.usal.dev/latest" defer></script>
+    <script is:inline>
+      // Configure USAL with custom defaults once it loads
+      window.addEventListener('DOMContentLoaded', function() {
+        if (window.USAL) {
+          window.USAL.config({
+            defaults: {
+              threshold: 10,
+              delay: 0,
+              duration: 600,
+              easing: 'ease-out'
+            }
+          });
+        } else {
+          // If USAL isn't loaded yet, wait for it
+          const checkUSAL = setInterval(function() {
+            if (window.USAL) {
+              clearInterval(checkUSAL);
+              window.USAL.config({
+                defaults: {
+                  threshold: 10,
+                  delay: 0,
+                  duration: 600,
+                  easing: 'ease-out'
+                }
+              });
+            }
+          }, 100);
+        }
+      });
+    </script>
   </head>
 
   <body class="min-h-screen bg-background font-sans antialiased">

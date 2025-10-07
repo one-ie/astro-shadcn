@@ -49,7 +49,7 @@ export function BlogSearch({
 
   return (
     <div className={className}>
-      <div className="mb-6">
+      <div className="mb-6" data-usal="fade-up duration-700 delay-200">
         <Input
           type="text"
           placeholder={placeholder}
@@ -88,12 +88,13 @@ export function BlogSearch({
               : 'space-y-4 sm:space-y-6'
           }
         >
-          {filteredPosts.map((entry) => (
+          {filteredPosts.map((entry, index) => (
             <Card
               key={entry.slug}
               className={`overflow-hidden transition-all duration-200 hover:shadow-lg ${
                 viewMode === 'list' ? 'flex' : 'hover:-translate-y-1'
               }`}
+              data-usal={`fade-up duration-700 delay-${Math.min(index * 100, 400)}`}
             >
               <a
                 href={`/blog/${entry.slug}`}

@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ModeToggle } from "@/components/ModeToggle"
 import { siteConfig } from "@/config/site"
 
 const iconMap = {
@@ -151,8 +152,17 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
         </nav>
 
         {/* Footer with user - sticks to bottom of viewport */}
-        <div className="border-t p-2 shrink-0">
-          <DropdownMenu>
+        <div className="border-t shrink-0">
+          {/* Theme toggle */}
+          <div className="p-2 border-b">
+            <div className={`flex ${collapsed ? 'justify-center' : 'justify-start px-2'}`}>
+              <ModeToggle />
+            </div>
+          </div>
+
+          {/* User menu */}
+          <div className="p-2">
+            <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 className={`flex items-center gap-3 rounded-md p-2 w-full text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
@@ -254,6 +264,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
               )}
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </div>
       </aside>
 

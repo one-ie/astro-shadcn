@@ -1,0 +1,1050 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Palette,
+  Type,
+  Layout as LayoutIcon,
+  Zap,
+  Grid3x3,
+  Sparkles,
+  Check,
+  X,
+  AlertCircle,
+  Info,
+  Scale,
+  Eye,
+  Repeat,
+  Layers,
+  Target,
+  Triangle,
+  Minus,
+  Circle,
+  Square,
+  Divide,
+  Waves
+} from 'lucide-react';
+---
+
+<Layout title="ONE Design System">
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden border-b px-6 py-24 md:px-8 md:py-32">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background"></div>
+
+    <div class="mx-auto max-w-6xl">
+      <div class="space-y-8 text-center">
+        <Badge variant="secondary" className="inline-flex items-center gap-2">
+          <Sparkles className="h-4 w-4" />
+          Design System
+        </Badge>
+
+        <h1 class="text-5xl font-bold leading-tight tracking-tight sm:text-6xl md:text-7xl">
+          ONE Design System
+        </h1>
+
+        <p class="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground">
+          A comprehensive design system built on universal design principles, refined typography, and
+          visual harmony. <strong class="text-foreground">Every decision has a purpose. Minimal yet sophisticated.</strong>
+        </p>
+
+        <div class="mx-auto mt-8 max-w-3xl rounded-xl border bg-card/50 p-6 text-left backdrop-blur-sm">
+          <p class="text-sm font-semibold uppercase tracking-wide text-primary">The Golden Rule</p>
+          <p class="mt-2 text-lg leading-relaxed">
+            Every design decision must have a purpose. Start with too little, then add only what's necessary.
+            Choose readability and usability over aesthetics when principles conflict.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design Principles -->
+  <section class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          The 5 Design Pillars
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+          Five foundational pillars that structure every interface
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <Grid3x3 className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Grid Alignment</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Everything aligns to a structured 12-column grid system for visual harmony.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Type className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Typography System</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Consistent, hierarchical type styles differentiate content types clearly.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Palette className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Color Palette</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Refined, limited color palettes create sophistication and visual unity.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <LayoutIcon className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Visual Hierarchy</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Scale, color, and spacing guide the eye naturally through content.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Zap className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Consistency & Polish</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Same elements receive the same treatment for cohesive experiences.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Sparkles className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Subtle Details</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Shadows, transitions, and micro-interactions elevate the experience.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fundamental Principles -->
+  <section class="border-y bg-muted/50 px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          7 Fundamental Principles
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+          Universal design principles that govern all visual design
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <Card>
+          <CardHeader>
+            <Scale className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Balance</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Distribute visual weight through symmetrical (calm, formal) or asymmetrical (dynamic, modern) layouts.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Eye className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Contrast</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Make elements stand out through differences in size, color, weight, or position. Critical for hierarchy.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Repeat className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Repetition & Rhythm</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Create consistency and familiarity through repeating patterns. "All good things come in threes."
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Layers className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Proximity</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Elements close together are perceived as related. Grouping declutters and creates relationships.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Target className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Emphasis</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Focus attention on specific elements (1-2 per screen) through contrast, color, size, or isolation.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Triangle className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Proportion & Scale</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Maintain visual relationships across screen sizes. Consider golden ratio (1:1.618) for pleasing proportions.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Sparkles className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Variety</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Add controlled variation to prevent monotony. Vary color, not structure. Limit to 2-3 variations.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Elements -->
+  <section class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          Visual Design Elements
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+          The fundamental building blocks of every interface
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <Minus className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Line</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Lines create connections, lead the eye, and establish focal points. Use for dividers, emphasis, and visual direction.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div class="space-y-3">
+              <div class="h-px bg-border"></div>
+              <div class="h-0.5 bg-primary"></div>
+              <div class="h-1 w-16 bg-primary"></div>
+              <div class="border-l-4 border-primary pl-3 text-sm text-muted-foreground">
+                Accent line creates connection
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Circle className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Shape</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Circles = friendly & organic. Squares = professional & stable. Triangles = dynamic & energetic.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div class="flex items-center gap-3">
+              <div class="h-12 w-12 rounded-full bg-primary/10"></div>
+              <div class="h-12 w-12 rounded-lg bg-primary/10"></div>
+              <div class="h-12 w-12 rounded-sm bg-primary/10"></div>
+              <div class="h-12 w-12 bg-primary/10" style="clip-path: polygon(50% 0%, 100% 100%, 0% 100%)"></div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Waves className="mb-2 h-8 w-8 text-primary" />
+            <CardTitle>Texture</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Subtle depth through gradients, patterns, or shadows. Use at 5-10% opacity for sophistication.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div class="space-y-3">
+              <div class="h-12 rounded-lg bg-gradient-to-br from-primary/5 to-primary/20"></div>
+              <div class="h-12 rounded-lg bg-card shadow-md"></div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Color Palette -->
+  <section class="border-y bg-muted/50 px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight">Color Palette</h2>
+        <p class="max-w-2xl text-lg text-muted-foreground">
+          A vibrant blue theme with semantic color tokens for consistent usage
+        </p>
+      </div>
+
+      <div class="space-y-12">
+        <!-- Primary Colors -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Primary Colors</h3>
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-primary shadow-sm"></div>
+              <div>
+                <div class="font-medium">Primary</div>
+                <div class="text-sm text-muted-foreground">217 91% 60%</div>
+                <div class="text-xs text-muted-foreground">Vibrant blue accent</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-primary-foreground border shadow-sm"></div>
+              <div>
+                <div class="font-medium">Primary Foreground</div>
+                <div class="text-sm text-muted-foreground">0 0% 100%</div>
+                <div class="text-xs text-muted-foreground">White on primary</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-secondary shadow-sm"></div>
+              <div>
+                <div class="font-medium">Secondary</div>
+                <div class="text-sm text-muted-foreground">0 0% 96%</div>
+                <div class="text-xs text-muted-foreground">Light gray (light mode)</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-accent shadow-sm"></div>
+              <div>
+                <div class="font-medium">Accent</div>
+                <div class="text-sm text-muted-foreground">217 91% 60%</div>
+                <div class="text-xs text-muted-foreground">Matches primary</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Neutrals -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Neutrals (Light Mode)</h3>
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-background border shadow-sm"></div>
+              <div>
+                <div class="font-medium">Background</div>
+                <div class="text-sm text-muted-foreground">0 0% 98%</div>
+                <div class="text-xs text-muted-foreground">Light gray background</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-foreground shadow-sm"></div>
+              <div>
+                <div class="font-medium">Foreground</div>
+                <div class="text-sm text-muted-foreground">0 0% 10%</div>
+                <div class="text-xs text-muted-foreground">Near-black text</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-card border shadow-sm"></div>
+              <div>
+                <div class="font-medium">Card</div>
+                <div class="text-sm text-muted-foreground">0 0% 100%</div>
+                <div class="text-xs text-muted-foreground">White cards</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-border border-4 shadow-sm"></div>
+              <div>
+                <div class="font-medium">Border</div>
+                <div class="text-sm text-muted-foreground">0 0% 90%</div>
+                <div class="text-xs text-muted-foreground">Subtle dividers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dark Mode Neutrals -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Neutrals (Dark Mode)</h3>
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg border shadow-sm" style="background-color: hsl(0 0% 10%)"></div>
+              <div>
+                <div class="font-medium">Background</div>
+                <div class="text-sm text-muted-foreground">0 0% 10%</div>
+                <div class="text-xs text-muted-foreground">Dark background</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg border shadow-sm" style="background-color: hsl(0 0% 14%)"></div>
+              <div>
+                <div class="font-medium">Card</div>
+                <div class="text-sm text-muted-foreground">0 0% 14%</div>
+                <div class="text-xs text-muted-foreground">Elevated cards</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg border shadow-sm" style="background-color: hsl(0 0% 18%)"></div>
+              <div>
+                <div class="font-medium">Muted</div>
+                <div class="text-sm text-muted-foreground">0 0% 18%</div>
+                <div class="text-xs text-muted-foreground">Subtle backgrounds</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg border-4 shadow-sm" style="background-color: hsl(0 0% 10%); border-color: hsl(0 0% 20%)"></div>
+              <div>
+                <div class="font-medium">Border</div>
+                <div class="text-sm text-muted-foreground">0 0% 20%</div>
+                <div class="text-xs text-muted-foreground">Subtle dividers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semantic Colors -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Semantic Colors</h3>
+          <div class="grid gap-6 md:grid-cols-3">
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-destructive shadow-sm"></div>
+              <div>
+                <div class="font-medium">Destructive</div>
+                <div class="text-sm text-muted-foreground">0 84% 60%</div>
+                <div class="text-xs text-muted-foreground">Error states</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex h-24 items-center justify-center rounded-lg border-4 border-ring bg-background shadow-sm">
+                <div class="text-sm font-medium text-muted-foreground">Focus Ring</div>
+              </div>
+              <div>
+                <div class="font-medium">Ring</div>
+                <div class="text-sm text-muted-foreground">217 91% 60%</div>
+                <div class="text-xs text-muted-foreground">Focus states</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="h-24 rounded-lg bg-muted shadow-sm"></div>
+              <div>
+                <div class="font-medium">Muted</div>
+                <div class="text-sm text-muted-foreground">0 0% 96% / 18%</div>
+                <div class="text-xs text-muted-foreground">Context-dependent</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography -->
+  <section class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight">Typography</h2>
+        <p class="max-w-2xl text-lg text-muted-foreground">
+          A carefully crafted type scale for clear hierarchy and readability
+        </p>
+      </div>
+
+      <div class="space-y-12">
+        <!-- Headings -->
+        <div class="space-y-8">
+          <h3 class="text-2xl font-semibold">Headings</h3>
+          <div class="space-y-6">
+            <div class="space-y-2">
+              <h1 class="text-5xl font-bold">Heading 1</h1>
+              <p class="text-sm text-muted-foreground">48px / 3rem · Bold · Leading Tight</p>
+            </div>
+            <div class="space-y-2">
+              <h2 class="text-4xl font-bold">Heading 2</h2>
+              <p class="text-sm text-muted-foreground">36px / 2.25rem · Bold · Leading Tight</p>
+            </div>
+            <div class="space-y-2">
+              <h3 class="text-3xl font-semibold">Heading 3</h3>
+              <p class="text-sm text-muted-foreground">30px / 1.875rem · Semibold · Leading Snug</p>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-2xl font-semibold">Heading 4</h4>
+              <p class="text-sm text-muted-foreground">24px / 1.5rem · Semibold · Leading Snug</p>
+            </div>
+            <div class="space-y-2">
+              <h5 class="text-xl font-semibold">Heading 5</h5>
+              <p class="text-sm text-muted-foreground">20px / 1.25rem · Semibold · Leading Normal</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Body Text -->
+        <div class="space-y-8">
+          <h3 class="text-2xl font-semibold">Body Text</h3>
+          <div class="space-y-6">
+            <div class="space-y-2">
+              <p class="text-xl leading-relaxed">Large Body Text</p>
+              <p class="text-sm text-muted-foreground">20px / 1.25rem · Normal · Leading Relaxed</p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-base leading-7">
+                Regular Body Text. This is the default text size used for most content. It provides
+                comfortable reading with proper line height and spacing.
+              </p>
+              <p class="text-sm text-muted-foreground">16px / 1rem · Normal · Leading 7 (1.75)</p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-sm leading-6">
+                Small text for secondary information and captions. Still readable but less prominent.
+              </p>
+              <p class="text-sm text-muted-foreground">14px / 0.875rem · Normal · Leading 6</p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-wide font-semibold text-muted-foreground">
+                Extra Small Label Text
+              </p>
+              <p class="text-sm text-muted-foreground">12px / 0.75rem · Semibold · Uppercase · Tracking Wide</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Font Weights -->
+        <div class="space-y-8">
+          <h3 class="text-2xl font-semibold">Font Weights</h3>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="space-y-2">
+              <p class="text-lg font-normal">Normal (400)</p>
+              <p class="text-sm text-muted-foreground">Body text</p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-lg font-medium">Medium (500)</p>
+              <p class="text-sm text-muted-foreground">Labels, emphasis</p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-lg font-semibold">Semibold (600)</p>
+              <p class="text-sm text-muted-foreground">Subheadings</p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-lg font-bold">Bold (700)</p>
+              <p class="text-sm text-muted-foreground">Headings</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typography Best Practices -->
+        <div class="space-y-8">
+          <h3 class="text-2xl font-semibold">Typography Best Practices</h3>
+
+          <div class="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  Line Length
+                </CardTitle>
+                <CardDescription className="leading-relaxed">
+                  Keep body text between 40-60 characters per line for optimal readability. Use <code class="text-xs">max-w-prose</code> (65ch).
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div class="max-w-prose text-sm leading-relaxed text-muted-foreground">
+                  This paragraph is set to max-w-prose, which creates an optimal line length for comfortable reading.
+                  Your eye can easily find the next line without getting lost.
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  Leading (Line Height)
+                </CardTitle>
+                <CardDescription className="leading-relaxed">
+                  Body text: <code class="text-xs">leading-7</code> (1.75). Headlines: <code class="text-xs">leading-tight</code> (1.25).
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p class="text-sm leading-7 text-muted-foreground">
+                  Generous line height (leading-7) makes paragraphs comfortable to read and reduces eye strain.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  Tracking (Letter Spacing)
+                </CardTitle>
+                <CardDescription className="leading-relaxed">
+                  ALL CAPS text needs increased tracking. Use <code class="text-xs">tracking-wide</code> for readability.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div class="space-y-2">
+                  <p class="text-xs uppercase tracking-wide font-semibold text-primary">
+                    Proper tracking
+                  </p>
+                  <p class="text-xs uppercase font-semibold text-muted-foreground">
+                    Too tight (avoid)
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  Proper Dashes
+                </CardTitle>
+                <CardDescription className="leading-relaxed">
+                  Em dash (—) for breaks, en dash (–) for ranges. Never use double hyphens (--).
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div class="space-y-1 text-sm">
+                  <p class="text-muted-foreground">Design—the good kind—takes time</p>
+                  <p class="text-muted-foreground">Pages 10–20, Monday–Friday</p>
+                  <p class="text-muted-foreground">Well-known example (hyphen)</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spacing Scale -->
+  <section class="border-y bg-muted/50 px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight">Spacing Scale</h2>
+        <p class="max-w-2xl text-lg text-muted-foreground">
+          Consistent spacing based on 4px increments for visual rhythm
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        {[
+          { size: '1', px: '4px', rem: '0.25rem' },
+          { size: '2', px: '8px', rem: '0.5rem' },
+          { size: '3', px: '12px', rem: '0.75rem' },
+          { size: '4', px: '16px', rem: '1rem' },
+          { size: '6', px: '24px', rem: '1.5rem' },
+          { size: '8', px: '32px', rem: '2rem' },
+          { size: '12', px: '48px', rem: '3rem' },
+          { size: '16', px: '64px', rem: '4rem' },
+          { size: '20', px: '80px', rem: '5rem' },
+          { size: '24', px: '96px', rem: '6rem' },
+        ].map(({ size, px, rem }) => (
+          <div class="flex items-center gap-6">
+            <div class="w-20 text-sm font-medium">{size} ({px})</div>
+            <div class="h-8 bg-primary rounded" style={`width: ${px}`}></div>
+            <div class="text-sm text-muted-foreground">{rem}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Components -->
+  <section class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight">Components</h2>
+        <p class="max-w-2xl text-lg text-muted-foreground">
+          Consistent, accessible UI components built with shadcn/ui
+        </p>
+      </div>
+
+      <div class="space-y-16">
+        <!-- Buttons -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Buttons</h3>
+          <div class="flex flex-wrap items-center gap-4">
+            <Button size="lg">Primary Large</Button>
+            <Button>Primary Default</Button>
+            <Button size="sm">Primary Small</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="link">Link</Button>
+            <Button variant="destructive">Destructive</Button>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Badges</h3>
+          <div class="flex flex-wrap items-center gap-4">
+            <Badge>Default</Badge>
+            <Badge variant="secondary">Secondary</Badge>
+            <Badge variant="outline">Outline</Badge>
+            <Badge variant="destructive">Destructive</Badge>
+            <Badge className="inline-flex items-center gap-1.5">
+              <Check className="h-3 w-3" />
+              With Icon
+            </Badge>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Cards</h3>
+          <div class="grid gap-6 md:grid-cols-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Basic Card</CardTitle>
+                <CardDescription>A simple card with title and description</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="transition-shadow hover:shadow-lg">
+              <CardHeader>
+                <CardTitle>Hover Card</CardTitle>
+                <CardDescription>Card with hover shadow effect</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Zap className="mb-2 h-8 w-8 text-primary" />
+                <CardTitle>Icon Card</CardTitle>
+                <CardDescription>Card with icon header</CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold">Alert States</h3>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3 rounded-lg border border-primary/50 bg-primary/10 p-4">
+              <Info className="h-5 w-5 text-primary" />
+              <div>
+                <div class="font-semibold text-primary">Info Alert</div>
+                <div class="text-sm text-muted-foreground">This is an informational message</div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-lg border border-green-500/50 bg-green-500/10 p-4">
+              <Check className="h-5 w-5 text-green-600" />
+              <div>
+                <div class="font-semibold text-green-600">Success Alert</div>
+                <div class="text-sm text-muted-foreground">Action completed successfully</div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-lg border border-yellow-500/50 bg-yellow-500/10 p-4">
+              <AlertCircle className="h-5 w-5 text-yellow-600" />
+              <div>
+                <div class="font-semibold text-yellow-600">Warning Alert</div>
+                <div class="text-sm text-muted-foreground">Please review this information</div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4">
+              <X className="h-5 w-5 text-destructive" />
+              <div>
+                <div class="font-semibold text-destructive">Error Alert</div>
+                <div class="text-sm text-muted-foreground">Something went wrong</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shadows & Effects -->
+  <section class="border-y bg-muted/50 px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight">Shadows & Effects</h2>
+        <p class="max-w-2xl text-lg text-muted-foreground">
+          Subtle elevation system for depth and hierarchy
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="space-y-4">
+          <div class="flex h-32 items-center justify-center rounded-lg bg-card shadow-sm">
+            <span class="text-sm font-medium text-muted-foreground">shadow-sm</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Subtle cards</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-32 items-center justify-center rounded-lg bg-card shadow-md">
+            <span class="text-sm font-medium text-muted-foreground">shadow-md</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Interactive elements</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-32 items-center justify-center rounded-lg bg-card shadow-lg">
+            <span class="text-sm font-medium text-muted-foreground">shadow-lg</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Focus areas</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Border Radius -->
+  <section class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-20 space-y-4">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight">Border Radius</h2>
+        <p class="max-w-2xl text-lg text-muted-foreground">
+          Consistent rounding for friendly, approachable interfaces
+        </p>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded-none bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded-none</span>
+          </div>
+          <p class="text-sm text-muted-foreground">0px</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded-sm bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded-sm</span>
+          </div>
+          <p class="text-sm text-muted-foreground">2px</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded</span>
+          </div>
+          <p class="text-sm text-muted-foreground">4px</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded-md</span>
+          </div>
+          <p class="text-sm text-muted-foreground">6px</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded-lg</span>
+          </div>
+          <p class="text-sm text-muted-foreground">8px (Default)</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded-xl</span>
+          </div>
+          <p class="text-sm text-muted-foreground">12px</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded-2xl</span>
+          </div>
+          <p class="text-sm text-muted-foreground">16px</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex h-24 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <span class="text-sm font-medium">rounded-full</span>
+          </div>
+          <p class="text-sm text-muted-foreground">9999px</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design Philosophy -->
+  <section class="border-y bg-gradient-to-b from-primary/5 via-background to-background px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-4xl">
+      <div class="space-y-12 text-center">
+        <div class="space-y-4">
+          <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+            Design Philosophy
+          </h2>
+          <p class="text-xl text-muted-foreground">
+            When in doubt, follow these principles
+          </p>
+        </div>
+
+        <div class="grid gap-6 text-left sm:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">1. Simplify</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Remove unnecessary elements. Less is more.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">2. Align</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Use the grid. Everything should anchor to structure.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">3. Space</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Create breathing room. White space is not emptiness.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">4. Balance</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Distribute visual weight evenly across the layout.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">5. Contrast</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Make important things stand out clearly.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">6. Repeat</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Create rhythm through consistency and patterns.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">7. Group</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Use proximity to show relationships between elements.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">8. Emphasize</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Highlight only 1-2 key elements per screen.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+
+        <div class="space-y-6 rounded-xl border bg-card p-8 text-left">
+          <div class="space-y-2">
+            <p class="text-sm font-semibold uppercase tracking-wide text-primary">Remember</p>
+            <h3 class="text-2xl font-bold">The Golden Rule</h3>
+          </div>
+          <p class="text-lg leading-relaxed text-muted-foreground">
+            Every design decision must have a purpose. Minimal yet sophisticated design is about
+            thoughtful reduction, not addition. Start with too little, then add only what's necessary.
+          </p>
+          <p class="text-base leading-relaxed text-muted-foreground">
+            When principles conflict, choose <strong class="text-foreground">readability and usability</strong> over aesthetics.
+            Every principle exists to serve the user.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources -->
+  <section class="border-t px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight">Resources</h2>
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+          Learn more about the ONE Design System
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle>Design Agent Guide</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Complete guide for AI agents: principles, typography, patterns, and best practices
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full" asChild>
+              <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener noreferrer">
+                Read docs/design-agent.md
+              </a>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>shadcn/ui Components</CardTitle>
+            <CardDescription className="leading-relaxed">
+              50+ pre-built, accessible components with Radix UI primitives
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full" asChild>
+              <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">
+                View Components
+              </a>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Tailwind CSS v4</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Modern CSS-based configuration with @theme blocks and @variant syntax
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full" asChild>
+              <a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer">
+                Tailwind Docs
+              </a>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  </section>
+</Layout>

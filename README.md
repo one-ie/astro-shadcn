@@ -1,35 +1,64 @@
-# 🚀 Astro 5 + Shadcn/UI + Tailwind v4 Starter Kit
+# 🚀 ONE Stack - The Ultimate Astro Shadcn Better Auth Convex Template
 
-A production-ready, enterprise-grade starter template combining Astro's performance with Shadcn's beautiful components and Tailwind CSS v4's modern CSS-based configuration. Featuring advanced blog system, search, accessibility, and SEO optimizations.
+**Astro 5 + React 19 + shadcn/ui + Tailwind 4 + Better Auth + Convex**
+
+Advanced, production-ready Astro starter template with **enterprise-grade authentication**, real-time backend, and beautiful UI components. Built for developers who want to ship fast without compromising on quality. Ready to deploy on Cloudflare Pages, Vercel, Netlify, or any other platform.
+
+[![Deploy to Cloudflare Pages](https://img.shields.io/badge/Deploy%20to-Cloudflare%20Pages-orange)](https://pages.cloudflare.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Astro](https://img.shields.io/badge/Astro-5.14+-purple)](https://astro.build)
+[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev)
+
+## 🌟 Why ONE Stack?
+
+✅ **6 Authentication Methods** - Email/password, OAuth (GitHub/Google), magic links, 2FA, password reset, email verification
+✅ **Real-time Backend** - Convex database with typed functions and subscriptions
+✅ **50+ UI Components** - Complete shadcn/ui library pre-installed and configured
+✅ **React 19 SSR on Cloudflare** - Edge rendering with the "impossible" React 19 + Cloudflare Workers setup
+✅ **MCP Integration** - 3 pre-configured MCP servers for AI-assisted development
+✅ **Advanced Blog System** - Multi-view layouts, real-time search, ToC, social sharing
+✅ **Enterprise Security** - Rate limiting, session management, encrypted passwords
+✅ **Perfect Lighthouse Scores** - 100/100 across all metrics
+✅ **Production Ready** - TypeScript strict mode, ESLint, Prettier, comprehensive docs
+
+📋 **[View Complete Feature List](./plans/landing.md)** - Comprehensive documentation of all 100+ features
+
+### Comparison with Other Astro Templates
+
+| Feature | ONE Stack | Other Templates |
+|---------|-----------|-----------------|
+| **Authentication** | 6 methods (email, OAuth, magic links, 2FA, reset, verification) | 0-1 methods |
+| **Backend** | Convex (real-time, typed) | Static or separate setup |
+| **UI Components** | 50+ shadcn/ui pre-installed | 0-10 basic components |
+| **React Version** | React 19 (SSR on edge) | React 18 or client-only |
+| **Blog System** | Advanced (multi-view, search, ToC) | Basic or none |
+| **Email System** | Built-in (Resend) | None or manual setup |
+| **Security** | Rate limiting, sessions, 2FA | Basic or none |
+| **MCP Integration** | 3 servers (shadcn, Cloudflare, Docs) | None |
+| **Lighthouse Score** | 100/100 all metrics | Varies 70-100 |
+| **Documentation** | 41 comprehensive docs | Minimal README |
+| **TypeScript** | Strict mode, full coverage | Partial or loose |
 
 ## ✨ What's Inside
 
 ### 🏗️ Architecture (The Beautiful Separation)
 
-Three-layer architecture with **Effect.ts as the glue**:
-
 ```
 Frontend (Astro + React) → Effect.ts Services → Backend (Hono + Convex)
 ```
 
-**Frontend Layer** ([docs/Frontend.md](./docs/Frontend.md)):
+**Frontend Layer**:
 - **Astro 5.14+** - Lightning-fast SSR with islands architecture
 - **React 19** - Edge-compatible server rendering
 - **shadcn/ui** - 50+ pre-installed components
 - **Tailwind CSS v4** - Modern CSS-based configuration
 - **Content Collections** - Type-safe blog with astro:content
 
-**Backend Layer** ([docs/Hono.md](./docs/Hono.md)):
-- **Hono API** - Lightweight REST API on Cloudflare Workers
+**Backend Layer**:
 - **Convex** - Real-time database with typed functions
-- **Better Auth** - Authentication with Convex adapter
-- **4-Table Ontology** - entities, connections, events, tags
-
-**Glue Layer (Effect.ts 100%)** ([docs/Architecture.md](./docs/Architecture.md)):
-- **Effect.ts** - ALL business logic (pure functional programming)
-- **Service Providers** - External APIs (OpenAI, Stripe, Blockchain, etc.)
-- **Typed Errors** - Explicit error handling throughout
-- **Dependency Injection** - Automatic wiring of services
+- **Better Auth** - Authentication with 6 methods (email, OAuth, magic links, 2FA)
+- **@convex-dev/resend** - Transactional emails (password reset, verification)
+- **@convex-dev/rate-limiter** - Brute force protection
 
 ### 🎯 Key Features
 
@@ -51,30 +80,58 @@ Frontend (Astro + React) → Effect.ts Services → Backend (Hono + Convex)
 ## ⚡ Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/one-ie/astro-shadcn.git
+# 1. Clone the repository
+git clone https://github.com/one-ie/stack.git
+cd stack
 
-# Navigate to project
-cd astro-shadcn
-
-# Install dependencies (using bun recommended)
+# 2. Install dependencies (bun recommended)
 bun install
 
-# Start development server
-bun run dev
+# 3. Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your credentials (see Environment Variables section below)
 
-# Or with pnpm/npm
-pnpm install && pnpm dev
-npm install && npm run dev
+# 4. Deploy Convex schema
+bunx convex deploy
+
+# 5. Start development server
+bun run dev
 ```
 
 Visit `http://localhost:4321` - You're ready to go! 🎉
 
+### Environment Variables Required
+
+Create `.env.local` and add:
+
+```bash
+# Convex (get from https://dashboard.convex.dev)
+PUBLIC_CONVEX_URL=https://your-deployment.convex.cloud
+CONVEX_DEPLOYMENT=your-deployment-name
+
+# Better Auth
+BETTER_AUTH_SECRET=your-random-secret-key-here
+BETTER_AUTH_URL=http://localhost:4321  # or your production URL
+
+# GitHub OAuth (optional - for social login)
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+
+# Google OAuth (optional - for social login)
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Resend (optional - for email features)
+RESEND_API_KEY=re_your_api_key
+RESEND_FROM_EMAIL=noreply@yourdomain.com
+```
+
+**Note:** OAuth and Resend are optional. The template works with just Convex credentials for email/password authentication.
+
 ## 🌐 Live Demo
 
 Check out the live deployment on Cloudflare Pages:
-- **Main**: [https://6f06e33b.astro-shadcn-4lu.pages.dev](https://6f06e33b.astro-shadcn-4lu.pages.dev)
-- **Alias**: [https://convex.astro-shadcn-4lu.pages.dev](https://convex.astro-shadcn-4lu.pages.dev)
+- **Main**: [https://stack.one.ie](https://stack.one.ie)
 
 ## 🎯 Key Features
 
@@ -153,21 +210,31 @@ import { Card } from '@/components/ui/card';
 ## 🛠️ Project Structure
 
 ```text
-astro-shadcn/
+one-stack/
 ├── src/
 │   ├── components/
-│   │   ├── ui/              # 50+ Shadcn components
+│   │   ├── ui/              # 50+ shadcn/ui components
+│   │   ├── auth/            # Auth components (SignIn, SignUp, 2FA, etc.)
+│   │   ├── dashboard/       # Dashboard components (Sidebar, Nav, etc.)
+│   │   ├── mail/            # Email UI demo components
 │   │   ├── BlogSearch.tsx   # Real-time blog search
 │   │   ├── TableOfContents.tsx
 │   │   ├── ShareButtons.tsx
-│   │   ├── ErrorBoundary.tsx
-│   │   ├── ModeToggle.tsx   # Theme switcher
-│   │   └── Sidebar.tsx      # Expandable navigation
+│   │   └── ModeToggle.tsx   # Theme switcher
 │   ├── layouts/
 │   │   ├── Layout.astro     # Base layout with SEO
 │   │   └── Blog.astro       # Blog post layout with ToC
 │   ├── pages/
 │   │   ├── index.astro      # Homepage
+│   │   ├── signin.astro     # Sign in page
+│   │   ├── signup.astro     # Sign up page
+│   │   ├── dashboard.astro  # Protected dashboard
+│   │   ├── settings.astro   # User settings (2FA management)
+│   │   ├── forgot-password.astro
+│   │   ├── reset-password.astro
+│   │   ├── verify-email.astro
+│   │   ├── request-magic-link.astro
+│   │   ├── auth/magic-link.astro
 │   │   ├── blog/
 │   │   │   ├── index.astro  # Blog index with search
 │   │   │   └── [...slug].astro # Dynamic blog posts
@@ -177,21 +244,29 @@ astro-shadcn/
 │   │   ├── config.ts        # Content collections schema
 │   │   └── blog/            # Blog posts in markdown
 │   ├── lib/
-│   │   ├── utils.ts         # cn() utility for Tailwind
-│   │   └── reading-time.ts  # Reading time calculator
+│   │   └── utils.ts         # cn() utility for Tailwind
 │   ├── config/
 │   │   └── site.ts          # Site configuration
 │   └── styles/
 │       └── global.css       # Tailwind v4 with @theme blocks
+├── convex/
+│   ├── schema.ts            # Database schema (users, sessions, etc.)
+│   ├── auth.ts              # Auth mutations/queries (all 6 methods)
+│   ├── http.ts              # HTTP endpoints
+│   ├── auth.config.ts       # Better Auth configuration
+│   └── convex.config.ts     # Convex components (Resend, Rate Limiter)
 ├── .vscode/
 │   ├── settings.json        # Workspace settings
 │   └── extensions.json      # Recommended extensions
-├── astro.config.mjs         # Astro + sitemap config
-├── components.json          # Shadcn/ui configuration
+├── astro.config.mjs         # Astro + Cloudflare + React 19 SSR config
+├── wrangler.toml            # Cloudflare Workers configuration
+├── components.json          # shadcn/ui configuration
+├── .mcp.json                # 🤖 MCP servers (shadcn, Cloudflare Builds, Cloudflare Docs)
 ├── .eslintrc.json           # ESLint configuration
 ├── .prettierrc              # Prettier configuration
 ├── tsconfig.json            # TypeScript with path aliases
-└── CLAUDE.md                # AI assistant instructions
+├── CLAUDE.md                # AI assistant instructions (41 docs)
+└── README.md                # This file
 ```
 
 ### Using Components
@@ -222,7 +297,7 @@ bun run build            # Build for production
 bun run preview          # Preview production build
 
 # Deployment
-wrangler pages deploy dist --project-name=astro-shadcn --commit-dirty=true
+wrangler pages deploy dist --project-name=one-stack --commit-dirty=true
 
 # Code Quality
 bun run lint             # Lint code with ESLint
@@ -234,8 +309,6 @@ bunx astro sync          # Sync content collection types
 ```
 
 ## 🌍 Deployment to Cloudflare Pages
-
-### The "Impossible" Achievement 🎉
 
 This project successfully deploys **Astro 5 + React 19** with full server-side rendering on **Cloudflare Pages** - something previously considered impossible due to React 19's `MessageChannel` requirement in Cloudflare Workers runtime.
 
@@ -280,7 +353,7 @@ export default defineConfig({
 
 2. **Deploy to Cloudflare Pages:**
    ```bash
-   wrangler pages deploy dist --project-name=astro-shadcn --commit-dirty=true
+   wrangler pages deploy dist --project-name=one-stack --commit-dirty=true
    ```
 
 3. **Set up environment variables** in Cloudflare Pages dashboard:
@@ -541,6 +614,161 @@ Edit `src/styles/global.css` to customize colors:
 }
 ```
 
+## 🤖 MCP Integration (Model Context Protocol)
+
+ONE Stack includes pre-configured **MCP servers** for enhanced development with AI assistants like Claude Code.
+
+### What are MCPs?
+
+Model Context Protocol (MCP) enables AI assistants to interact with external tools and services through a standardized interface. This template includes three powerful MCP integrations:
+
+### 📦 Configured MCP Servers
+
+#### 1. **shadcn MCP** - Component Management
+```bash
+npx shadcn@latest mcp
+```
+**Features:**
+- 🔍 Search and discover shadcn/ui components
+- 📥 Add new components to your project
+- 📖 View component documentation and examples
+- 🎨 Get usage patterns and best practices
+
+**Usage with Claude Code:**
+```typescript
+// Ask Claude to add a component
+"Add the data-table component from shadcn"
+
+// Claude will use the MCP to:
+// 1. Search for the component
+// 2. View its dependencies
+// 3. Install it with proper configuration
+// 4. Show you usage examples
+```
+
+#### 2. **Cloudflare Builds MCP** - Deployment Management
+```bash
+npx mcp-remote https://builds.mcp.cloudflare.com/sse
+```
+**Features:**
+- 🚀 Monitor deployment status
+- 📊 View build logs and analytics
+- 🔄 Trigger new deployments
+- ⚙️ Manage environment variables
+
+**Usage:**
+```typescript
+// Ask Claude about deployments
+"Show me the latest deployment status"
+"Deploy to production"
+"Check build logs for errors"
+```
+
+#### 3. **Cloudflare Docs MCP** - Documentation Access
+```bash
+npx mcp-remote https://docs.mcp.cloudflare.com/sse
+```
+**Features:**
+- 📚 Search Cloudflare documentation
+- 💡 Get code examples for Workers, Pages, KV
+- 🔧 Access API references
+- 📖 Learn best practices
+
+**Usage:**
+```typescript
+// Ask Claude for Cloudflare help
+"How do I set up KV storage for sessions?"
+"Show me Workers API documentation"
+"What's the best way to handle environment variables?"
+```
+
+### 🎯 Using MCPs with Claude Code
+
+The `.mcp.json` file is automatically detected by Claude Code and other MCP-compatible AI assistants.
+
+**Example Workflows:**
+
+1. **Add a new component:**
+   ```
+   User: "Add the calendar component and create a date picker form"
+   Claude: [Uses shadcn MCP to add component, then generates the form]
+   ```
+
+2. **Deploy updates:**
+   ```
+   User: "Deploy the latest changes to Cloudflare"
+   Claude: [Uses Cloudflare MCP to trigger deployment and monitor progress]
+   ```
+
+3. **Debug with docs:**
+   ```
+   User: "Why is my Cloudflare KV storage not working?"
+   Claude: [Uses Cloudflare Docs MCP to find relevant documentation and troubleshoot]
+   ```
+
+### 📁 Configuration File
+
+The `.mcp.json` file in the project root:
+
+```json
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    },
+    "cloudflare-builds": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://builds.mcp.cloudflare.com/sse"]
+    },
+    "cloudflare-docs": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://docs.mcp.cloudflare.com/sse"]
+    }
+  }
+}
+```
+
+### 🔧 Adding More MCPs
+
+You can add additional MCP servers to enhance your workflow:
+
+```json
+{
+  "mcpServers": {
+    "your-custom-mcp": {
+      "command": "npx",
+      "args": ["your-mcp-package"]
+    }
+  }
+}
+```
+
+**Popular MCPs for web development:**
+- **GitHub MCP** - Repository management and PR creation
+- **Figma MCP** - Design file access and component extraction
+- **Postgres MCP** - Database queries and schema management
+- **Stripe MCP** - Payment integration and testing
+
+### 💡 Benefits of MCP Integration
+
+1. **Faster Development** - AI can install and configure components automatically
+2. **Better Context** - Access to real-time docs and examples
+3. **Deployment Automation** - Deploy directly from conversation with AI
+4. **Troubleshooting** - AI has access to latest documentation and error patterns
+5. **Learning** - AI can teach you best practices from official docs
+
+### 🚀 Getting Started with MCPs
+
+MCPs work automatically when using Claude Code. No additional setup required!
+
+Just ask your AI assistant to:
+- "Add a new shadcn component"
+- "Check deployment status"
+- "Look up Cloudflare documentation for..."
+
+The MCP system handles the rest, providing your AI assistant with the tools it needs to help you build faster.
+
 ## 🔍 Troubleshooting
 
 ### Common Issues & Solutions
@@ -642,13 +870,84 @@ Perfect scores across all metrics:
 
 ## 🤝 Contributing & Support
 
-- Join [Astro Discord](https://astro.build/chat)
-- Check [Astro Documentation](https://docs.astro.build)
-- File an [Issue on GitHub](https://github.com/one-ie/astro-shadcn/issues)
+### Get Help
+- 💬 [Discord Community](https://astro.build/chat) - Join Astro's Discord
+- 📚 [Documentation](https://docs.astro.build) - Official Astro docs
+- 🐛 [Report Issues](https://github.com/one-ie/stack/issues) - File bugs or feature requests
+- 📧 [Contact](https://one.ie) - Reach out to the ONE team
+
+### Contributing
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Star on GitHub ⭐
+If you find ONE Stack useful, please star it on [GitHub](https://github.com/one-ie/stack)!
+
+## 🎯 What Makes ONE Stack Different?
+
+### 1. 🔐 Most Complete Authentication System
+**6 production-ready authentication methods:**
+- ✅ Email/Password with password strength indicator
+- ✅ OAuth (GitHub & Google)
+- ✅ Password Reset with email templates
+- ✅ Email Verification (24-hour tokens)
+- ✅ Magic Links (passwordless)
+- ✅ Two-Factor Auth (TOTP with backup codes)
+- ✅ Rate Limiting (brute force protection)
+- ✅ Session Management (30-day expiry)
+
+**Other Astro templates:** Usually only email/password or no auth at all.
+
+### 2. 🚀 React 19 SSR on Cloudflare Pages
+**The "impossible" achievement** - Full React 19 server-side rendering on Cloudflare Workers edge runtime using `react-dom/server.edge`. This template proves it's possible and production-ready.
+
+**Other templates:** Still using React 18 or client-side only.
+
+### 3. 📊 Real-time Backend with Convex
+**Zero-config real-time database** with typed functions, subscriptions, and automatic API generation. No need to write backend routes or manage infrastructure.
+
+**Other templates:** Static-only or require separate backend setup.
+
+### 4. 🎨 50+ Pre-installed Components
+**Complete shadcn/ui library** ready to use with examples, demos, and working authentication pages. All components support dark mode and are fully accessible.
+
+**Other templates:** Empty or only 5-10 basic components.
+
+### 5. ⚡ Perfect Lighthouse Scores
+**100/100 across all metrics** out of the box - Performance, Accessibility, Best Practices, SEO. Optimized for speed with islands architecture and minimal JavaScript.
+
+**Other templates:** Often sacrifice performance for features.
+
+### 6. 📧 Email System Built-in
+**@convex-dev/resend** component integrated for password reset, email verification, and magic links. Beautiful HTML email templates included.
+
+**Other templates:** No email system or requires manual setup.
+
+### 7. 📝 Advanced Blog System
+**Multi-view layouts** (list, 2/3/4 column grids), real-time search, auto-generated ToC with active tracking, social sharing, RSS feed, categories, tags, featured posts.
+
+**Other templates:** Basic blog or no content collections.
+
+### 8. 🤖 MCP Integration (AI-First Development)
+**3 pre-configured MCP servers** for Claude Code and other AI assistants:
+- shadcn MCP for component management
+- Cloudflare Builds MCP for deployment automation
+- Cloudflare Docs MCP for instant documentation access
+
+**Other templates:** No MCP support - manual component installation and deployment.
+
+### 9. 🛠️ Developer Experience
+**TypeScript strict mode**, ESLint, Prettier, path aliases, VS Code settings, 41 comprehensive documentation files, AI assistant instructions (CLAUDE.md).
+
+**Other templates:** Minimal documentation and tooling.
 
 ## 📦 What's New
 
-### Latest Updates
+### Latest Updates (v1.0.0)
 
 - 🎉 **Cloudflare SSR** - React 19 SSR on Cloudflare Pages (previously impossible!)
 - ✅ **Convex Integration** - Real-time backend with authentication
@@ -672,15 +971,38 @@ Perfect scores across all metrics:
 ## 🎯 Use Cases
 
 Perfect for:
-- 📝 Technical blogs and documentation sites
-- 🎨 Portfolio and personal websites
-- 🚀 Landing pages and marketing sites
-- 📊 Dashboards and admin panels
-- 🛍️ E-commerce frontends
-- 📱 Progressive Web Apps
+- 💼 **SaaS Applications** - Full authentication and user management out of the box
+- 📝 **Technical Blogs** - Advanced content system with search and SEO
+- 🎨 **Portfolios** - Beautiful UI components and dark mode
+- 🚀 **Landing Pages** - Perfect Lighthouse scores and fast loading
+- 📊 **Dashboards** - Pre-built dashboard components and layouts
+- 🛍️ **E-commerce** - Product catalogs with real-time updates
+- 📱 **Progressive Web Apps** - Installable, fast, and offline-capable
+- 🎓 **Educational Platforms** - Content management and user accounts
 
 ---
 
-Built with 🚀 Astro 5, ⚡ Tailwind v4, ⚛️ React 19, and 🎨 Shadcn/UI by [ONE](https://one.ie)
+## 📄 License
 
-**License:** MIT
+**MIT License** - Feel free to use this template for personal or commercial projects.
+
+## 🙏 Acknowledgments
+
+Built with these amazing technologies:
+- 🚀 [Astro](https://astro.build) - The web framework for content-driven websites
+- ⚛️ [React 19](https://react.dev) - The library for web and native user interfaces
+- 🎨 [shadcn/ui](https://ui.shadcn.com) - Beautifully designed components
+- ⚡ [Tailwind CSS v4](https://tailwindcss.com) - A utility-first CSS framework
+- 📊 [Convex](https://convex.dev) - The reactive backend-as-a-service
+- 🔐 [Better Auth](https://better-auth.com) - Authentication for TypeScript
+- ☁️ [Cloudflare Pages](https://pages.cloudflare.com) - Fast, secure, and free hosting
+
+---
+
+<div align="center">
+
+**Built with ❤️ by [ONE](https://one.ie)**
+
+[⭐ Star on GitHub](https://github.com/one-ie/stack) • [🚀 Live Demo](https://stack.one.ie) • [📚 Documentation](./plans/landing.md)
+
+</div>
