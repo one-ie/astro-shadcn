@@ -1,11 +1,46 @@
 import { mutation } from "../_generated/server";
 import { v } from "convex/values";
 
+// Match the schema's relationshipType union
+const relationshipTypeValidator = v.union(
+  v.literal("owns"),
+  v.literal("created_by"),
+  v.literal("clone_of"),
+  v.literal("trained_on"),
+  v.literal("powers"),
+  v.literal("authored"),
+  v.literal("generated_by"),
+  v.literal("published_to"),
+  v.literal("part_of"),
+  v.literal("references"),
+  v.literal("member_of"),
+  v.literal("following"),
+  v.literal("moderates"),
+  v.literal("participated_in"),
+  v.literal("manages"),
+  v.literal("reports_to"),
+  v.literal("collaborates_with"),
+  v.literal("holds_tokens"),
+  v.literal("staked_in"),
+  v.literal("earned_from"),
+  v.literal("purchased"),
+  v.literal("enrolled_in"),
+  v.literal("completed"),
+  v.literal("teaching"),
+  v.literal("transacted"),
+  v.literal("notified"),
+  v.literal("referred"),
+  v.literal("communicated"),
+  v.literal("delegated"),
+  v.literal("approved"),
+  v.literal("fulfilled"),
+);
+
 export const create = mutation({
   args: {
     fromEntityId: v.id("entities"),
     toEntityId: v.id("entities"),
-    relationshipType: v.string(),
+    relationshipType: relationshipTypeValidator,
     metadata: v.optional(v.any()),
     strength: v.optional(v.number()),
     validFrom: v.optional(v.number()),
@@ -29,7 +64,7 @@ export const upsert = mutation({
   args: {
     fromEntityId: v.id("entities"),
     toEntityId: v.id("entities"),
-    relationshipType: v.string(),
+    relationshipType: relationshipTypeValidator,
     metadata: v.optional(v.any()),
     strength: v.optional(v.number()),
     validFrom: v.optional(v.number()),
@@ -61,7 +96,7 @@ export const bulkCreate = mutation({
       v.object({
         fromEntityId: v.id("entities"),
         toEntityId: v.id("entities"),
-        relationshipType: v.string(),
+        relationshipType: relationshipTypeValidator,
         metadata: v.optional(v.any()),
       })
     ),

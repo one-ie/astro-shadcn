@@ -23,7 +23,10 @@ export function RequestMagicLinkForm() {
     setLoading(true)
 
     try {
-      const baseUrl = window.location.origin
+      // Use production URL in production, localhost in dev
+      const baseUrl = import.meta.env.PROD
+        ? "https://stack.one.ie"
+        : window.location.origin
 
       await convex.mutation(api.auth.requestMagicLink, {
         email,
@@ -83,7 +86,7 @@ export function RequestMagicLinkForm() {
         </div>
 
         <Button variant="outline" className="w-full" asChild>
-          <a href="/signin">Back to sign in</a>
+          <a href="/account/signin">Back to sign in</a>
         </Button>
       </AuthCard>
     )
@@ -95,7 +98,7 @@ export function RequestMagicLinkForm() {
       description="Enter your email to receive a passwordless sign-in link"
       footer={
         <p className="text-sm text-muted-foreground text-center w-full">
-          Prefer to use password? <a href="/signin" className="text-primary hover:underline">Sign in</a>
+          Prefer to use password? <a href="/account/signin" className="text-primary hover:underline">Sign in</a>
         </p>
       }
     >
@@ -131,7 +134,7 @@ export function RequestMagicLinkForm() {
         </div>
 
         <Button variant="outline" className="w-full" asChild>
-          <a href="/signin">Sign in with password</a>
+          <a href="/account/signin">Sign in with password</a>
         </Button>
       </form>
     </AuthCard>

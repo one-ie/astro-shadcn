@@ -6,7 +6,7 @@ export const prerender = false
 
 // Redirect if already logged in
 if (Astro.locals.user) {
-  return Astro.redirect("/dashboard")
+  return Astro.redirect("/account")
 }
 ---
 

@@ -86,7 +86,7 @@ export function VerifyEmailForm({ token }: VerifyEmailFormProps) {
         description="This verification link is no longer valid"
         footer={
           <p className="text-sm text-muted-foreground text-center w-full">
-            <a href="/dashboard" className="text-primary hover:underline">Go to dashboard</a>
+            <a href="/account" className="text-primary hover:underline">Go to dashboard</a>
           </p>
         }
       >
@@ -98,7 +98,7 @@ export function VerifyEmailForm({ token }: VerifyEmailFormProps) {
         </Alert>
 
         <Button variant="outline" className="w-full" asChild>
-          <a href="/dashboard">Go to dashboard</a>
+          <a href="/account">Go to dashboard</a>
         </Button>
       </AuthCard>
     )
@@ -111,7 +111,7 @@ export function VerifyEmailForm({ token }: VerifyEmailFormProps) {
         description="Your email has been successfully verified"
         footer={
           <p className="text-sm text-muted-foreground text-center w-full">
-            <a href="/dashboard" className="text-primary hover:underline">Go to dashboard</a>
+            <a href="/account" className="text-primary hover:underline">Go to dashboard</a>
           </p>
         }
       >
@@ -123,7 +123,7 @@ export function VerifyEmailForm({ token }: VerifyEmailFormProps) {
         </Alert>
 
         <Button className="w-full" asChild>
-          <a href="/dashboard">Go to dashboard</a>
+          <a href="/account">Go to dashboard</a>
         </Button>
       </AuthCard>
     )

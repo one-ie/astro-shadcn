@@ -212,13 +212,13 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <a href="/dashboard" className="flex items-center">
+                      <a href="/account" className="flex items-center">
                         <LayoutDashboard className="mr-2" />
                         Dashboard
                       </a>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <a href="/settings" className="flex items-center">
+                      <a href="/account/settings" className="flex items-center">
                         <Settings className="mr-2" />
                         Settings
                       </a>
@@ -248,13 +248,13 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <a href="/signin" className="flex items-center">
+                      <a href="/account/signin" className="flex items-center">
                         <LogIn className="mr-2" />
                         Sign In
                       </a>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <a href="/signup" className="flex items-center">
+                      <a href="/account/signup" className="flex items-center">
                         <UserPlus className="mr-2" />
                         Sign Up
                       </a>
@@ -303,7 +303,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
 
           <div className="ml-auto">
             <Button variant="default" size="sm" asChild>
-              <a href="/dashboard">Get Started</a>
+              <a href="/account">Get Started</a>
             </Button>
           </div>
         </header>

@@ -6,7 +6,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
   const code = url.searchParams.get("code");
 
   if (!code) {
-    return redirect("/login?error=github_auth_failed");
+    return redirect("/account/signin?error=github_auth_failed");
   }
 
   try {
@@ -49,7 +49,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text();
       console.error("GitHub token exchange failed:", tokenResponse.status, errorText);
-      return redirect(`/login?error=github_token_failed&details=${encodeURIComponent('GitHub API error: ' + tokenResponse.status)}`);
+      return redirect(`/account/signin?error=github_token_failed&details=${encodeURIComponent('GitHub API error: ' + tokenResponse.status)}`);
     }
 
     const responseText = await tokenResponse.text();
@@ -58,12 +58,12 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       tokenData = JSON.parse(responseText);
     } catch (e) {
       console.error("Failed to parse GitHub response:", responseText.substring(0, 200));
-      return redirect(`/login?error=github_token_failed&details=${encodeURIComponent('Invalid response from GitHub')}`);
+      return redirect(`/account/signin?error=github_token_failed&details=${encodeURIComponent('Invalid response from GitHub')}`);
     }
 
     if (!tokenData.access_token) {
       console.error("GitHub token exchange failed:", tokenData);
-      return redirect(`/login?error=github_token_failed&details=${encodeURIComponent(tokenData.error_description || tokenData.error || 'No access token')}`);
+      return redirect(`/account/signin?error=github_token_failed&details=${encodeURIComponent(tokenData.error_description || tokenData.error || 'No access token')}`);
     }
 
     // Get user info from GitHub
@@ -78,7 +78,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     if (!userResponse.ok) {
       const body = await userResponse.text();
       console.error("GitHub user fetch failed:", userResponse.status, body.substring(0, 200));
-      return redirect(`/login?error=github_user_failed&details=${encodeURIComponent('GitHub API error: ' + userResponse.status)}`);
+      return redirect(`/account/signin?error=github_user_failed&details=${encodeURIComponent('GitHub API error: ' + userResponse.status)}`);
     }
 
     let githubUser: any;
@@ -87,7 +87,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     } catch (e) {
       const body = await userResponse.text();
       console.error("Failed to parse GitHub user response:", body.substring(0, 200));
-      return redirect(`/login?error=github_user_invalid&details=${encodeURIComponent('Invalid response from GitHub user API')}`);
+      return redirect(`/account/signin?error=github_user_invalid&details=${encodeURIComponent('Invalid response from GitHub user API')}`);
     }
 
     // Get user email if not public
@@ -104,7 +104,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       if (!emailResponse.ok) {
         const body = await emailResponse.text();
         console.error("GitHub emails fetch failed:", emailResponse.status, body.substring(0, 200));
-        return redirect(`/login?error=github_email_failed&details=${encodeURIComponent('GitHub API error: ' + emailResponse.status)}`);
+        return redirect(`/account/signin?error=github_email_failed&details=${encodeURIComponent('GitHub API error: ' + emailResponse.status)}`);
       }
 
       let emails: any[];
@@ -113,14 +113,14 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       } catch (e) {
         const body = await emailResponse.text();
         console.error("Failed to parse GitHub emails response:", body.substring(0, 200));
-        return redirect(`/login?error=github_email_invalid&details=${encodeURIComponent('Invalid response from GitHub emails API')}`);
+        return redirect(`/account/signin?error=github_email_invalid&details=${encodeURIComponent('Invalid response from GitHub emails API')}`);
       }
       const primaryEmail = emails.find((e: any) => e.primary);
       email = primaryEmail?.email || emails[0]?.email;
     }
 
     if (!email) {
-      return redirect("/login?error=no_email");
+      return redirect("/account/signin?error=no_email");
     }
 
     // Create or sign in user via Convex
@@ -148,13 +148,13 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
         secure: import.meta.env.PROD,
       });
 
-      return redirect("/dashboard");
+      return redirect("/account");
     }
 
-    return redirect("/login?error=auth_failed");
+    return redirect("/account/signin?error=auth_failed");
   } catch (error) {
     console.error("GitHub OAuth error:", error);
     const errorMessage = error instanceof Error ? error.message : 'unknown_error';
-    return redirect(`/login?error=server_error&details=${encodeURIComponent(errorMessage)}`);
+    return redirect(`/account/signin?error=server_error&details=${encodeURIComponent(errorMessage)}`);
   }
 };

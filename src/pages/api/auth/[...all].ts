@@ -201,7 +201,10 @@ export const ALL: APIRoute = async ({ request, cookies }) => {
       const body = await request.json()
       const { email } = body
 
-      const baseUrl = new URL(request.url).origin
+      // Use production URL in production, localhost in dev
+      const baseUrl = import.meta.env.PROD
+        ? "https://stack.one.ie"
+        : new URL(request.url).origin
 
       console.log("Calling requestPasswordReset action for:", email)
 

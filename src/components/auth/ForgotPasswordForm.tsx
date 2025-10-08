@@ -71,7 +71,7 @@ export function ForgotPasswordForm() {
         description="We've sent password reset instructions"
         footer={
           <p className="text-sm text-muted-foreground text-center w-full">
-            Remember your password? <a href="/signin" className="text-primary hover:underline">Sign in</a>
+            Remember your password? <a href="/account/signin" className="text-primary hover:underline">Sign in</a>
           </p>
         }
       >
@@ -110,7 +110,7 @@ export function ForgotPasswordForm() {
       description="Enter your email to receive reset instructions"
       footer={
         <p className="text-sm text-muted-foreground text-center w-full">
-          Remember your password? <a href="/signin" className="text-primary hover:underline">Sign in</a>
+          Remember your password? <a href="/account/signin" className="text-primary hover:underline">Sign in</a>
         </p>
       }
     >

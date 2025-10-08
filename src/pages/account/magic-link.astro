@@ -1,0 +1,26 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { RequestMagicLinkForm } from '@/components/auth/RequestMagicLinkForm';
+import { MagicLinkAuth } from '@/components/auth/MagicLinkAuth';
+
+export const prerender = false;
+
+// Check for token (authentication mode) or show request form
+const url = new URL(Astro.request.url);
+const token = url.searchParams.get('token');
+
+// Redirect if already logged in (unless we're processing a token)
+if (Astro.locals.user && !token) {
+  return Astro.redirect("/account");
+}
+---
+
+<Layout title="Magic Link Sign In - ONE">
+  <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/10 p-4">
+    {token ? (
+      <MagicLinkAuth token={token} client:load />
+    ) : (
+      <RequestMagicLinkForm client:load />
+    )}
+  </main>
+</Layout>

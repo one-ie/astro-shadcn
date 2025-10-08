@@ -60,7 +60,7 @@ export function SimpleSignInForm() {
       })
 
       setTimeout(() => {
-        window.location.href = "/dashboard"
+        window.location.href = "/account"
       }, 1000)
     } catch (err: any) {
       const errorMessage = err.message || "An unexpected error occurred"
@@ -99,7 +99,7 @@ export function SimpleSignInForm() {
       description="Sign in to your account"
       footer={
         <p className="text-sm text-muted-foreground text-center w-full">
-          Don't have an account? <a href="/signup" className="text-primary hover:underline">Sign up</a>
+          Don't have an account? <a href="/account/signup" className="text-primary hover:underline">Sign up</a>
         </p>
       }
     >
@@ -125,7 +125,7 @@ export function SimpleSignInForm() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <a href="/forgot-password" className="text-xs text-primary hover:underline">
+            <a href="/account/forgot-password" className="text-xs text-primary hover:underline">
               Forgot password?
             </a>
           </div>
@@ -155,7 +155,7 @@ export function SimpleSignInForm() {
         </div>
 
         <Button variant="outline" className="w-full" asChild>
-          <a href="/request-magic-link">Sign in with magic link</a>
+          <a href="/account/magic-link">Sign in with magic link</a>
         </Button>
       </form>
     </AuthCard>

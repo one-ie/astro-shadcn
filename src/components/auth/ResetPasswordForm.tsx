@@ -99,7 +99,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       })
 
       setTimeout(() => {
-        window.location.href = "/signin"
+        window.location.href = "/account/signin"
       }, 2000)
     } catch (err: any) {
       const errorMessage = err.message || "An unexpected error occurred"
@@ -117,7 +117,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         description="This password reset link is no longer valid"
         footer={
           <p className="text-sm text-muted-foreground text-center w-full">
-            <a href="/forgot-password" className="text-primary hover:underline">Request a new password reset</a>
+            <a href="/account/forgot-password" className="text-primary hover:underline">Request a new password reset</a>
           </p>
         }
       >
@@ -128,7 +128,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         </Alert>
 
         <Button variant="outline" className="w-full" asChild>
-          <a href="/forgot-password">Request new reset link</a>
+          <a href="/account/forgot-password">Request new reset link</a>
         </Button>
       </AuthCard>
     )
@@ -141,7 +141,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         description="Your password has been updated"
         footer={
           <p className="text-sm text-muted-foreground text-center w-full">
-            <a href="/signin" className="text-primary hover:underline">Go to sign in</a>
+            <a href="/account/signin" className="text-primary hover:underline">Go to sign in</a>
           </p>
         }
       >
@@ -161,7 +161,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       description="Enter your new password"
       footer={
         <p className="text-sm text-muted-foreground text-center w-full">
-          Remember your password? <a href="/signin" className="text-primary hover:underline">Sign in</a>
+          Remember your password? <a href="/account/signin" className="text-primary hover:underline">Sign in</a>
         </p>
       }
     >

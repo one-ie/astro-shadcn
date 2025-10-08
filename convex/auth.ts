@@ -74,7 +74,7 @@ export const signUp = mutation({
       });
 
       if (result) {
-        const verificationLink = `${args.baseUrl}/verify-email?token=${result.token}`;
+        const verificationLink = `${args.baseUrl}/account/verify-email?token=${result.token}`;
         await ctx.scheduler.runAfter(0, internal.auth.sendVerificationEmailAction, {
           email: result.email,
           verificationLink,
@@ -313,7 +313,7 @@ export const requestPasswordReset = mutation({
     }
 
     // Create reset link
-    const resetLink = `${args.baseUrl}/reset-password?token=${result.token}`;
+    const resetLink = `${args.baseUrl}/account/reset-password?token=${result.token}`;
 
     // Schedule email sending via internal action
     await ctx.scheduler.runAfter(0, internal.auth.sendPasswordResetEmailAction, {
@@ -582,7 +582,7 @@ export const requestMagicLink = mutation({
     });
 
     if (result) {
-      const magicLink = `${args.baseUrl}/auth/magic-link?token=${result.token}`;
+      const magicLink = `${args.baseUrl}/account/magic-link?token=${result.token}`;
       await ctx.scheduler.runAfter(0, internal.auth.sendMagicLinkEmailAction, {
         email: result.email,
         magicLink,

@@ -60,7 +60,7 @@ export function SimpleSignUpForm() {
       })
 
       setTimeout(() => {
-        window.location.href = "/dashboard"
+        window.location.href = "/account"
       }, 1000)
     } catch (err: any) {
       const errorMessage = err.message || "An unexpected error occurred"
@@ -99,7 +99,7 @@ export function SimpleSignUpForm() {
       description="Sign up to get started"
       footer={
         <p className="text-sm text-muted-foreground text-center w-full">
-          Already have an account? <a href="/signin" className="text-primary hover:underline">Sign in</a>
+          Already have an account? <a href="/account/signin" className="text-primary hover:underline">Sign in</a>
         </p>
       }
     >

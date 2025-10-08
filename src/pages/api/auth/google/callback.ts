@@ -6,7 +6,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
   const code = url.searchParams.get("code");
 
   if (!code) {
-    return redirect("/login?error=google_auth_failed");
+    return redirect("/account/signin?error=google_auth_failed");
   }
 
   try {
@@ -39,7 +39,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     if (!tokenResponse.ok) {
       const text = await tokenResponse.text();
       console.error("Google token exchange failed:", tokenResponse.status, text.substring(0, 200));
-      return redirect(`/login?error=google_token_failed&details=${encodeURIComponent('Google API error: ' + tokenResponse.status)}`);
+      return redirect(`/account/signin?error=google_token_failed&details=${encodeURIComponent('Google API error: ' + tokenResponse.status)}`);
     }
 
     const tokenText = await tokenResponse.text();
@@ -48,11 +48,11 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       tokenData = JSON.parse(tokenText);
     } catch (e) {
       console.error("Failed to parse Google token response:", tokenText.substring(0, 200));
-      return redirect(`/login?error=google_token_invalid&details=${encodeURIComponent('Invalid response from Google token API')}`);
+      return redirect(`/account/signin?error=google_token_invalid&details=${encodeURIComponent('Invalid response from Google token API')}`);
     }
 
     if (!tokenData.access_token) {
-      return redirect(`/login?error=google_token_failed&details=${encodeURIComponent(tokenData.error_description || tokenData.error || 'No access token')}`);
+      return redirect(`/account/signin?error=google_token_failed&details=${encodeURIComponent(tokenData.error_description || tokenData.error || 'No access token')}`);
     }
 
     // Get user info from Google
@@ -67,7 +67,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     if (!userResponse.ok) {
       const text = await userResponse.text();
       console.error("Google user fetch failed:", userResponse.status, text.substring(0, 200));
-      return redirect(`/login?error=google_user_failed&details=${encodeURIComponent('Google API error: ' + userResponse.status)}`);
+      return redirect(`/account/signin?error=google_user_failed&details=${encodeURIComponent('Google API error: ' + userResponse.status)}`);
     }
 
     let googleUser: any;
@@ -76,11 +76,11 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     } catch (e) {
       const text = await userResponse.text();
       console.error("Failed to parse Google user response:", text.substring(0, 200));
-      return redirect(`/login?error=google_user_invalid&details=${encodeURIComponent('Invalid response from Google user API')}`);
+      return redirect(`/account/signin?error=google_user_invalid&details=${encodeURIComponent('Invalid response from Google user API')}`);
     }
 
     if (!googleUser.email) {
-      return redirect("/login?error=no_email");
+      return redirect("/account/signin?error=no_email");
     }
 
     // Create or sign in user via Convex
@@ -108,12 +108,12 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
         secure: import.meta.env.PROD,
       });
 
-      return redirect("/dashboard");
+      return redirect("/account");
     }
 
-    return redirect("/login?error=auth_failed");
+    return redirect("/account/signin?error=auth_failed");
   } catch (error) {
     console.error("Google OAuth error:", error);
-    return redirect("/login?error=server_error");
+    return redirect("/account/signin?error=server_error");
   }
 };

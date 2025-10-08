@@ -54,7 +54,7 @@ export function MagicLinkAuth({ token }: MagicLinkAuthProps) {
             })
 
             setTimeout(() => {
-              window.location.href = "/dashboard"
+              window.location.href = "/account"
             }, 1500)
           } else {
             throw new Error("Failed to set authentication cookie")
@@ -103,7 +103,7 @@ export function MagicLinkAuth({ token }: MagicLinkAuthProps) {
         description="This magic link is no longer valid"
         footer={
           <p className="text-sm text-muted-foreground text-center w-full">
-            <a href="/request-magic-link" className="text-primary hover:underline">Request a new magic link</a>
+            <a href="/account/magic-link" className="text-primary hover:underline">Request a new magic link</a>
           </p>
         }
       >
@@ -115,7 +115,7 @@ export function MagicLinkAuth({ token }: MagicLinkAuthProps) {
         </Alert>
 
         <Button variant="outline" className="w-full" asChild>
-          <a href="/request-magic-link">Request new magic link</a>
+          <a href="/account/magic-link">Request new magic link</a>
         </Button>
       </AuthCard>
     )
@@ -128,7 +128,7 @@ export function MagicLinkAuth({ token }: MagicLinkAuthProps) {
         description="Redirecting to your dashboard"
         footer={
           <p className="text-sm text-muted-foreground text-center w-full">
-            <a href="/dashboard" className="text-primary hover:underline">Go to dashboard</a>
+            <a href="/account" className="text-primary hover:underline">Go to dashboard</a>
           </p>
         }
       >
@@ -140,7 +140,7 @@ export function MagicLinkAuth({ token }: MagicLinkAuthProps) {
         </Alert>
 
         <Button className="w-full" asChild>
-          <a href="/dashboard">Go to dashboard</a>
+          <a href="/account">Go to dashboard</a>
         </Button>
       </AuthCard>
     )
