@@ -42,7 +42,7 @@ Core layers (inside apps/astro‑shadcn):
 - Optional Adapters
   - OpenAI SDK: used for features not yet in Vercel AI SDK (e.g., TTS, Realtime, Assistants), guarded by capability flags per provider.
   - AgentKit: selectively adopt utilities that don’t constrain provider choice; wrap behind an internal interface.
-  - ChatKit: consume only UI‑primitives or patterns compatible with Astro/React islands; no RSC lock‑in.
+  - ChatKit (openai/chatkit-js): integrate as an optional UI shell behind an adapter. Use only if `features.chatkit` is enabled AND provider policy allows OpenAI. Otherwise use our default AI SDK UI. No business logic lives in ChatKit.
 
 —
 
@@ -77,6 +77,61 @@ Safety & Fallbacks
 Lock‑in Avoidance
 - No code paths should require AgentKit; it’s an adapter behind `IAgentRuntime`.
 - All messages/events/knowledge are persisted using our consolidated types; protocol specifics live in `properties/metadata`.
+
+—
+
+## ChatKit (openai/chatkit-js) Integration Without Lock‑In
+
+Reference: https://github.com/openai/chatkit-js (batteries‑included chat UI with streaming, tools, and widgets)
+
+Principles
+- ChatKit is UI only in our architecture. The runtime remains provider‑agnostic through Vercel AI SDK (or the optional AgentKit adapter when explicitly enabled).
+- ChatKit usage is gated by `features.chatkit`. If disabled or provider ≠ 'openai', we fall back to our AI SDK UI seamlessly.
+- All ChatKit sessions/tokens are modeled as Things and Events with `metadata.protocol = 'openai'` to avoid coupling. No schema/enum changes.
+
+Operational Modes
+- Native ChatKit Mode (OpenAI‑enabled orgs)
+  - Server creates a ChatKit session via OpenAI SDK only when `features.chatkit` is true.
+  - Frontend mounts `<ChatKit />` from `@openai/chatkit-react` and retrieves a short‑lived `client_secret` from `/api/chatkit/session`.
+  - We still mirror messages, tool calls, and widgets as AG‑UI envelopes into Convex events for observability and cross‑provider parity.
+- Provider‑Agnostic Mode (default)
+  - No ChatKit dependencies. We use Vercel AI SDK streaming and our Generative UI renderer.
+  - The same tools and UI components are available via AG‑UI messages and the component registry.
+
+Adapter Design
+- UI Adapter Interface `IChatUI` (client‑side)
+  - `mount(container, options): Control`
+  - `send(message|uiEnvelope)`
+  - `on(event, handler)`
+- Implementations
+  - `ChatKitUI` (wraps `@openai/chatkit-react` + global `chatkit.js` if required)
+  - `AI_SDK_UI` (our default React chat with `useChat`/SSE)
+
+Session Modeling
+- Thing `chatkit_session` with `properties: { provider: 'openai', sessionId, clientSecretExpiresAt, protocol: 'openai' }`.
+- Events: `communication_event { messageType: 'session_created'|'session_refreshed'|'session_closed' }`.
+
+UI Bridging (Widgets → AG‑UI)
+- Translate ChatKit widgets to AG‑UI envelopes so our renderer (or logs) remain consistent:
+  - Widget card → `{ type: 'ui', component: 'Card', props }`
+  - Table/chart/form widgets → mapped to our registry names with normalized props
+  - Tool visualizations → `{ type: 'tool_call', ... }`
+
+Installation (optional)
+- `npm install @openai/chatkit-react`
+- Optionally include `chatkit.js` script (per upstream docs) when using CDN runtime.
+
+API Endpoints (optional)
+- `POST /api/chatkit/session` — calls `openai.chatkit.sessions.create(...)`, returns `{ client_secret }` when allowed. Otherwise 403.
+
+Lock‑In Avoidance
+- ChatKit code is isolated under `src/components/ai/chatkit/` and `src/pages/api/chatkit/`.
+- All feature flags live in Convex/org settings. The system works identically without ChatKit.
+- Models/tools are registered once via Vercel AI SDK; ChatKit never becomes the source of truth for tools or state.
+
+Security
+- Client secrets are short‑lived; stored only in memory on the client; never persisted to DB.
+- Strict CORS on `/api/chatkit/session` and org‑scoped authorization.
 
 —
 
