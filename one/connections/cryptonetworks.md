@@ -92,6 +92,12 @@ struct CreatorToken has key, store {
 
 **Verdict:** 🏆 **PRIMARY NETWORK** - Best overall for AI agents building on the ONE Platform.
 
+**Creator Token Rollout (2025 Update)**
+- `creator_token` smart contracts map 1:1 to SUI Move objects; treasury caps live as things with `properties.network = "sui"` and `properties.coinType`.
+- Programmable Transaction Blocks let CreatorOS mint, vest, and stream tokens (membership, revenue share) atomically while AI agents sponsor gas.
+- Storage rebates + object-centric parallelism keep millions of fan wallets cheap to maintain; balances sync into the ONE ontology via `holds_tokens` connections.
+- ZK Login + Sponsored Transactions mean fans claim creator tokens instantly using email/Social without touching seed phrases—perfect for mainstream onboarding.
+
 ---
 
 #### **Solana**

@@ -27,6 +27,7 @@ SUI Move is our smart contract layer for blockchain operations. It integrates se
 | 'nft'               // SUI NFT (kiosk objects)
 | 'payment'           // SUI payment transaction
 | 'external_connection' // Connection to SUI network/RPC
+| 'creator_token'     // Fan/creator social token (CreatorOS package)
 
 // Creator economy
 | 'creator'           // Creator with SUI wallet
@@ -99,6 +100,55 @@ SUI Move is our smart contract layer for blockchain operations. It integrates se
     // SUI-specific
     epochSupply: number,                // Supply at current epoch
     lastEpochUpdate: number,
+  },
+  status: "active",
+}
+```
+
+**Creator Token Properties (CreatorOS Coin)**
+
+```typescript
+{
+  type: "creator_token",
+  name: "CreatorOS Fan Token",
+  properties: {
+    blockchain: "sui",
+    network: "sui",
+    standard: "COIN",
+    coinType: string,                 // e.g. "0xcreatoros::token::ALIYAH"
+    packageId: string,                // CreatorOS package
+    treasuryCap: string,              // TreasuryCap object ID
+    launchpadModule: string,          // Module handling mint/vesting
+
+    creatorThingId: Id<"things">,
+    totalSupply: number,
+    circulatingSupply: number,
+    priceUsd?: number,
+    rewardPrograms: [
+      {
+        type: "airdrop" | "course_reward" | "community_reward" | "purchase_bonus",
+        metadata: Record<string, any>,
+      }
+    ],
+    gatedUtilities: [
+      {
+        targetThingId: Id<"things">,  // e.g., digital_product, community space
+        requirement: "hold" | "stake" | "burn",
+        threshold: number,
+      }
+    ],
+    vestingSchedules: [
+      {
+        beneficiaryThingId: Id<"things">,
+        allocation: number,
+        cliffAt: number,
+        unlockFrequencyDays: number,
+      }
+    ],
+    createdBy: Id<"things">,
+    launchTxDigest: string,
+    createdAt: number,
+    updatedAt: number,
   },
   status: "active",
 }
@@ -221,6 +271,36 @@ SUI Move is our smart contract layer for blockchain operations. It integrates se
     deploymentRole: "deployer",
     upgradeCap?: string,          // Upgrade capability object
     adminCap?: string,            // Admin capability object
+  },
+}
+
+// Creator treasury allocation of creator token supply
+{
+  fromThingId: creatorId,
+  toThingId: creatorTokenId,
+  relationshipType: "owns",
+  metadata: {
+    network: "sui",
+    allocation: number,           // Amount allocated to creator
+    vestingScheduleId?: string,
+    cliffAt?: number,
+    unlockFrequencyDays?: number,
+    notes?: string,
+  },
+}
+
+// Fan holds creator tokens (airdrop, rewards, purchases)
+{
+  fromThingId: fanId,
+  toThingId: creatorTokenId,
+  relationshipType: "holds_tokens",
+  metadata: {
+    network: "sui",
+    balance: number,
+    walletAddress: string,
+    acquisitionSource: "airdrop" | "purchase" | "course_reward" | "community_reward",
+    acquiredAt: number,
+    lastUpdatedAt: number,
   },
 }
 

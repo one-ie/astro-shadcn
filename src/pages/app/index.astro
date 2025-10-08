@@ -1,0 +1,10 @@
+---
+import AppLayout from '@/layouts/AppLayout.astro';
+import { AppLayout as AppLayoutComponent } from '@/components/app/AppLayout';
+---
+
+<AppLayout title="App - ONE">
+  <div class="h-screen w-screen overflow-hidden">
+    <AppLayoutComponent client:only="react" />
+  </div>
+</AppLayout>

@@ -378,6 +378,14 @@ Current AI avatars (Synthesia, HeyGen):
 
 **With 1,000 creators like this: $32M annual revenue**
 
+### Creator Tokens — Operational Blueprint (2025 Update)
+
+- **Chain + contract:** Minted on **SUI** via the CreatorOS Move package. Treasury caps, vesting curves, and gated utilities sync to the ontology as `creator_token` things with `holds_tokens` and `owns` connections.
+- **Launch choreography:** Programmable Transaction Blocks handle mint + vest + stream in one atomic action, so allocations to creators, team, and community vaults stay trustless.
+- **Fan onboarding:** Sponsored transactions + ZK Login let fans claim tokens from YouTube/TikTok/Newsletter quests without wallets; AI concierge issues rewards instantly.
+- **Utility wiring:** Courses, cohorts, community rooms, and offers reference the token through `gatedUtilities` metadata (hold, stake, burn thresholds) for legally clean utility.
+- **Intelligence loop:** CreatorOS analytics track balances, whales, and sharers. AI growth agents trigger quests, airdrops, or upsells when engagement dips.
+
 ## Why This Wins vs. Everything Else
 
 ### vs. Patreon

@@ -961,7 +961,7 @@ await salesAgent.qualifyLead({ leadId });
 
 ## See Also
 
-- **[KYC.md](../connections/KYC.md)** - KYC verification process with SUI
+- **[KYC.md](../connections/kyc.md)** - KYC verification process with SUI
 - **[Owner.md](./owner.md)** - Platform owner revenue tracking
 - **[Organisation.md](./organisation.md)** - Organization structure and billing
 - **[Ontology.md](../ontology.md)** - 4-table universe and business agents

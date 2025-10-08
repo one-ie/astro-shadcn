@@ -10,7 +10,7 @@ This ontology is organized into 6 consolidated files:
 1. **[organisation.md](./organisation.md)** - Organizations own things and delegate ownership to people
 2. **[people.md](./people.md)** - Platform owner, org owners, users, and customers who customize AI
 3. **[things.md](./things.md)** - 66 entity types (summary; complete details below)
-4. **[connections.md](Connections.md)** - 25 relationship types (summary; complete details below)
+4. **[connections.md](./connections.md)** - 25 relationship types (summary; complete details below)
 5. **[events.md](./events.md)** - 67 event types (summary; complete details below)
 6. **[knowledge.md](./knowledge.md)** - Vectors, embeddings, RAG, inference, and revenue flows
 

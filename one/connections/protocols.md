@@ -28,7 +28,7 @@ price_checked, commerce_event, payment_verified
 | **ACP (REST)** | Agent-to-frontend REST API | [ACP.md](./acp.md) | [Specifications.md](./specifications.md) |
 | **X402** | HTTP 402 micropayments | [X402.md](./x402.md) | [Specifications.md](./specifications.md) |
 | **AP2** | Autonomous agent payments | [AP2.md](./ap2.md) | [Specifications.md](./specifications.md) |
-| **ACPayments** | Unified payment ecosystem | [ACPayments.md](ACPS.md) | [Specifications.md](./specifications.md) |
+| **ACPayments** | Unified payment ecosystem | [acps.md](./acps.md) | [Specifications.md](./specifications.md) |
 
 ---
 
@@ -36,7 +36,7 @@ price_checked, commerce_event, payment_verified
 
 **Our 4-table ontology is defined in:**
 - **[Ontology.md](./ontology.md)** - The ONE source of truth
-- **[OntologyUpdates.md](./OntologyUpdates.md)** - Implementation plan
+- **[ontologyupdates.md](./ontologyupdates.md)** - Implementation plan
 
 **Tables:**
 1. **entities** - All "things" (56 entity types)
@@ -245,14 +245,14 @@ const ap2Mandates = await ctx.db
 **Specifications:**
 - [Specifications.md](./specifications.md) - How all protocols work together
 - [Ontology.md](./ontology.md) - The ONE ontology (single source of truth)
-- [OntologyUpdates.md](./OntologyUpdates.md) - Implementation plan
+- [ontologyupdates.md](./ontologyupdates.md) - Implementation plan
 
 **Protocol Specs:**
 - [A2A.md](./a2a.md) - Agent-to-agent communication
 - [ACP.md](./acp.md) - Agent Communication Protocol (REST)
 - [X402.md](./x402.md) - HTTP 402 micropayments
 - [AP2.md](./ap2.md) - Agent Payments Protocol
-- [ACPayments.md](ACPS.md) - Unified payment system
+- [acps.md](./acps.md) - Unified payment system
 
 **Other:**
 - [CopilotKit.md](./copilotkit.md) - Generative UI patterns

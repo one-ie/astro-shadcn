@@ -1,6 +1,6 @@
 # ONE CLI - Ontology-Driven Project Bootstrap
 
-**Version:** 3.0.0
+**Version:** 1.0.0
 **Package:** `npx oneie` (ONE Intelligent Environment)
 **Purpose:** Bootstrap production-ready, AI-first projects with full ontology integration
 
@@ -11,7 +11,7 @@
 The ONE CLI creates **living, ontology-driven codebases** that AI agents can understand and extend:
 
 ```
-npx oneie my-project
+npx oneie
     ↓
 Downloads /one/ → Generates Frontend → Generates Backend → Configures AI → Ready!
 ```
@@ -87,16 +87,16 @@ npx oneie create my-creator-platform
 cd my-creator-platform
 ```
 
-**Generated structure:**
+**Generated structure:** 
 
 ```
-my-creator-platform/
-├── one/                # ⭐ Canonical ontology (downloaded)
-│   ├── Ontology.md
-│   ├── Rules.md
-│   ├── Patterns.md
-│   ├── ONE DSL.md
-│   └── [all specs]
+one/
+├── one/                # ⭐ Canonical ontology (downloaded) update to show 
+│   ├── people
+│   ├── things
+│   ├── connections
+│   ├── events
+│   └── knowledge
 │
 ├── src/                # ⭐ Astro frontend
 │   ├── pages/
@@ -691,8 +691,8 @@ Generated `.claude/settings.local.json`:
 ## Related Documentation
 
 - **[Ontology.md](./ontology.md)** - 4-table data model (source of truth)
-- **[ONE DSL.md](./ONE%20DSL.md)** - Technical DSL specification
-- **[ONE DSL English.md](./ONE%20DSL%20English.md)** - Plain English DSL
+- **[dsl.md](./dsl.md)** - Technical DSL specification
+- **[dsl-english.md](./dsl-english.md)** - Plain English DSL
 - **[Rules.md](./rules.md)** - Golden rules for AI agents
 - **[Patterns.md](./patterns.md)** - Proven code patterns
 - **[Workflow.md](./workflow.md)** - Ontology-driven development flow

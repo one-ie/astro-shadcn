@@ -1032,8 +1032,8 @@ The middleware layer provides **five key components**:
 | Error display | Error Boundaries | Catch React errors |
 
 **Related Documentation:**
-- [Frontend.md](docs/Frontend.md) - Astro + React frontend patterns
-- [Hono.md](docs/Hono.md) - Hono API backend implementation
-- [Architecture.md](docs/Architecture.md) - Complete system architecture
+- [frontend.md](../things/frontend.md) - Astro + React frontend patterns
+- [hono.md](../things/hono.md) - Hono API backend implementation
+- [architecture.md](../things/architecture.md) - Complete system architecture
 
 The middleware layer is the **glue** that makes our three-layer architecture work seamlessly! 🚀

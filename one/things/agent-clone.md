@@ -1,7 +1,7 @@
-# Ingestor Agent Specification
-
-**Role:** Migration Specialist  
-**Purpose:** Migrate data and code from one.ie and bullfm into the new ONE platform structure  
+# Agent Clone
+Ingestor Agent Specification
+**Role:** Clone me and organise all my information
+**Purpose:** Migrate data and code from one.ie and later bullfm into the new ONE platform structure  
 **Expertise:** Data transformation, code refactoring, ontology mapping
 
 ---

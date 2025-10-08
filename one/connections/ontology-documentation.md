@@ -57,7 +57,7 @@ Organisations → People → Things → Connections → Events → Knowledge
 
 ### Knowledge Subdirectory
 
-- **[knowledge/score.md](Score.md)** - Inference score tracker
+- **[knowledge/score.md](./knowledge/score.md)** - Inference score tracker
   - Measures ontology stability
   - Lower is better
   - Goal: < 20 modifications per month
@@ -93,7 +93,7 @@ Organisations → People → Things → Connections → Events → Knowledge
 ### For Developers
 
 1. Start with **[organisation.md](./organisation.md)** - Understand multi-tenancy
-2. Read [[**people/people]].md](./people.md)** - Understand roles & permissions
+2. Read **[people.md](./people.md)** - Understand roles & permissions
 3. Skim **[things.md](./things.md)** - See what entities exist
 4. Review **[connections.md](./connections.md)** - See how things relate
 5. Check **[events.md](./events.md)** - See what gets logged

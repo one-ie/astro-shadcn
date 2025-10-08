@@ -1,0 +1,606 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  Sparkles,
+  Rocket,
+  Clock,
+  DollarSign,
+  MoonStar,
+  PlayCircle,
+  Mic,
+  FileText,
+  Users,
+  Mail,
+  ShoppingBag,
+  Bot,
+  MessageCircle,
+  GraduationCap,
+  BarChart3,
+  Zap,
+  Layers,
+  Gauge,
+  ShieldCheck,
+  Megaphone,
+  Coins,
+  Target,
+  Check,
+  ArrowRight
+} from 'lucide-react';
+
+const siteFeatures = [
+  {
+    title: 'Auto Blog Publishing',
+    description: 'CreatorOS ingests every YouTube video, TikTok, reel, and newsletter, then publishes SEO-rich articles without you lifting a finger.',
+    icon: FileText,
+  },
+  {
+    title: 'Video & Short Hub',
+    description: 'A cinematic video library that syncs with YouTube, TikTok, and Shorts in real time. Chapters, CTAs, and transcripts are generated automatically.',
+    icon: PlayCircle,
+  },
+  {
+    title: 'Podcast Theater',
+    description: 'Pull episodes from any RSS feed. CreatorOS adds show notes, highlights, and audio summaries within minutes of release.',
+    icon: Mic,
+  },
+  {
+    title: 'Community HQ',
+    description: 'Members-only spaces, live events, challenges, and AI moderation keep your tribe energized without you living in DMs.',
+    icon: Users,
+  },
+  {
+    title: 'Smart Newsletter',
+    description: 'One-click email campaigns built from your latest videos, blog posts, and community updates. Optimized send windows included.',
+    icon: Mail,
+  },
+  {
+    title: 'Digital Storefront',
+    description: 'Courses, cohorts, downloads, and subscriptions arranged into high-converting funnels with upsells, bundles, and checkout analytics.',
+    icon: ShoppingBag,
+  },
+];
+
+const aiPowers = [
+  {
+    title: 'Chat with Your Content',
+    description: 'Visitors speak to your CreatorOS Concierge trained on your videos, podcasts, and notes. It references exact clips and timestamps instantly.',
+    icon: MessageCircle,
+  },
+  {
+    title: 'Autonomous Content Sprints',
+    description: 'Give CreatorOS a theme. It drafts scripts, blog outlines, newsletters, social threads, and publishing schedules in one flow.',
+    icon: Bot,
+  },
+  {
+    title: 'Adaptive Learning',
+    description: 'Students get an on-demand tutor powered by your lessons. It quizzes, recommends modules, and checks progress automatically.',
+    icon: GraduationCap,
+  },
+  {
+    title: 'Conversion Intelligence',
+    description: 'Predicts top offers, tunes CTAs in real time, and surfaces paywall moments based on behavioral and revenue data.',
+    icon: BarChart3,
+  },
+];
+
+const experienceHighlights = [
+  {
+    title: 'Lightning Fast Launch',
+    description: 'Your entire CreatorOS site goes live in 7 days or less with automated migrations and design presets tuned for creators and educators.',
+    icon: Rocket,
+  },
+  {
+    title: 'Headless & Future-Proof',
+    description: 'Built on Astro, shadcn/ui, Convex, and Better Auth. Blazing performance, native SEO, and unlimited extensibility for your team.',
+    icon: Layers,
+  },
+  {
+    title: 'Always Optimized',
+    description: 'Automated Lighthouse audits, accessibility checks, and experiment-ready landing pages keep every funnel sharp.',
+    icon: Gauge,
+  },
+  {
+    title: 'Enterprise-Grade Trust',
+    description: 'SSO, granular permissions, compliant payments, and content protection out of the box for serious creators and academies.',
+    icon: ShieldCheck,
+  },
+];
+
+const launchSteps = [
+  {
+    step: '01',
+    title: 'Ingest & Train',
+    description: 'Connect YouTube, TikTok, podcast, courses, and docs. CreatorOS scrapes transcripts, assets, metadata, and voice samples overnight.',
+  },
+  {
+    step: '02',
+    title: 'Design & Automate',
+    description: 'Choose your visual language. Our team configures funnels, automations, and AI concierge personalities matched to your brand.',
+  },
+  {
+    step: '03',
+    title: 'Launch & Scale',
+    description: 'Preview on staging, then go live. CreatorOS keeps publishing, selling, and supporting while you focus on your next idea.',
+  },
+];
+
+const problemPainPoints = [
+  {
+    title: 'Time Trapped',
+    description: 'You juggle recording, editing, teaching, and community management. Every extra offer steals time from creating.',
+    icon: Clock,
+  },
+  {
+    title: 'Revenue Ceiling',
+    description: 'You only monetize what you can manually launch. Courses and memberships stall without constant personal energy.',
+    icon: DollarSign,
+  },
+  {
+    title: 'Always On',
+    description: 'Audiences expect instant replies, personalized feedback, and new content daily. You can’t be everywhere at once.',
+    icon: MoonStar,
+  },
+];
+
+const aiCloneBenefits = [
+  {
+    title: 'AI Clone You',
+    description: 'Your voice, values, and knowledge replicated. Teaches courses, hosts Q&A, and guides learners automatically.',
+    icon: Bot,
+  },
+  {
+    title: 'Autopilot Engagement',
+    description: 'CreatorOS nurtures leads, welcomes new members, and keeps conversations active without you living in DMs.',
+    icon: MessageCircle,
+  },
+  {
+    title: 'Monetize Everything',
+    description: 'Bundle courses, cohorts, and downloads with dynamic upsells driven by conversion intelligence.',
+    icon: ShoppingBag,
+  },
+  {
+    title: 'Insight-Driven Growth',
+    description: 'Know exactly what your audience consumes, asks, and buys—so you record the next breakout hit.',
+    icon: BarChart3,
+  },
+];
+
+const growthStack = [
+  {
+    title: 'Launch Studio',
+    description: 'Proven campaign playbooks for cohorts, challenges, and product launches—automated with emails, pages, and AI prompts.',
+    icon: Megaphone,
+  },
+  {
+    title: 'Revenue Engines',
+    description: 'Subscriptions, bundles, affiliate offers, and sponsorships orchestrated in one dashboard with live forecasting.',
+    icon: Coins,
+  },
+  {
+    title: 'Community Flywheel',
+    description: 'Private community, live events, and token-based access tied into your site so engagement drives recurring revenue.',
+    icon: Users,
+  },
+  {
+    title: 'Creator Advisory',
+    description: 'Strategy sessions, design support, and automation experts on tap so you’re never building alone.',
+    icon: Sparkles,
+  },
+];
+---
+
+<Layout title="CreatorOS Websites — AI-Powered Sites for Creators & Educators">
+  <!-- Hero -->
+  <section class="relative -mt-4 sm:-mt-6 -mx-4 sm:-mx-6 overflow-hidden py-16 sm:py-24 md:py-32 lg:py-40">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-primary/10 via-background to-background"></div>
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.14),_transparent_60%)]"></div>
+
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="flex flex-col items-center space-y-8 text-center">
+        <Badge variant="secondary" className="inline-flex items-center gap-2 text-sm font-medium" data-usal="fade-down duration-600">
+          <Sparkles className="h-4 w-4" />
+          CreatorOS · AI Operating System for Creators
+        </Badge>
+
+        <h1 class="font-heading text-4xl font-bold leading-tight tracking-tight sm:text-6xl md:text-7xl lg:text-8xl" data-usal="fade-up duration-700 delay-100">
+          Websites That Think
+          <br />
+          <span class="text-primary">For You & Your Audience</span>
+        </h1>
+
+        <p class="max-w-3xl text-xl leading-relaxed text-muted-foreground sm:text-2xl" data-usal="fade-up duration-700 delay-200">
+          CreatorOS builds a living website that ingests every video, podcast, article, community thread, product, and token you launch. Fans binge your universe, chat with your content, and invest in your growth—24/7—powered entirely by AI.
+        </p>
+
+        <div class="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center" data-usal="fade-up duration-700 delay-300">
+          <a href="/onboard">
+            <Button variant="default" size="lg" className="h-14 w-full sm:w-auto px-8 text-base font-semibold">
+              Build My CreatorOS Site
+            </Button>
+          </a>
+          <a href="/demo">
+            <Button variant="outline" size="lg" className="h-14 w-full sm:w-auto px-8 text-base font-semibold">
+              Explore Live Example
+            </Button>
+          </a>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-6 pt-2 text-sm text-muted-foreground" data-usal="fade-in duration-700 delay-400">
+          <span class="flex items-center gap-1.5">
+            <Check className="h-4 w-4 text-primary" /> Launch in 7 days
+          </span>
+          <span class="flex items-center gap-1.5">
+            <Check className="h-4 w-4 text-primary" /> Auto-ingests every channel
+          </span>
+          <span class="flex items-center gap-1.5">
+            <Check className="h-4 w-4 text-primary" /> AI concierge + creator tokens
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics -->
+  <section class="border-y bg-muted/50 px-4 py-16 sm:px-6 md:px-8">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-100">
+          <div class="text-5xl font-bold text-primary">7</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Days to Launch</div>
+        </div>
+        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-150">
+          <div class="text-5xl font-bold text-primary">100%</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Automated Publishing</div>
+        </div>
+        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-200">
+          <div class="text-5xl font-bold text-primary">12x</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Average Conversion Lift</div>
+        </div>
+        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-250">
+          <div class="text-5xl font-bold text-primary">∞</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">AI Concierge + Token Flywheel</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Target className="h-4 w-4" />
+          The Creator Trap
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Why Traditional Creator Sites Fail
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Manual websites demand nonstop uploads, live launches, and 1:1 attention. You trade time for growth—and hit a ceiling fast.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        {problemPainPoints.map((pain, index) => (
+          <Card className="group border-destructive/20 bg-[hsl(var(--sidebar))] backdrop-blur transition-all hover:-translate-y-1 hover:border-destructive/40 hover:bg-[hsl(var(--color-card))] hover:shadow-lg hover:shadow-destructive/10" data-usal={`fade-up duration-600 delay-${100 + index * 50}`}>
+            <CardHeader className="space-y-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-destructive/10 transition-colors group-hover:bg-destructive/15">
+                <pain.icon className="h-6 w-6 text-destructive" />
+              </div>
+              <CardTitle className="text-xl">{pain.title}</CardTitle>
+              <CardDescription className="leading-relaxed">{pain.description}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section class="bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Sparkles className="h-4 w-4" />
+          The CreatorOS Advantage
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Your AI Clone Builds, Sells & Supports
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          CreatorOS combines AI, automation, and expert playbooks to operate your creator business while you focus on making your best work.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {aiCloneBenefits.map((benefit, index) => (
+          <Card className="group border-primary/30 bg-[hsl(var(--sidebar))] backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/40 hover:bg-[hsl(var(--color-card))] hover:shadow-lg hover:shadow-primary/10" data-usal={`fade-up duration-600 delay-${100 + index * 50}`}>
+            <CardHeader className="space-y-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+                <benefit.icon className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-xl">{benefit.title}</CardTitle>
+              <CardDescription className="leading-relaxed">{benefit.description}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform Features -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Layers className="h-4 w-4" />
+          Everything a modern creator needs
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          One Website. Every Format. Fully Automated.
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          CreatorOS ingests your entire content universe and composes a premium experience—blogs, videos, podcasts, community, newsletter, and products—without the manual grind.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {siteFeatures.map((feature) => (
+          <Card className="group border-border/40 bg-[hsl(var(--sidebar))] backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/30 hover:bg-[hsl(var(--color-card))] hover:shadow-lg hover:shadow-primary/10" data-usal="fade-up duration-600">
+            <CardHeader className="space-y-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+                <feature.icon className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-xl">{feature.title}</CardTitle>
+              <CardDescription className="leading-relaxed">{feature.description}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Engine -->
+  <section class="bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Bot className="h-4 w-4" />
+          CreatorOS AI Engine
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Your Always-On AI Team
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          From intelligent assistants to conversion science, CreatorOS gives you a staff of specialists—packaged in software.
+        </p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-2">
+        <Card className="border-primary/30 bg-[hsl(var(--sidebar))] shadow-lg shadow-primary/5" data-usal="fade-up duration-600 delay-100">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-2xl">AI that represents you with precision</CardTitle>
+            <CardDescription className="leading-relaxed">
+              CreatorOS trains on your voice, beliefs, and expertise. The result is an AI teammate that teaches, sells, and supports just like you.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
+            <div class="flex items-start gap-3">
+              <Sparkles className="mt-1 h-4 w-4 text-primary" />
+              <span>Context-aware responses reference exact chapters, timestamps, and resources across your library.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <Zap className="mt-1 h-4 w-4 text-primary" />
+              <span>Dynamic CTAs present the right product or membership based on conversation intent.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <BarChart3 className="mt-1 h-4 w-4 text-primary" />
+              <span>Real-time analytics show what people ask, what converts, and what to record next.</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div class="space-y-4" data-usal="fade-up duration-600 delay-150">
+          {aiPowers.map((power) => (
+            <div class="flex items-start gap-4 rounded-2xl border bg-background p-5 shadow-sm transition-all hover:-translate-y-1 hover:border-primary/20">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <power.icon className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold">{power.title}</h3>
+                <p class="mt-1 text-sm leading-relaxed text-muted-foreground">{power.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creator Token Economy -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Coins className="h-4 w-4" />
+          Creator Token Blueprint
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Turn Fans into Investors. Make Every Launch Sell Out.
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Hand your audience a stake in your success. Creator tokens let you reward early believers, bundle premium access, and trigger viral share loops that sell out cohorts, memberships, and merch in record time.
+        </p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-2">
+        <Card className="border-primary/30 bg-[hsl(var(--sidebar))] shadow-lg shadow-primary/10" data-usal="fade-up duration-600 delay-100">
+          <CardHeader className="space-y-4">
+            <CardTitle className="text-2xl">Powered by CreatorOS</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Launch once. CreatorOS automates drops, vesting, fan rewards, and access control while you stay focused on creating hits.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
+            <div class="flex items-start gap-3">
+              <Sparkles className="mt-1 h-4 w-4 text-primary" />
+              <span>Fans tap once from your videos, podcasts, or newsletters to claim tokens—no wallets, no friction, just excitement.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <Zap className="mt-1 h-4 w-4 text-primary" />
+              <span>Use tokens to reserve course seats, unlock VIP rooms, redeem live tickets, or access your personal AI concierge.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <BarChart3 className="mt-1 h-4 w-4 text-primary" />
+              <span>The moment a whale, superfan, or viral sharer appears, AI spins up quests, airdrops, and upsells that convert for you.</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div class="space-y-4" data-usal="fade-up duration-600 delay-150">
+          <div class="rounded-2xl border bg-background p-5 shadow-sm">
+            <h3 class="text-lg font-semibold text-foreground">Utility That Sells</h3>
+            <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+              Offer premium experiences—priority seats, mastermind lounges, coaching calls, exclusive merch—that unlock when fans hold your token.
+            </p>
+          </div>
+          <div class="rounded-2xl border bg-background p-5 shadow-sm">
+            <h3 class="text-lg font-semibold text-foreground">Aligned Incentives</h3>
+            <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+              Early believers grow their bag as demand rises. You keep long-term upside with smart vesting treasuries and community pools.
+            </p>
+          </div>
+          <div class="rounded-2xl border bg-background p-5 shadow-sm">
+            <h3 class="text-lg font-semibold text-foreground">AI Orchestrated</h3>
+            <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+              AI runs launch calendars, airdrops, referral quests, and compliance so campaigns fire on all cylinders while you sleep.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Growth Stack -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Megaphone className="h-4 w-4" />
+          Beyond the website
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          A Full-Cycle Growth Operating System
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Launch, monetize, and scale with our services team and automation suite. CreatorOS is your revenue engine, not just your homepage.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {growthStack.map((item, index) => (
+          <Card className="border-border/40 bg-[hsl(var(--sidebar))] backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/30 hover:bg-[hsl(var(--color-card))]" data-usal={`fade-up duration-600 delay-${100 + index * 50}`}>
+            <CardHeader className="space-y-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <item.icon className="h-6 w-6" />
+              </div>
+              <CardTitle className="text-xl">{item.title}</CardTitle>
+              <CardDescription className="leading-relaxed">{item.description}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Highlights -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Gauge className="h-4 w-4" />
+          Built to convert and scale
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Modern Infrastructure for Serious Creators
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          CreatorOS is more than a template. It is an operating system engineered for performance, reliability, and limitless growth.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {experienceHighlights.map((highlight) => (
+          <Card className="border-border/40 bg-[hsl(var(--sidebar))] backdrop-blur" data-usal="fade-up duration-600">
+            <CardHeader className="space-y-3">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <highlight.icon className="h-6 w-6" />
+              </div>
+              <CardTitle className="text-xl">{highlight.title}</CardTitle>
+              <CardDescription className="leading-relaxed">{highlight.description}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Launch Steps -->
+  <section class="bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-5xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Rocket className="h-4 w-4" />
+          Launch in days, not months
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Your CreatorOS Timeline
+        </h2>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        {launchSteps.map((phase) => (
+          <Card className="border-border/40 bg-[hsl(var(--sidebar))] backdrop-blur" data-usal="fade-up duration-600">
+            <CardHeader className="space-y-4">
+              <div class="text-sm font-semibold uppercase tracking-wide text-primary">{phase.step}</div>
+              <CardTitle className="text-xl">{phase.title}</CardTitle>
+              <CardDescription className="leading-relaxed">{phase.description}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-4xl rounded-3xl border border-primary/20 bg-[hsl(var(--sidebar))] p-12 text-center shadow-xl shadow-primary/10">
+      <div class="mx-auto flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
+        <Sparkles className="h-4 w-4" /> CreatorOS for Creators & Educators
+      </div>
+      <h2 class="mt-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+        The creator website that builds itself—and sells for you.
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed text-muted-foreground">
+        Partner with our team to launch your AI-powered site. We migrate everything, train your models, and hand you a fully-automated business engine.
+      </p>
+
+      <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a href="/onboard">
+          <Button variant="default" size="lg" className="group flex h-12 items-center gap-2 px-8 text-base font-semibold">
+            Start My Build
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+          </Button>
+        </a>
+        <a href="/demo">
+          <Button variant="ghost" size="lg" className="h-12 px-8 text-base font-semibold">
+            Watch Product Tour
+          </Button>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -8,41 +8,41 @@
 @variant dark (.dark &);
 
 @theme {
-  --color-background: 0 0% 98%;
-  --color-foreground: 0 0% 10%;
-  --color-card: 0 0% 100%;
-  --color-card-foreground: 0 0% 10%;
-  --color-popover: 0 0% 100%;
-  --color-popover-foreground: 0 0% 10%;
-  --color-primary: 265 83% 58%;
-  --color-primary-foreground: 0 0% 100%;
-  --color-secondary: 0 0% 96%;
-  --color-secondary-foreground: 0 0% 10%;
-  --color-muted: 0 0% 96%;
-  --color-muted-foreground: 0 0% 45%;
-  --color-accent: 265 83% 58%;
-  --color-accent-foreground: 0 0% 100%;
+  --color-background: 36 8% 88%;
+  --color-foreground: 0 0% 13%;
+  --color-card: 36 10% 74%;
+  --color-card-foreground: 0 0% 13%;
+  --color-popover: 36 10% 74%;
+  --color-popover-foreground: 0 0% 13%;
+  --color-primary: 216 55% 25%;
+  --color-primary-foreground: 36 8% 96%;
+  --color-secondary: 219 14% 28%;
+  --color-secondary-foreground: 36 8% 96%;
+  --color-muted: 219 14% 92%;
+  --color-muted-foreground: 219 14% 30%;
+  --color-accent: 105 22% 25%;
+  --color-accent-foreground: 36 8% 96%;
   --color-destructive: 0 84% 60%;
   --color-destructive-foreground: 0 0% 100%;
-  --color-border: 0 0% 90%;
-  --color-input: 0 0% 90%;
-  --color-ring: 265 83% 58%;
-  --color-chart-1: 265 83% 58%;
-  --color-chart-2: 173 58% 39%;
-  --color-chart-3: 197 37% 24%;
-  --color-chart-4: 43 74% 66%;
-  --color-chart-5: 27 87% 67%;
-  --color-sidebar-background: 0 0% 98%;
-  --color-sidebar-foreground: 0 0% 20%;
-  --color-sidebar-primary: 265 83% 58%;
-  --color-sidebar-primary-foreground: 0 0% 100%;
-  --color-sidebar-accent: 0 0% 96%;
-  --color-sidebar-accent-foreground: 0 0% 10%;
-  --color-sidebar-border: 0 0% 90%;
-  --color-sidebar-ring: 265 83% 58%;
-  --radius-lg: 0.5rem;
-  --radius-md: calc(0.5rem - 2px);
-  --radius-sm: calc(0.5rem - 4px);
+  --color-border: 0 0% 100% / 0.1;
+  --color-input: 0 0% 100% / 0.1;
+  --color-ring: 216 63% 17%;
+  --color-chart-1: 216 55% 25%;
+  --color-chart-2: 105 22% 32%;
+  --color-chart-3: 219 14% 40%;
+  --color-chart-4: 36 8% 55%;
+  --color-chart-5: 0 0% 13%;
+  --color-sidebar-background: 36 8% 88%;
+  --color-sidebar-foreground: 0 0% 13%;
+  --color-sidebar-primary: 216 55% 25%;
+  --color-sidebar-primary-foreground: 36 8% 96%;
+  --color-sidebar-accent: 219 14% 28%;
+  --color-sidebar-accent-foreground: 36 8% 96%;
+  --color-sidebar-border: 0 0% 100% / 0.1;
+  --color-sidebar-ring: 216 63% 17%;
+  --radius-lg: 1.5rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.375rem;
 }
 
 @theme {
@@ -99,57 +99,57 @@ html, body {
 
 :root {
   --aui-thread-max-width: infinity;
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 0 0% 20%;
-  --sidebar-primary: 265 83% 58%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 0 0% 96%;
-  --sidebar-accent-foreground: 0 0% 10%;
-  --sidebar-border: 0 0% 90%;
-  --sidebar-ring: 265 83% 58%;
+  --sidebar: 36 8% 88%;
+  --sidebar-foreground: 0 0% 13%;
+  --sidebar-primary: 216 55% 25%;
+  --sidebar-primary-foreground: 36 8% 96%;
+  --sidebar-accent: 219 14% 28%;
+  --sidebar-accent-foreground: 36 8% 96%;
+  --sidebar-border: 0 0% 100% / 0.1;
+  --sidebar-ring: 216 63% 17%;
 }
 
 .dark {
-  --color-background: 0 0% 5%;
-  --color-foreground: 0 0% 98%;
+  --color-background: 0 0% 13%;
+  --color-foreground: 36 8% 96%;
   --color-card: 0 0% 10%;
-  --color-card-foreground: 0 0% 98%;
+  --color-card-foreground: 36 8% 96%;
   --color-popover: 0 0% 10%;
-  --color-popover-foreground: 0 0% 98%;
-  --color-primary: 265 83% 58%;
-  --color-primary-foreground: 0 0% 100%;
-  --color-secondary: 0 0% 12%;
-  --color-secondary-foreground: 0 0% 98%;
-  --color-muted: 0 0% 15%;
-  --color-muted-foreground: 0 0% 65%;
-  --color-accent: 265 83% 58%;
-  --color-accent-foreground: 0 0% 100%;
+  --color-popover-foreground: 36 8% 96%;
+  --color-primary: 216 63% 68%;
+  --color-primary-foreground: 0 0% 13%;
+  --color-secondary: 219 14% 32%;
+  --color-secondary-foreground: 36 8% 96%;
+  --color-muted: 216 63% 17%;
+  --color-muted-foreground: 36 8% 80%;
+  --color-accent: 105 22% 35%;
+  --color-accent-foreground: 36 8% 96%;
   --color-destructive: 0 84% 60%;
   --color-destructive-foreground: 0 0% 98%;
-  --color-border: 0 0% 18%;
-  --color-input: 0 0% 18%;
-  --color-ring: 265 83% 58%;
-  --color-chart-1: 265 83% 58%;
-  --color-chart-2: 160 60% 45%;
-  --color-chart-3: 30 80% 55%;
-  --color-chart-4: 200 70% 50%;
-  --color-chart-5: 340 75% 55%;
-  --color-sidebar-background: 0 0% 4%;
-  --color-sidebar-foreground: 0 0% 98%;
-  --color-sidebar-primary: 265 83% 58%;
-  --color-sidebar-primary-foreground: 0 0% 100%;
-  --color-sidebar-accent: 0 0% 10%;
-  --color-sidebar-accent-foreground: 0 0% 98%;
-  --color-sidebar-border: 0 0% 15%;
-  --color-sidebar-ring: 265 83% 58%;
-  --sidebar: 0 0% 4%;
-  --sidebar-foreground: 0 0% 98%;
-  --sidebar-primary: 265 83% 58%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 0 0% 10%;
-  --sidebar-accent-foreground: 0 0% 98%;
-  --sidebar-border: 0 0% 15%;
-  --sidebar-ring: 265 83% 58%;
+  --color-border: 0 0% 100% / 0.1;
+  --color-input: 0 0% 100% / 0.1;
+  --color-ring: 216 63% 68%;
+  --color-chart-1: 216 63% 68%;
+  --color-chart-2: 105 22% 45%;
+  --color-chart-3: 219 14% 38%;
+  --color-chart-4: 36 8% 60%;
+  --color-chart-5: 0 0% 96%;
+  --color-sidebar-background: 0 0% 10%;
+  --color-sidebar-foreground: 36 8% 96%;
+  --color-sidebar-primary: 216 63% 68%;
+  --color-sidebar-primary-foreground: 0 0% 13%;
+  --color-sidebar-accent: 219 14% 32%;
+  --color-sidebar-accent-foreground: 36 8% 96%;
+  --color-sidebar-border: 0 0% 100% / 0.1;
+  --color-sidebar-ring: 216 63% 68%;
+  --sidebar: 0 0% 10%;
+  --sidebar-foreground: 36 8% 96%;
+  --sidebar-primary: 216 63% 68%;
+  --sidebar-primary-foreground: 0 0% 13%;
+  --sidebar-accent: 219 14% 32%;
+  --sidebar-accent-foreground: 36 8% 96%;
+  --sidebar-border: 0 0% 100% / 0.1;
+  --sidebar-ring: 216 63% 68%;
 }
 
 /* Add styles for code blocks */
@@ -169,6 +169,12 @@ html, body {
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
   border-radius: 0.375rem;
+}
+
+/* Ensure translucent card utility pulls full surface color */
+.bg-card\/50 {
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(var(--color-card)) !important;
 }
 
 /* Scroll area styles */

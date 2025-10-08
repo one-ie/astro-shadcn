@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ModeToggle } from "@/components/ModeToggle"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { siteConfig } from "@/config/site"
 
 const iconMap = {
@@ -38,6 +39,8 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const [currentPath, setCurrentPath] = React.useState('')
   const [user, setUser] = React.useState<{ name: string; email: string; avatar?: string } | null>(null)
+  const [mobileUserMenuOpen, setMobileUserMenuOpen] = React.useState(false)
+  const isMobile = useIsMobile()
 
   React.useEffect(() => {
     setCurrentPath(window.location.pathname)
@@ -102,6 +105,36 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
     .toUpperCase()
     .slice(0, 2) || "U"
 
+  const handleMobileUserMenuToggle = () => {
+    if (!isMobile) {
+      return
+    }
+    setMobileUserMenuOpen((prev) => !prev)
+  }
+
+  const handleMobileNavigate = () => {
+    setMobileUserMenuOpen(false)
+    setMobileOpen(false)
+  }
+
+  const handleMobileSignOut = async () => {
+    setMobileUserMenuOpen(false)
+    setMobileOpen(false)
+    await handleSignOut()
+  }
+
+  React.useEffect(() => {
+    if (!isMobile) {
+      setMobileUserMenuOpen(false)
+    }
+  }, [isMobile])
+
+  React.useEffect(() => {
+    if (!mobileOpen) {
+      setMobileUserMenuOpen(false)
+    }
+  }, [mobileOpen])
+
   return (
     <div className="flex min-h-screen w-full">
       {/* Mobile backdrop overlay */}
@@ -162,108 +195,218 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
 
           {/* User menu */}
           <div className="p-2">
-            <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className={`flex items-center gap-3 rounded-md p-2 w-full text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                  collapsed ? 'justify-center' : ''
-                }`}
-                aria-label="User menu"
-              >
-                <Avatar className="h-10 w-10 rounded-lg shrink-0">
-                  <AvatarImage src={user?.avatar} alt={user?.name} />
-                  <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
-                    {initials}
-                  </AvatarFallback>
-                </Avatar>
-                {!collapsed && (
-                  <>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold truncate">{user?.name || 'Guest'}</p>
-                      <p className="text-xs text-muted-foreground truncate">{user?.email || 'guest@example.com'}</p>
-                    </div>
-                    <ChevronsUpDown className="h-4 w-4 shrink-0" />
-                  </>
+            {isMobile ? (
+              <>
+                <button
+                  className={`flex items-center gap-3 rounded-md p-2 w-full text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                    collapsed ? 'justify-center' : ''
+                  }`}
+                  aria-label="User menu"
+                  onClick={handleMobileUserMenuToggle}
+                  type="button"
+                >
+                  <Avatar className="h-10 w-10 rounded-lg shrink-0">
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
+                      {initials}
+                    </AvatarFallback>
+                  </Avatar>
+                  {!collapsed && (
+                    <>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold truncate">{user?.name || 'Guest'}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user?.email || 'guest@example.com'}</p>
+                      </div>
+                      <ChevronsUpDown className={`h-4 w-4 shrink-0 transition-transform ${mobileUserMenuOpen ? 'rotate-180' : ''}`} />
+                    </>
+                  )}
+                </button>
+                {mobileUserMenuOpen && (
+                  <div className="mt-2 space-y-3 rounded-md border border-border bg-background/80 p-3 text-sm shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                    {user ? (
+                      <>
+                        <div className="flex items-center gap-3 rounded-md bg-muted/50 p-2">
+                          <Avatar className="h-10 w-10 rounded-lg">
+                            <AvatarImage src={user?.avatar} alt={user?.name} />
+                            <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
+                              {initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="min-w-0 flex-1">
+                            <p className="font-semibold truncate">{user?.name}</p>
+                            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                          </div>
+                        </div>
+                        <Separator className="bg-border/70" />
+                        <div className="space-y-1">
+                          <a
+                            href="/account"
+                            className="flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-muted"
+                            onClick={handleMobileNavigate}
+                          >
+                            <LayoutDashboard className="h-4 w-4" />
+                            Dashboard
+                          </a>
+                          <a
+                            href="/account/settings"
+                            className="flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-muted"
+                            onClick={handleMobileNavigate}
+                          >
+                            <Settings className="h-4 w-4" />
+                            Settings
+                          </a>
+                        </div>
+                        <Separator className="bg-border/70" />
+                        <button
+                          className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left transition-colors hover:bg-destructive/10 hover:text-destructive"
+                          onClick={handleMobileSignOut}
+                          type="button"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          Log out
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-3 rounded-md bg-muted/50 p-2">
+                          <Avatar className="h-10 w-10 rounded-lg">
+                            <AvatarFallback className="rounded-lg bg-muted text-sm font-semibold">
+                              {initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-semibold">Guest</p>
+                            <p className="text-xs text-muted-foreground">Not signed in</p>
+                          </div>
+                        </div>
+                        <Separator className="bg-border/70" />
+                        <div className="space-y-1">
+                          <a
+                            href="/account/signin"
+                            className="flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-muted"
+                            onClick={handleMobileNavigate}
+                          >
+                            <LogIn className="h-4 w-4" />
+                            Sign In
+                          </a>
+                          <a
+                            href="/account/signup"
+                            className="flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-muted"
+                            onClick={handleMobileNavigate}
+                          >
+                            <UserPlus className="h-4 w-4" />
+                            Sign Up
+                          </a>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 )}
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-56 rounded-lg bg-popover/100"
-              side="right"
-              align="end"
-              sideOffset={4}
-            >
-              {user ? (
-                <>
-                  <DropdownMenuLabel className="p-0 font-normal">
-                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                      <Avatar className="h-10 w-10 rounded-lg">
-                        <AvatarImage src={user?.avatar} alt={user?.name} />
-                        <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
-                          {initials}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">{user?.name}</span>
-                        <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
-                      </div>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                      <a href="/account" className="flex items-center">
-                        <LayoutDashboard className="mr-2" />
-                        Dashboard
-                      </a>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <a href="/account/settings" className="flex items-center">
-                        <Settings className="mr-2" />
-                        Settings
-                      </a>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut />
-                    Log out
-                  </DropdownMenuItem>
-                </>
-              ) : (
-                <>
-                  <DropdownMenuLabel className="p-0 font-normal">
-                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                      <Avatar className="h-10 w-10 rounded-lg">
-                        <AvatarFallback className="rounded-lg bg-muted text-sm font-semibold">
-                          {initials}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">Guest</span>
-                        <span className="truncate text-xs text-muted-foreground">Not signed in</span>
-                      </div>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                      <a href="/account/signin" className="flex items-center">
-                        <LogIn className="mr-2" />
-                        Sign In
-                      </a>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <a href="/account/signup" className="flex items-center">
-                        <UserPlus className="mr-2" />
-                        Sign Up
-                      </a>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className={`flex items-center gap-3 rounded-md p-2 w-full text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                      collapsed ? 'justify-center' : ''
+                    }`}
+                    aria-label="User menu"
+                  >
+                    <Avatar className="h-10 w-10 rounded-lg shrink-0">
+                      <AvatarImage src={user?.avatar} alt={user?.name} />
+                      <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
+                        {initials}
+                      </AvatarFallback>
+                    </Avatar>
+                    {!collapsed && (
+                      <>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold truncate">{user?.name || 'Guest'}</p>
+                          <p className="text-xs text-muted-foreground truncate">{user?.email || 'guest@example.com'}</p>
+                        </div>
+                        <ChevronsUpDown className="h-4 w-4 shrink-0" />
+                      </>
+                    )}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-56 rounded-lg bg-popover/100"
+                  side="right"
+                  align="end"
+                  sideOffset={4}
+                >
+                  {user ? (
+                    <>
+                      <DropdownMenuLabel className="p-0 font-normal">
+                        <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                          <Avatar className="h-10 w-10 rounded-lg">
+                            <AvatarImage src={user?.avatar} alt={user?.name} />
+                            <AvatarFallback className="rounded-lg bg-primary text-primary-foreground text-sm font-semibold">
+                              {initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="grid flex-1 text-left text-sm leading-tight">
+                            <span className="truncate font-semibold">{user?.name}</span>
+                            <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
+                          </div>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem asChild>
+                          <a href="/account" className="flex items-center">
+                            <LayoutDashboard className="mr-2" />
+                            Dashboard
+                          </a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <a href="/account/settings" className="flex items-center">
+                            <Settings className="mr-2" />
+                            Settings
+                          </a>
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleSignOut}>
+                        <LogOut />
+                        Log out
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuLabel className="p-0 font-normal">
+                        <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                          <Avatar className="h-10 w-10 rounded-lg">
+                            <AvatarFallback className="rounded-lg bg-muted text-sm font-semibold">
+                              {initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="grid flex-1 text-left text-sm leading-tight">
+                            <span className="truncate font-semibold">Guest</span>
+                            <span className="truncate text-xs text-muted-foreground">Not signed in</span>
+                          </div>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem asChild>
+                          <a href="/account/signin" className="flex items-center">
+                            <LogIn className="mr-2" />
+                            Sign In
+                          </a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <a href="/account/signup" className="flex items-center">
+                            <UserPlus className="mr-2" />
+                            Sign Up
+                          </a>
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </aside>

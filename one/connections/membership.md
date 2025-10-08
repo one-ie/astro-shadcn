@@ -1148,5 +1148,5 @@ const content = await Promise.all(
 **Related Documentation:**
 - [Ontology.md](../ontology.md) - Complete 4-table specification
 - [Multitenant.md](../multitenant.md) - Multi-tenant architecture patterns
-- [Owner.md](../things/Owner.md) - Platform owner role and revenue tracking
-- [Organisation.md](../things/Organisation.md) - Organization entity details
+- [Owner.md](../things/owner.md) - Platform owner role and revenue tracking
+- [Organisation.md](../things/organisation.md) - Organization entity details

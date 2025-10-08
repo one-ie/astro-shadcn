@@ -89,7 +89,7 @@ This document covers **both approaches** with complete implementation guides.
 **API Backend:**
 - Hono (routing on Cloudflare Workers)
 - Better Auth (authentication with Convex adapter)
-- Effect.ts (100% business logic coverage - see [Hono-Effect.md](../one/Hono-Effect.md))
+- Effect.ts (100% business logic coverage - see [effect.md](../connections/effect.md))
 - ConvexHttpClient (data access via Effect.ts wrapper)
 
 **Data Backend:**
@@ -101,7 +101,7 @@ This document covers **both approaches** with complete implementation guides.
 - Cloudflare Workers (Hono API)
 - Convex Cloud (database)
 
-**Key Principle:** Effect.ts is used throughout the entire pipeline (frontend → API → services → data) for consistent error handling, composability, and testability. See **[Hono-Effect.md](../one/Hono-Effect.md)** for complete Effect.ts coverage patterns.
+**Key Principle:** Effect.ts is used throughout the entire pipeline (frontend → API → services → data) for consistent error handling, composability, and testability. See **[effect.md](../connections/effect.md)** for complete Effect.ts coverage patterns.
 
 ## Two Deployment Approaches
 
@@ -988,7 +988,7 @@ export class ConvexDatabaseError {
  * Convex Database Service (Effect.ts wrapper)
  * Provides typed access to Convex functions with Effect error handling
  *
- * See Hono-Effect.md for complete Effect.ts integration patterns
+ * See effect.md for complete Effect.ts integration patterns
  */
 export class ConvexDatabase extends Context.Tag('ConvexDatabase')<
   ConvexDatabase,
@@ -1110,7 +1110,7 @@ import type { Context } from 'hono';
  * Run Effect program in Hono route handler
  * Automatically converts Effect errors to HTTP responses
  *
- * See Hono-Effect.md for complete usage patterns
+ * See effect.md for complete usage patterns
  */
 export async function runEffectHandler<E, A>(
   c: Context,
@@ -1445,7 +1445,7 @@ class ForbiddenError {
 4. **Testable** - Easy to test with mock layers
 5. **Observable** - Built-in logging via `Effect.logInfo`
 
-For complete Effect.ts patterns and examples, see **[Hono-Effect.md](../one/Hono-Effect.md)**.
+For complete Effect.ts patterns and examples, see **[effect.md](../connections/effect.md)**.
 
 ### 9. Astro Frontend Integration
 
@@ -1573,7 +1573,7 @@ import type { Id } from '@/convex/_generated/dataModel';
  * 2. Effect.ts client service for API calls (type-safe errors)
  * 3. Hono API backend for business logic (auth, validation, payment)
  *
- * See Hono-Effect.md for complete Effect.ts client patterns
+ * See effect.md for complete Effect.ts client patterns
  */
 export function TokenPurchase({ tokenId }: { tokenId: Id<'entities'> }) {
   const { toast } = useToast();
@@ -1708,7 +1708,7 @@ export function TokenPurchase({ tokenId }: { tokenId: Id<'entities'> }) {
 5. **Composable Logic** - Effect programs combine cleanly
 6. **Better UX** - User sees optimistic updates + error messages
 
-For complete Effect.ts client patterns, see **[Hono-Effect.md](./Hono-Effect.md)**.
+For complete Effect.ts client patterns, see **[effect.md](../connections/effect.md)**.
 
 ### 11. Environment Variables
 
