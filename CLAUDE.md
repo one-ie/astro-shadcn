@@ -5,29 +5,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Quick Reference for Agents
 
 **FIRST: Understand the Documentation Ecosystem**
-- **[one/Documentation-Map.md](./one/Documentation-Map.md)** - Complete map of how all documentation files work together
+- **[one/connections/documentation.md](./one/connections/documentation.md)** - Complete map of how all documentation files work together
 
 **For Developer Quick Start (Using ONE Platform):**
-- **[one/Modes.md](./one/Modes.md)** - **START HERE**: Two operating modes (Standalone vs API mode)
-- **[one/Development.md](./one/Development.md)** - Complete guide for using `npx oneie` CLI with Claude Code, connecting to api.one.ie, and vibe coding frontends
+- **[one/connections/modes.md](./one/connections/modes.md)** - **START HERE**: Two operating modes (Standalone vs API mode)
+- **[one/connections/development.md](./one/connections/development.md)** - Complete guide for using `npx oneie` CLI with Claude Code, connecting to api.one.ie, and vibe coding frontends
 
 **BEFORE starting ANY task, read these in order:**
 1. **[AGENTS.md](./AGENTS.md)** - Convex development patterns (queries, mutations, actions, schema)
-2. **[one/Rules.md](./one/Rules.md)** - Golden rules for AI code generation
-3. **[one/Workflow.md](./one/Workflow.md)** - Ontology-driven development flow
-4. **[one/Patterns.md](./one/Patterns.md)** - Proven code patterns to replicate
-5. **[one/Architecture.md](./one/Architecture.md)** - System architecture & functional programming
-6. **[one/Frontend.md](./one/Frontend.md)** - Astro frontend with content collections & dual integration
-7. **[one/Middleware.md](./one/Middleware.md)** - The glue layer (Convex hooks, API client, Effect.ts services)
-8. **[one/Hono.md](./one/Hono.md)** - Hono API backend with Effect.ts services
-9. **[one/Files.md](./one/Files.md)** - File system map (where everything goes)
+2. **[one/things/rules.md](./one/things/rules.md)** - Golden rules for AI code generation
+3. **[one/connections/workflow.md](./one/connections/workflow.md)** - Ontology-driven development flow
+4. **[one/connections/patterns.md](./one/connections/patterns.md)** - Proven code patterns to replicate
+5. **[one/things/architecture.md](./one/things/architecture.md)** - System architecture & functional programming
+6. **[one/things/frontend.md](./one/things/frontend.md)** - Astro frontend with content collections & dual integration
+7. **[one/connections/middleware.md](./one/connections/middleware.md)** - The glue layer (Convex hooks, API client, Effect.ts services)
+8. **[one/things/hono.md](./one/things/hono.md)** - Hono API backend with Effect.ts services
+9. **[one/things/files.md](./one/things/files.md)** - File system map (where everything goes)
 
 **For Complex Features (read additional context):**
-- **[one/Strategy.md](./one/Strategy.md)** - Platform vision & 8 core features
-- **[one/Ontology.md](./one/Ontology.md)** - 4-table data model (66 things, 25 connections, 55 events) - **Frontend Complete**
-- **[one/Dashboard.md](./one/Dashboard.md)** - Multi-tenant UI (platform owner, org owner, org user, customer)
-- **[one/Specifications.md](./one/Specifications.md)** - How all 5 protocols work together
-- **[one/Implementation.md](./one/Implementation.md)** - 12-week implementation roadmap
+- **[one/things/strategy.md](./one/things/strategy.md)** - Platform vision & 8 core features
+- **[one/connections/ontology.md](./one/connections/ontology.md)** - 4-table data model (66 things, 25 connections, 55 events) - **Frontend Complete**
+- **[one/connections/dashboard.md](./one/connections/dashboard.md)** - Multi-tenant UI (platform owner, org owner, org user, customer)
+- **[one/things/specifications.md](./one/things/specifications.md)** - How all 5 protocols work together
+- **[one/connections/implementation.md](./one/connections/implementation.md)** - 12-week implementation roadmap
 
 ## Development Commands
 
@@ -67,7 +67,7 @@ This project implements a **three-layer architecture** where Effect.ts acts as t
 │  - Components: React 19 islands                   │
 │  - UI: shadcn/ui + Tailwind v4                   │
 │  - Content: Type-safe collections                │
-│  See: one/Frontend.md                            │
+│  See: one/things/frontend.md                            │
 └────────────────┬─────────────────────────────────┘
                  │
                  ↓ (Convex hooks + Hono API client)
@@ -77,7 +77,7 @@ This project implements a **three-layer architecture** where Effect.ts acts as t
 │  - Providers: External APIs (typed)              │
 │  - Layers: Dependency injection                  │
 │  - Errors: Typed error handling                  │
-│  See: one/Hono.md                               │
+│  See: one/things/hono.md                               │
 └────────────────┬─────────────────────────────────┘
                  │
                  ↓ (Confect bridge + Hono routes)
@@ -87,15 +87,15 @@ This project implements a **three-layer architecture** where Effect.ts acts as t
 │  - Convex: Real-time database + functions        │
 │  - 4-Table Ontology: entities, connections,      │
 │    events, tags                                  │
-│  See: one/Hono.md                               │
+│  See: one/things/hono.md                               │
 └──────────────────────────────────────────────────┘
 ```
 
 **Key Documents for Understanding Architecture:**
-- **[one/Frontend.md](./one/Frontend.md)** - Astro + React frontend with content collections
-- **[one/Middleware.md](./one/Middleware.md)** - The glue layer connecting frontend and backend
-- **[one/Hono.md](./one/Hono.md)** - Hono API backend with Better Auth + Convex
-- **[one/Architecture.md](./one/Architecture.md)** - Complete system architecture explanation
+- **[one/things/frontend.md](./one/things/frontend.md)** - Astro + React frontend with content collections
+- **[one/connections/middleware.md](./one/connections/middleware.md)** - The glue layer connecting frontend and backend
+- **[one/things/hono.md](./one/things/hono.md)** - Hono API backend with Better Auth + Convex
+- **[one/things/architecture.md](./one/things/architecture.md)** - Complete system architecture explanation
 
 ### Core Stack
 
@@ -566,7 +566,7 @@ Create a KV namespace in the Cloudflare dashboard and add the ID to your configu
 
 This section defines the exact process AI agents must follow when implementing features. This ensures consistency, quality, and adherence to the ontology-driven architecture.
 
-**IMPORTANT:** This process follows the complete workflow defined in **[one/Workflow.md](./one/Workflow.md)**. Read that document for the full 6-phase workflow with detailed examples.
+**IMPORTANT:** This process follows the complete workflow defined in **[one/connections/workflow.md](./one/connections/workflow.md)**. Read that document for the full 6-phase workflow with detailed examples.
 
 ### The 4-Table Ontology (MEMORIZE THIS)
 
@@ -624,20 +624,20 @@ This section defines the exact process AI agents must follow when implementing f
 
 Before writing ANY code, understand the documentation ecosystem:
 
-1. **one/Documentation-Map.md** - How all docs work together (read FIRST to understand context)
+1. **one/connections/documentation.md** - How all docs work together (read FIRST to understand context)
 2. **AGENTS.md** - Convex patterns
-3. **one/Rules.md** - Golden rules
-4. **one/Workflow.md** - Ontology flow
-5. **one/Patterns.md** - Code patterns
-6. **one/Files.md** - File locations
+3. **one/things/rules.md** - Golden rules
+4. **one/connections/workflow.md** - Ontology flow
+5. **one/connections/patterns.md** - Code patterns
+6. **one/things/files.md** - File locations
 
 **For protocol-related features, also read:**
-- **one/README-Protocols.md** - Protocol overview
-- **one/Specifications.md** - Protocol integration patterns
+- **one/connections/protocols.md** - Protocol overview
+- **one/things/specifications.md** - Protocol integration patterns
 - Specific protocol doc (A2A.md, ACP.md, AP2.md, X402.md, ACPayments.md, AGUI.md)
 
 **For external integrations, also read:**
-- **one/Agent-Communications.md** - Communication patterns
+- **one/connections/communications.md** - Communication patterns
 - Specific integration doc (ElizaOS.md, CopilotKit.md, PromptKit.md, MCP.md, N8N.md)
 
 #### Step 2: Map Feature to Ontology
@@ -947,17 +947,17 @@ Effect.gen(function* () {
 
 Before generating ANY code, verify:
 
-- [ ] I have read **one/Documentation-Map.md** to understand the doc ecosystem
+- [ ] I have read **one/connections/documentation.md** to understand the doc ecosystem
 - [ ] I have identified which layer this feature belongs to (Strategy → Ontology → Protocols → Implementation)
 - [ ] I have read the required documentation (follow the critical path for my use case)
 - [ ] I understand which things/connections/events are involved
-- [ ] I know the file locations per `one/Files.md`
-- [ ] For protocols: I have read the protocol spec and `one/Specifications.md`
-- [ ] For integrations: I have read the integration doc and `one/Agent-Communications.md`
+- [ ] I know the file locations per `one/things/files.md`
+- [ ] For protocols: I have read the protocol spec and `one/things/specifications.md`
+- [ ] For integrations: I have read the integration doc and `one/connections/communications.md`
 - [ ] I will use Effect.ts for business logic
 - [ ] I will use explicit types everywhere
 - [ ] I will write tests
-- [ ] I will follow the patterns in `one/Patterns.md`
+- [ ] I will follow the patterns in `one/connections/patterns.md`
 
 ### Post-Generation Checklist
 
@@ -998,7 +998,7 @@ Map to ontology → Design types → Generate code → Tests pass → Done
 If unsure about ANYTHING:
 
 1. **STOP** - Don't generate code
-2. **READ** - Consult **one/Documentation-Map.md** to find the right doc to read
+2. **READ** - Consult **one/connections/documentation.md** to find the right doc to read
 3. **FOLLOW PATH** - Use the critical paths in Documentation-Map.md to understand dependencies
 4. **SEARCH** - Find similar existing code
 5. **ASK** - Request clarification from human
@@ -1020,7 +1020,7 @@ If unsure about ANYTHING:
 
 ### Key Principles
 
-1. **Documentation First** - Use **one/Documentation-Map.md** to understand the ecosystem before coding
+1. **Documentation First** - Use **one/connections/documentation.md** to understand the ecosystem before coding
 2. **Ontology First** - Map feature to 4 tables before coding
 3. **Types Everywhere** - Explicit types catch errors at compile time
 4. **Pure Functions** - Business logic in Effect.ts services
@@ -1036,7 +1036,7 @@ If unsure about ANYTHING:
 The ONE Platform has **41 documentation files** organized in **8 layers**. Instead of reading everything, use this strategy:
 
 **For ANY Feature:**
-1. Read **one/Documentation-Map.md** (5 min) - Understand the ecosystem
+1. Read **one/connections/documentation.md** (5 min) - Understand the ecosystem
 2. Identify your layer: Strategy → Ontology → Protocols → Services → Implementation
 3. Follow the critical path for your use case (shown in Documentation-Map.md)
 4. Read only the docs in your dependency chain

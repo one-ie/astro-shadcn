@@ -794,5 +794,5 @@ Specialized server for knowledge operations:
 - **MCP Website**: https://modelcontextprotocol.io/
 - **MCP Specification**: https://spec.modelcontextprotocol.io/
 - **TypeScript SDK**: https://github.com/modelcontextprotocol/typescript-sdk
-- **ONE Ontology**: [one/Ontology.md](./Ontology.md)
+- **ONE Ontology**: [one/connections/ontology.md](./ontology.md)
 - **ONE Knowledge**: See Ontology.md § Knowledge section

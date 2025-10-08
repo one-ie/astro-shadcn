@@ -2,7 +2,7 @@
 
 **If you can point at it and say "this is a ___", it's a thing.**
 
-For complete thing type definitions, see **[Ontology.md](./Ontology.md#things-all-the-things)**
+For complete thing type definitions, see **[Ontology.md](./ontology.md#things-all-the-things)**
 
 ---
 
@@ -270,7 +270,7 @@ Each thing type has specific properties. Examples:
 }
 ```
 
-For complete property definitions, see **[Ontology.md](./Ontology.md#properties-by-thing-type)**
+For complete property definitions, see **[Ontology.md](./ontology.md#properties-by-thing-type)**
 
 ---
 

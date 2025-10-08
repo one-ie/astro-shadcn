@@ -24,18 +24,18 @@ price_checked, commerce_event, payment_verified
 
 | Protocol | Purpose | Spec Doc | Integration Doc |
 |----------|---------|----------|-----------------|
-| **A2A** | Agent-to-agent communication | [A2A.md](./A2A.md) | [Specifications.md](./Specifications.md) |
-| **ACP (REST)** | Agent-to-frontend REST API | [ACP.md](./ACP.md) | [Specifications.md](./Specifications.md) |
-| **X402** | HTTP 402 micropayments | [X402.md](./X402.md) | [Specifications.md](./Specifications.md) |
-| **AP2** | Autonomous agent payments | [AP2.md](./AP2.md) | [Specifications.md](./Specifications.md) |
-| **ACPayments** | Unified payment ecosystem | [ACPayments.md](ACPS.md) | [Specifications.md](./Specifications.md) |
+| **A2A** | Agent-to-agent communication | [A2A.md](./a2a.md) | [Specifications.md](./specifications.md) |
+| **ACP (REST)** | Agent-to-frontend REST API | [ACP.md](./acp.md) | [Specifications.md](./specifications.md) |
+| **X402** | HTTP 402 micropayments | [X402.md](./x402.md) | [Specifications.md](./specifications.md) |
+| **AP2** | Autonomous agent payments | [AP2.md](./ap2.md) | [Specifications.md](./specifications.md) |
+| **ACPayments** | Unified payment ecosystem | [ACPayments.md](ACPS.md) | [Specifications.md](./specifications.md) |
 
 ---
 
 ## The Ontology
 
 **Our 4-table ontology is defined in:**
-- **[Ontology.md](./Ontology.md)** - The ONE source of truth
+- **[Ontology.md](./ontology.md)** - The ONE source of truth
 - **[OntologyUpdates.md](./OntologyUpdates.md)** - Implementation plan
 
 **Tables:**
@@ -243,19 +243,19 @@ const ap2Mandates = await ctx.db
 ## Quick Links
 
 **Specifications:**
-- [Specifications.md](./Specifications.md) - How all protocols work together
-- [Ontology.md](./Ontology.md) - The ONE ontology (single source of truth)
+- [Specifications.md](./specifications.md) - How all protocols work together
+- [Ontology.md](./ontology.md) - The ONE ontology (single source of truth)
 - [OntologyUpdates.md](./OntologyUpdates.md) - Implementation plan
 
 **Protocol Specs:**
-- [A2A.md](./A2A.md) - Agent-to-agent communication
-- [ACP.md](./ACP.md) - Agent Communication Protocol (REST)
-- [X402.md](./X402.md) - HTTP 402 micropayments
-- [AP2.md](./AP2.md) - Agent Payments Protocol
+- [A2A.md](./a2a.md) - Agent-to-agent communication
+- [ACP.md](./acp.md) - Agent Communication Protocol (REST)
+- [X402.md](./x402.md) - HTTP 402 micropayments
+- [AP2.md](./ap2.md) - Agent Payments Protocol
 - [ACPayments.md](ACPS.md) - Unified payment system
 
 **Other:**
-- [CopilotKit.md](./CopilotKit.md) - Generative UI patterns
+- [CopilotKit.md](./copilotkit.md) - Generative UI patterns
 - [AGENTS.md](../AGENTS.md) - Convex development patterns
 
 ---
@@ -274,4 +274,4 @@ This means:
 
 ---
 
-**For questions or updates, see [Specifications.md](./Specifications.md)**
+**For questions or updates, see [Specifications.md](./specifications.md)**

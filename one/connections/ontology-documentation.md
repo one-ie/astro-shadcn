@@ -66,7 +66,7 @@ Organisations → People → Things → Connections → Events → Knowledge
 
 ## The Complete Specification
 
-**[Ontology.md](./Ontology.md)** - The single source of truth
+**[Ontology.md](./ontology.md)** - The single source of truth
 - Complete technical specification
 - All 66 thing types with properties
 - All 25 connection types with metadata patterns
@@ -81,7 +81,7 @@ Organisations → People → Things → Connections → Events → Knowledge
 
 ### For AI Agents
 
-1. Read **[Ontology.md](./Ontology.md)** (complete spec)
+1. Read **[Ontology.md](./ontology.md)** (complete spec)
 2. Understand the 4-table universe:
    - **Things** - entities
    - **Connections** - relationships
@@ -98,7 +98,7 @@ Organisations → People → Things → Connections → Events → Knowledge
 4. Review **[connections.md](./connections.md)** - See how things relate
 5. Check **[events.md](./events.md)** - See what gets logged
 6. Dive into **[knowledge.md](./knowledge.md)** - Understand the intelligence layer
-7. Reference **[Ontology.md](./Ontology.md)** for complete details
+7. Reference **[Ontology.md](./ontology.md)** for complete details
 
 ### For Product Managers
 

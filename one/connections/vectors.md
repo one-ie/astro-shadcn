@@ -1,7 +1,7 @@
 # ONE Vectors — RAG Design and Implementation Guide
 
 Version: 1.0.0
-Scope: Complements one/Ontology.md by detailing how vectors (embeddings) and knowledge items power search and generation.
+Scope: Complements one/connections/ontology.md by detailing how vectors (embeddings) and knowledge items power search and generation.
 
 ## Overview
 

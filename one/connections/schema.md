@@ -584,4 +584,4 @@ export const getSuccessfulPayments = confect.query({
 
 ---
 
-**Status**: Production ready. Frontend complete with multi-tenant support, authentication, and UI customization. See `one/Migration-Guide.md` for step-by-step instructions.
+**Status**: Production ready. Frontend complete with multi-tenant support, authentication, and UI customization. See `one/connections/migration-guide.md` for step-by-step instructions.

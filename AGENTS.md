@@ -170,6 +170,6 @@ await ctx.db.insert('events', { type: 'content_changed', actorId: userId, target
 
 ## References
 
-- Full ontology: `one/Ontology.md`
+- Full ontology: `one/connections/ontology.md`
 - Better Auth: https://www.better-auth.com
 - Convex Docs: https://docs.convex.dev

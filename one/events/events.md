@@ -2,7 +2,7 @@
 
 **If something HAPPENED at a specific TIME, it's an event.**
 
-For complete event type definitions, see **[Ontology.md](./Ontology.md#events-all-the-actions)**
+For complete event type definitions, see **[Ontology.md](./ontology.md#events-all-the-actions)**
 
 ---
 

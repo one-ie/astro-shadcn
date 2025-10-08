@@ -629,4 +629,4 @@ For maximum privacy, use SUI zkLogin:
 - **[Owner.md](../things/Owner.md)** - Platform owner and org_owner roles
 - **[Organisation.md](../things/Organisation.md)** - Organization structure
 - **[SUI.md](../things/SUI.md)** - SUI blockchain integration
-- **[Ontology.md](../Ontology.md)** - 4-table universe reference
+- **[Ontology.md](../ontology.md)** - 4-table universe reference

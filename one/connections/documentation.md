@@ -682,10 +682,10 @@ Implementation.md → OntologyUpdates.md (schema migration)
 **Dependency Chain:**
 ```
 CLAUDE.md → AGENTS.md (Convex patterns)
-         → one/Rules.md (golden rules)
-         → one/Workflow.md (development flow)
-         → one/Patterns.md (code patterns)
-         → one/Architecture.md (tech stack)
+         → one/things/rules.md (golden rules)
+         → one/connections/workflow.md (development flow)
+         → one/connections/patterns.md (code patterns)
+         → one/things/architecture.md (tech stack)
          → ALL other docs (as needed)
 ```
 

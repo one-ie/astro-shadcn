@@ -2059,8 +2059,8 @@ Principle: Users can add to any type without breaking the ontology.
 - `connection` (state): Relationship between two entities (owns, member_of, transacted, fulfilled, delegated, communicated).
 - `event` (action): Time-stamped occurrence (content_changed, payment_event, communication_event, task_event, mandate_event).
 - `knowledge` (label/chunk): Classification and RAG units applied via `thingKnowledge` (labels like skill/industry/topic and chunks with embeddings).
-- `owner`: A `creator` with ownership responsibilities. Platform owner (platform_owner) or organization owner (org_owner). See `one/Owner.md`.
-- `organization`: Multi-tenant container for users and resources. See `one/Organisation.md`.
+- `owner`: A `creator` with ownership responsibilities. Platform owner (platform_owner) or organization owner (org_owner). See `one/people/owner.md`.
+- `organization`: Multi-tenant container for users and resources. See `one/people/organisation.md`.
 
 ---
 

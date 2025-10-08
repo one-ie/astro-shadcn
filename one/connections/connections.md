@@ -2,7 +2,7 @@
 
 **If you're describing how thing X relates to thing Y, it's a connection.**
 
-For complete connection type definitions, see **[Ontology.md](./Ontology.md#connections-all-the-relationships)**
+For complete connection type definitions, see **[Ontology.md](./ontology.md#connections-all-the-relationships)**
 
 ---
 

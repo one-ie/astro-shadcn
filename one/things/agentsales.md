@@ -962,7 +962,7 @@ await salesAgent.qualifyLead({ leadId });
 ## See Also
 
 - **[KYC.md](../connections/KYC.md)** - KYC verification process with SUI
-- **[Owner.md](./Owner.md)** - Platform owner revenue tracking
-- **[Organisation.md](./Organisation.md)** - Organization structure and billing
-- **[Ontology.md](../Ontology.md)** - 4-table universe and business agents
-- **[SUI.md](./SUI.md)** - SUI blockchain integration
+- **[Owner.md](./owner.md)** - Platform owner revenue tracking
+- **[Organisation.md](./organisation.md)** - Organization structure and billing
+- **[Ontology.md](../ontology.md)** - 4-table universe and business agents
+- **[SUI.md](./sui.md)** - SUI blockchain integration

@@ -39,17 +39,17 @@ Phase 6: TEST & DOCUMENT
 
 **MANDATORY READING ORDER:**
 
-1. **`one/Ontology.md`** (5 min) - The 4-table universe
+1. **`one/connections/ontology.md`** (5 min) - The 4-table universe
 2. **`one/things/README.md`** (2 min) - Understand thing types
 3. **`one/connections/README.md`** (2 min) - Understand connection types
 4. **`one/events/README.md`** (2 min) - Understand event types
-5. **`one/STRUCTURE.md`** (3 min) - File organization
+5. **`one/things/files.md`** (3 min) - File organization
 
 **For specific features, also read:**
-- **Blockchain features:** `one/things/Sui.md`, `one/CryptoNetworks.md`
+- **Blockchain features:** `one/things/Sui.md`, `one/connections/cryptonetworks.md`
 - **Inference features:** `one/events/InferenceRevenue.md`
-- **Protocol features:** `one/README-Protocols.md` + specific protocol doc
-- **Integration features:** `one/Agent-Communications.md` + specific integration doc
+- **Protocol features:** `one/connections/protocols.md` + specific protocol doc
+- **Integration features:** `one/connections/communications.md` + specific integration doc
 - **Agent features:** `one/things/AgentKit.md`, `one/things/CopilotKit.md`
 
 ### Step 1.2: Identify Feature Category
@@ -734,20 +734,20 @@ describe("<Feature> Integration", () => {
 - Add to `one/things/README.md` if new thing type
 - Add to `one/connections/README.md` if new connection type
 - Add to `one/events/README.md` if new event type
-- Update `one/STRUCTURE.md` with new files
+- Update `one/things/files.md` with new files
 - Add code examples to relevant docs
 
 **Optional updates:**
 - Create dedicated doc in `one/things/<ThingType>.md`
 - Create dedicated doc in `one/events/<EventCategory>.md`
-- Update `one/Patterns.md` if novel pattern
+- Update `one/connections/patterns.md` if novel pattern
 
 ---
 
 ## Workflow Checklist
 
 ### Before Starting
-- [ ] Read `one/Ontology.md`
+- [ ] Read `one/connections/ontology.md`
 - [ ] Understand the 4-table model
 - [ ] Identify similar existing patterns
 - [ ] Map feature to ontology (Phase 2)

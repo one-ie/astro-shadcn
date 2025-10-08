@@ -2,12 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../.. && pwd)"
-ONTOLOGY_FILE="$ROOT_DIR/one/Ontology.md"
+ONTOLOGY_FILE="$ROOT_DIR/one/connections/ontology.md"
 STATE_FILE="$ROOT_DIR/.claude/inference_score.json"
-SCORE_LOG="$ROOT_DIR/one/INFERENCE_SCORE.md"
+SCORE_LOG="$ROOT_DIR/one/things/inference_score.md"
 
 if [[ ! -f "$ONTOLOGY_FILE" ]]; then
-  echo "[pre] Missing one/Ontology.md. Aborting." >&2
+  echo "[pre] Missing one/connections/ontology.md. Aborting." >&2
   exit 1
 fi
 

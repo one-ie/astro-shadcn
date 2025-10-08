@@ -619,9 +619,9 @@ Generated `.claude/settings.local.json`:
 
 ```bash
 # .claude/hooks/pre.sh
-# Calculates hash of one/Ontology.md
+# Calculates hash of one/connections/ontology.md
 # If changed → increment inference score
-# Logs to one/INFERENCE_SCORE.md
+# Logs to one/things/inference_score.md
 ```
 
 ---
@@ -690,14 +690,14 @@ Generated `.claude/settings.local.json`:
 
 ## Related Documentation
 
-- **[Ontology.md](./Ontology.md)** - 4-table data model (source of truth)
+- **[Ontology.md](./ontology.md)** - 4-table data model (source of truth)
 - **[ONE DSL.md](./ONE%20DSL.md)** - Technical DSL specification
 - **[ONE DSL English.md](./ONE%20DSL%20English.md)** - Plain English DSL
-- **[Rules.md](./Rules.md)** - Golden rules for AI agents
-- **[Patterns.md](./Patterns.md)** - Proven code patterns
-- **[Workflow.md](./Workflow.md)** - Ontology-driven development flow
+- **[Rules.md](./rules.md)** - Golden rules for AI agents
+- **[Patterns.md](./patterns.md)** - Proven code patterns
+- **[Workflow.md](./workflow.md)** - Ontology-driven development flow
 - **[CLAUDE.md](../CLAUDE.md)** - Instructions for Claude Code
-- **[one/CLI.md](./CLI.md)** - Implementation details
+- **[one/things/cli.md](./cli.md)** - Implementation details
 
 ---
 

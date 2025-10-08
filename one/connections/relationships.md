@@ -104,4 +104,4 @@ Every connection has:
 
 ## Reference
 
-See `../Ontology.md` for the complete canonical specification.
+See `../ontology.md` for the complete canonical specification.
