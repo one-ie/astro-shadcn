@@ -226,15 +226,16 @@ one-stack/
 │   │   └── Blog.astro       # Blog post layout with ToC
 │   ├── pages/
 │   │   ├── index.astro      # Homepage
-│   │   ├── signin.astro     # Sign in page
-│   │   ├── signup.astro     # Sign up page
-│   │   ├── dashboard.astro  # Protected dashboard
-│   │   ├── settings.astro   # User settings (2FA management)
-│   │   ├── forgot-password.astro
-│   │   ├── reset-password.astro
-│   │   ├── verify-email.astro
-│   │   ├── request-magic-link.astro
-│   │   ├── auth/magic-link.astro
+│   │   ├── account/         # All auth pages organized under /account/
+│   │   │   ├── index.astro  # Protected dashboard (account home)
+│   │   │   ├── signin.astro # Sign in page
+│   │   │   ├── signup.astro # Sign up page
+│   │   │   ├── settings.astro # User settings (2FA management)
+│   │   │   ├── forgot-password.astro
+│   │   │   ├── reset-password.astro
+│   │   │   ├── verify-email.astro
+│   │   │   ├── magic-link.astro # Smart page (request & authenticate)
+│   │   │   └── auth.astro   # Generic auth landing
 │   │   ├── blog/
 │   │   │   ├── index.astro  # Blog index with search
 │   │   │   └── [...slug].astro # Dynamic blog posts
@@ -440,12 +441,16 @@ Frontend (Better Auth React) ←→ API Bridge (/api/auth/[...all]) ←→ Conve
 
 ### 🚀 Authentication Pages
 
-- `/signin` - Sign in with email/password or OAuth
-- `/signup` - Create account with email/password or OAuth
-- `/forgot-password` - Request password reset email
-- `/reset-password` - Reset password with token
-- `/verify-email` - Email verification with auto-verify
-- `/dashboard` - Protected route example
+All authentication pages are organized under `/account/`:
+
+- `/account/signin` - Sign in with email/password or OAuth
+- `/account/signup` - Create account with email/password or OAuth
+- `/account/forgot-password` - Request password reset email
+- `/account/reset-password` - Reset password with token
+- `/account/verify-email` - Email verification with auto-verify
+- `/account/magic-link` - Passwordless authentication (request & authenticate)
+- `/account/settings` - User settings (2FA management)
+- `/account` - Protected dashboard (account home)
 
 ### 🔧 Setting Up Authentication
 

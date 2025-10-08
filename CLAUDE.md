@@ -308,6 +308,16 @@ import { Card } from '@/components/ui/card';
 ### Key Directories
 
 - `src/pages/`: File-based routing (`.astro` files)
+  - `account/`: All authentication pages organized under `/account/`
+    - `index.astro`: Protected dashboard (account home)
+    - `signin.astro`: Sign in page
+    - `signup.astro`: Sign up page
+    - `settings.astro`: User settings (2FA management)
+    - `forgot-password.astro`: Request password reset
+    - `reset-password.astro`: Reset password with token
+    - `verify-email.astro`: Email verification
+    - `magic-link.astro`: Smart page (request & authenticate)
+    - `auth.astro`: Generic auth landing
   - `blog/index.astro`: Blog listing with search
   - `blog/[...slug].astro`: Dynamic blog post pages
   - `rss.xml.ts`: RSS feed generator
