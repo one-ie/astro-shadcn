@@ -115,7 +115,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
 
       {/* Sidebar - fixed width on desktop, overlay on mobile */}
       <aside
-        className={`fixed left-0 top-0 h-screen flex flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out z-50 ${
+        className={`fixed left-0 top-0 h-screen flex flex-col border-r bg-[hsl(var(--color-sidebar))] text-sidebar-foreground transition-all duration-300 ease-in-out z-50 ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
         style={{
@@ -309,7 +309,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main id="main-content" className="flex-1 p-6">
+        <main id="main-content" className="flex-1 p-4 sm:p-6">
           {children}
         </main>
       </div>

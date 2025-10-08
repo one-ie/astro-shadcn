@@ -1,0 +1,1249 @@
+# X402 Protocol Integration - HTTP-Native Payments
+
+**Version:** 1.0.0
+**Purpose:** Integrate X402 protocol for instant, frictionless digital payments across ONE platform agents and services
+**Protocol:** https://www.x402.org/
+**GitHub:** https://github.com/coinbase/x402
+
+---
+
+## Overview
+
+**X402** is an open protocol for internet-native payments built around the HTTP 402 "Payment Required" status code. It enables instant digital transactions without complex registration processes, making it ideal for AI agent-to-agent payments, API monetization, and micropayments.
+
+**Key Benefits:**
+- ✅ **Zero fees** for customers and merchants
+- ✅ **Instant settlement** (~2 seconds on blockchain)
+- ✅ **Minimal integration** (1 line of middleware code)
+- ✅ **Blockchain agnostic** (Solana, Ethereum, Base, etc.)
+- ✅ **No account creation** required
+- ✅ **Micropayments** as low as $0.001
+- ✅ **HTTP-native** (works with existing web infrastructure)
+
+**Use Cases in ONE Platform:**
+1. AI agent API calls (pay-per-request)
+2. External agent integrations (ElizaOS, AutoGen, etc.)
+3. N8N workflow executions (pay-per-run)
+4. Cloud storage access (pay-per-GB)
+5. Content creator micropayments
+6. Multi-agent collaboration billing
+
+---
+
+## Architecture: X402 + Effect.ts + Convex
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     FRONTEND (React + Astro)                    │
+├─────────────────────────────────────────────────────────────────┤
+│  Payment UI Components                                           │
+│  ├─ <PaymentPrompt> - Show 402 payment required                 │
+│  ├─ <WalletConnect> - Connect crypto wallet                     │
+│  ├─ <PaymentHistory> - View transaction history                 │
+│  └─ <BalanceDisplay> - Show wallet balance                      │
+└──────────────────┬──────────────────────────────────────────────┘
+                   │
+                   ↓ X-PAYMENT HTTP Header
+         ┌──────────────────┐
+         │  Astro API Route │
+         │  (X402 Handler)  │
+         └────────┬─────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    Convex Backend                               │
+├─────────────────────────────────────────────────────────────────┤
+│  X402PaymentService (Effect.ts)                                 │
+│  ├─ verifyPayment(paymentPayload) → boolean                     │
+│  ├─ createPaymentRequest(resource, amount) → PaymentRequired    │
+│  ├─ settlePayment(paymentId) → Transaction                      │
+│  └─ getPaymentHistory(userId) → Payment[]                       │
+│                                                                  │
+│  X402FacilitatorService (Effect.ts)                             │
+│  ├─ POST /verify - Validate payment                             │
+│  ├─ POST /settle - Execute blockchain transaction               │
+│  ├─ GET /supported - List supported schemes/networks            │
+│  └─ Integrates with blockchain providers                        │
+└──────────────────┬──────────────────────────────────────────────┘
+                   │
+                   ↓
+┌─────────────────────────────────────────────────────────────────┐
+│              Blockchain Layer (Multi-Chain)                     │
+├─────────────────────────────────────────────────────────────────┤
+│  Base (Coinbase L2)                                             │
+│  ├─ USDC transfers                                              │
+│  ├─ Low gas fees                                                │
+│  └─ Fast settlement                                             │
+│                                                                  │
+│  Ethereum Mainnet                                               │
+│  ├─ USDC, DAI, USDT                                             │
+│  └─ Permit-based transfers                                      │
+│                                                                  │
+│  Solana                                                         │
+│  ├─ USDC (SPL token)                                            │
+│  └─ Ultra-low fees                                              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Integration Points:**
+1. Astro API routes handle X402 protocol (402 responses, X-PAYMENT headers)
+2. Effect.ts services manage payment verification and settlement
+3. Convex stores payment records and transaction history
+4. Multi-chain support via Effect.ts providers (Base, Ethereum, Solana)
+
+---
+
+## Part 1: X402 Protocol Specification
+
+### HTTP 402 Flow
+
+**1. Client Requests Protected Resource**
+```http
+GET /api/agent/execute?taskId=123 HTTP/1.1
+Host: one-platform.com
+Authorization: Bearer user-token-123
+```
+
+**2. Server Responds with 402 Payment Required**
+```http
+HTTP/1.1 402 Payment Required
+Content-Type: application/json
+
+{
+  "x402Version": 1,
+  "accepts": [
+    {
+      "scheme": "permit",
+      "network": "base",
+      "maxAmountRequired": "0.01",
+      "resource": "/api/agent/execute?taskId=123",
+      "payTo": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "asset": "USDC",
+      "decimals": 6
+    },
+    {
+      "scheme": "permit",
+      "network": "ethereum",
+      "maxAmountRequired": "0.01",
+      "resource": "/api/agent/execute?taskId=123",
+      "payTo": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "asset": "USDC",
+      "decimals": 6
+    },
+    {
+      "scheme": "transfer",
+      "network": "solana",
+      "maxAmountRequired": "0.01",
+      "resource": "/api/agent/execute?taskId=123",
+      "payTo": "DYw8jCTfwHNRJhhmFcbXvVDTqWMEVFBX6ZKUmG5CNSKK",
+      "asset": "USDC",
+      "decimals": 6
+    }
+  ],
+  "error": null
+}
+```
+
+**3. Client Creates Payment and Retries Request**
+```http
+POST /api/agent/execute?taskId=123 HTTP/1.1
+Host: one-platform.com
+Authorization: Bearer user-token-123
+X-PAYMENT: {"x402Version":1,"scheme":"permit","network":"base","payload":{"permit":{"..."},"signature":"0x..."}}
+Content-Type: application/json
+
+{
+  "parameters": {
+    "action": "analyze_metrics",
+    "userId": "user-123"
+  }
+}
+```
+
+**4. Server Verifies Payment and Returns Resource**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+X-PAYMENT-ID: pay_1234567890
+
+{
+  "result": {
+    "analysis": "...",
+    "metrics": {...}
+  }
+}
+```
+
+### TypeScript Protocol Interfaces
+
+**File:** `convex/protocols/x402.ts`
+
+```typescript
+import { v } from 'convex/values';
+
+/**
+ * X402 Protocol Version
+ */
+export const X402_VERSION = 1;
+
+/**
+ * Payment Required Response (HTTP 402)
+ */
+export interface PaymentRequired {
+  x402Version: number;
+  accepts: PaymentRequirement[];
+  error?: string;
+}
+
+/**
+ * Payment Requirement for a specific scheme/network
+ */
+export interface PaymentRequirement {
+  scheme: PaymentScheme;
+  network: BlockchainNetwork;
+  maxAmountRequired: string;  // Decimal string (e.g., "0.01")
+  resource: string;           // API endpoint path
+  payTo: string;              // Recipient address
+  asset: string;              // Token symbol (e.g., "USDC")
+  decimals?: number;          // Token decimals (default 6 for USDC)
+  facilitator?: string;       // Facilitator server URL
+  metadata?: {
+    description?: string;     // Payment description
+    invoiceId?: string;       // Invoice reference
+    [key: string]: any;
+  };
+}
+
+/**
+ * Payment Schemes
+ */
+export type PaymentScheme =
+  | 'permit'    // ERC-2612 permit (gasless approval + transfer)
+  | 'transfer'  // Direct token transfer
+  | 'signature' // Signature-based payment
+  | 'invoice';  // Invoice-based payment
+
+/**
+ * Supported Blockchain Networks
+ */
+export type BlockchainNetwork =
+  | 'base'       // Coinbase Base L2
+  | 'ethereum'   // Ethereum mainnet
+  | 'solana'     // Solana mainnet
+  | 'arbitrum'   // Arbitrum L2
+  | 'optimism'   // Optimism L2
+  | 'polygon';   // Polygon PoS
+
+/**
+ * Payment Payload (sent in X-PAYMENT header)
+ */
+export interface PaymentPayload {
+  x402Version: number;
+  scheme: PaymentScheme;
+  network: BlockchainNetwork;
+  payload: PermitPayload | TransferPayload | SignaturePayload | InvoicePayload;
+}
+
+/**
+ * Permit-based Payment (ERC-2612)
+ */
+export interface PermitPayload {
+  permit: {
+    owner: string;        // Sender address
+    spender: string;      // Facilitator contract address
+    value: string;        // Amount (in token units)
+    nonce: number;        // Permit nonce
+    deadline: number;     // Unix timestamp
+  };
+  signature: string;      // EIP-712 signature
+  transferData?: {
+    recipient: string;    // Final recipient
+    amount: string;       // Transfer amount
+  };
+}
+
+/**
+ * Direct Transfer Payment
+ */
+export interface TransferPayload {
+  txHash: string;         // Transaction hash
+  from: string;           // Sender address
+  to: string;             // Recipient address
+  amount: string;         // Amount transferred
+  token: string;          // Token contract address
+  timestamp: number;      // Transaction timestamp
+}
+
+/**
+ * Signature-based Payment
+ */
+export interface SignaturePayload {
+  message: string;        // Signed message
+  signature: string;      // Signature
+  signer: string;         // Signer address
+  nonce: string;          // Unique nonce
+}
+
+/**
+ * Invoice-based Payment
+ */
+export interface InvoicePayload {
+  invoiceId: string;      // Invoice identifier
+  proof: string;          // Payment proof
+  amount: string;         // Amount paid
+  timestamp: number;      // Payment timestamp
+}
+
+/**
+ * Facilitator Endpoints
+ */
+export interface FacilitatorEndpoints {
+  verify: string;         // POST /verify - Validate payment
+  settle: string;         // POST /settle - Execute settlement
+  supported: string;      // GET /supported - List schemes/networks
+}
+
+/**
+ * Payment Verification Request
+ */
+export interface VerifyPaymentRequest {
+  paymentPayload: PaymentPayload;
+  requirement: PaymentRequirement;
+  resource: string;
+  timestamp: number;
+}
+
+/**
+ * Payment Verification Response
+ */
+export interface VerifyPaymentResponse {
+  valid: boolean;
+  paymentId?: string;
+  txHash?: string;
+  error?: string;
+  metadata?: {
+    blockNumber?: number;
+    confirmations?: number;
+    gasUsed?: string;
+    [key: string]: any;
+  };
+}
+
+/**
+ * Settlement Request
+ */
+export interface SettlePaymentRequest {
+  paymentId: string;
+  paymentPayload: PaymentPayload;
+  requirement: PaymentRequirement;
+}
+
+/**
+ * Settlement Response
+ */
+export interface SettlePaymentResponse {
+  settled: boolean;
+  txHash: string;
+  blockNumber?: number;
+  error?: string;
+}
+
+/**
+ * Supported Schemes Response
+ */
+export interface SupportedSchemesResponse {
+  schemes: Array<{
+    scheme: PaymentScheme;
+    networks: BlockchainNetwork[];
+    tokens: Array<{
+      symbol: string;
+      address: string;
+      decimals: number;
+      networks: BlockchainNetwork[];
+    }>;
+  }>;
+}
+
+/**
+ * Convex validators for X402 protocol
+ */
+export const paymentRequirementValidator = {
+  scheme: v.union(
+    v.literal('permit'),
+    v.literal('transfer'),
+    v.literal('signature'),
+    v.literal('invoice')
+  ),
+  network: v.union(
+    v.literal('base'),
+    v.literal('ethereum'),
+    v.literal('solana'),
+    v.literal('arbitrum'),
+    v.literal('optimism'),
+    v.literal('polygon')
+  ),
+  maxAmountRequired: v.string(),
+  resource: v.string(),
+  payTo: v.string(),
+  asset: v.string(),
+  decimals: v.optional(v.number()),
+  facilitator: v.optional(v.string()),
+  metadata: v.optional(v.any()),
+};
+
+export const paymentPayloadValidator = {
+  x402Version: v.number(),
+  scheme: v.union(
+    v.literal('permit'),
+    v.literal('transfer'),
+    v.literal('signature'),
+    v.literal('invoice')
+  ),
+  network: v.union(
+    v.literal('base'),
+    v.literal('ethereum'),
+    v.literal('solana'),
+    v.literal('arbitrum'),
+    v.literal('optimism'),
+    v.literal('polygon')
+  ),
+  payload: v.any(),
+};
+```
+
+---
+
+## Part 2: Effect.ts Service Implementation
+
+### X402PaymentService
+
+**File:** `convex/services/x402-payment.ts`
+
+```typescript
+import { Effect } from 'effect';
+import { ConvexDatabase } from './convex-database';
+import type { Id } from '../_generated/dataModel';
+import type {
+  PaymentRequired,
+  PaymentRequirement,
+  PaymentPayload,
+  VerifyPaymentRequest,
+  VerifyPaymentResponse,
+  X402_VERSION,
+} from '../protocols/x402';
+
+/**
+ * X402PaymentService - Implements X402 protocol for HTTP-native payments
+ */
+export class X402PaymentService extends Effect.Service<X402PaymentService>()(
+  'X402PaymentService',
+  {
+    effect: Effect.gen(function* () {
+      const db = yield* ConvexDatabase;
+
+      return {
+        /**
+         * Create a 402 Payment Required response
+         */
+        createPaymentRequest: (args: {
+          resource: string;
+          amount: string;
+          description?: string;
+          userId?: Id<'entities'>;
+        }) =>
+          Effect.gen(function* () {
+            // Get platform payment addresses
+            const paymentConfig = yield* getPaymentConfig();
+
+            // Create payment requirements for all supported networks
+            const accepts: PaymentRequirement[] = [
+              // Base (Coinbase L2) - Preferred
+              {
+                scheme: 'permit',
+                network: 'base',
+                maxAmountRequired: args.amount,
+                resource: args.resource,
+                payTo: paymentConfig.base.address,
+                asset: 'USDC',
+                decimals: 6,
+                facilitator: paymentConfig.facilitatorUrl,
+                metadata: {
+                  description: args.description,
+                  preferredNetwork: true,
+                },
+              },
+              // Ethereum mainnet
+              {
+                scheme: 'permit',
+                network: 'ethereum',
+                maxAmountRequired: args.amount,
+                resource: args.resource,
+                payTo: paymentConfig.ethereum.address,
+                asset: 'USDC',
+                decimals: 6,
+                facilitator: paymentConfig.facilitatorUrl,
+                metadata: {
+                  description: args.description,
+                },
+              },
+              // Solana
+              {
+                scheme: 'transfer',
+                network: 'solana',
+                maxAmountRequired: args.amount,
+                resource: args.resource,
+                payTo: paymentConfig.solana.address,
+                asset: 'USDC',
+                decimals: 6,
+                metadata: {
+                  description: args.description,
+                },
+              },
+            ];
+
+            const paymentRequired: PaymentRequired = {
+              x402Version: X402_VERSION,
+              accepts,
+              error: null,
+            };
+
+            // Log payment request
+            yield* db.insert('events', {
+              type: 'payment_requested',
+              actorId: args.userId,
+              targetId: null,
+              timestamp: Date.now(),
+              metadata: {
+                protocol: 'x402',
+                resource: args.resource,
+                amount: args.amount,
+                networks: accepts.map((a) => a.network),
+              },
+            });
+
+            return paymentRequired;
+          }),
+
+        /**
+         * Verify payment from X-PAYMENT header
+         */
+        verifyPayment: (args: {
+          paymentPayload: PaymentPayload;
+          requirement: PaymentRequirement;
+          resource: string;
+          userId?: Id<'entities'>;
+        }) =>
+          Effect.gen(function* () {
+            // Validate payload version
+            if (args.paymentPayload.x402Version !== X402_VERSION) {
+              return {
+                valid: false,
+                error: `Unsupported X402 version: ${args.paymentPayload.x402Version}`,
+              } as VerifyPaymentResponse;
+            }
+
+            // Validate scheme matches
+            if (args.paymentPayload.scheme !== args.requirement.scheme) {
+              return {
+                valid: false,
+                error: `Payment scheme mismatch: expected ${args.requirement.scheme}, got ${args.paymentPayload.scheme}`,
+              } as VerifyPaymentResponse;
+            }
+
+            // Validate network matches
+            if (args.paymentPayload.network !== args.requirement.network) {
+              return {
+                valid: false,
+                error: `Network mismatch: expected ${args.requirement.network}, got ${args.paymentPayload.network}`,
+              } as VerifyPaymentResponse;
+            }
+
+            // Call facilitator to verify payment
+            const facilitatorUrl = args.requirement.facilitator || process.env.X402_FACILITATOR_URL;
+            const verifyRequest: VerifyPaymentRequest = {
+              paymentPayload: args.paymentPayload,
+              requirement: args.requirement,
+              resource: args.resource,
+              timestamp: Date.now(),
+            };
+
+            const response = yield* Effect.tryPromise({
+              try: () =>
+                fetch(`${facilitatorUrl}/verify`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(verifyRequest),
+                }).then((res) => res.json()),
+              catch: (error) => new Error(`Facilitator verification failed: ${error}`),
+            });
+
+            const verifyResponse = response as VerifyPaymentResponse;
+
+            if (!verifyResponse.valid) {
+              // Log failed verification
+              yield* db.insert('events', {
+                type: 'payment_failed',
+                actorId: args.userId,
+                targetId: null,
+                timestamp: Date.now(),
+                metadata: {
+                  protocol: 'x402',
+                  resource: args.resource,
+                  error: verifyResponse.error,
+                  scheme: args.paymentPayload.scheme,
+                  network: args.paymentPayload.network,
+                },
+              });
+
+              return verifyResponse;
+            }
+
+            // Store verified payment
+            const paymentId = yield* db.insert('entities', {
+              type: 'payment',
+              name: `X402 Payment - ${args.resource}`,
+              properties: {
+                protocol: 'x402',
+                scheme: args.paymentPayload.scheme,
+                network: args.paymentPayload.network,
+                amount: args.requirement.maxAmountRequired,
+                asset: args.requirement.asset,
+                resource: args.resource,
+                payTo: args.requirement.payTo,
+                txHash: verifyResponse.txHash,
+                paymentId: verifyResponse.paymentId,
+                status: 'verified',
+                userId: args.userId,
+                verifiedAt: Date.now(),
+                metadata: verifyResponse.metadata,
+              },
+              status: 'active',
+              createdAt: Date.now(),
+              updatedAt: Date.now(),
+            });
+
+            // Log successful payment
+            yield* db.insert('events', {
+              type: 'payment_verified',
+              actorId: args.userId,
+              targetId: paymentId,
+              timestamp: Date.now(),
+              metadata: {
+                protocol: 'x402',
+                resource: args.resource,
+                amount: args.requirement.maxAmountRequired,
+                scheme: args.paymentPayload.scheme,
+                network: args.paymentPayload.network,
+                txHash: verifyResponse.txHash,
+              },
+            });
+
+            return {
+              ...verifyResponse,
+              paymentId: paymentId as string,
+            };
+          }),
+
+        /**
+         * Get payment history for a user
+         */
+        getPaymentHistory: (args: { userId: Id<'entities'>; limit?: number }) =>
+          Effect.gen(function* () {
+            const payments = yield* db.query('entities', {
+              filter: (q) =>
+                q.and(
+                  q.eq(q.field('type'), 'payment'),
+                  q.eq(q.field('properties.protocol'), 'x402'),
+                  q.eq(q.field('properties.userId'), args.userId)
+                ),
+              limit: args.limit || 100,
+            });
+
+            return payments;
+          }),
+
+        /**
+         * Get total amount paid by user
+         */
+        getTotalPaid: (args: { userId: Id<'entities'>; asset?: string }) =>
+          Effect.gen(function* () {
+            const payments = yield* db.query('entities', {
+              filter: (q) => {
+                const conditions = [
+                  q.eq(q.field('type'), 'payment'),
+                  q.eq(q.field('properties.protocol'), 'x402'),
+                  q.eq(q.field('properties.userId'), args.userId),
+                ];
+
+                if (args.asset) {
+                  conditions.push(q.eq(q.field('properties.asset'), args.asset));
+                }
+
+                return q.and(...conditions);
+              },
+            });
+
+            const total = payments.reduce((sum, payment) => {
+              const amount = parseFloat(payment.properties.amount as string);
+              return sum + amount;
+            }, 0);
+
+            return {
+              total: total.toFixed(6),
+              asset: args.asset || 'USDC',
+              count: payments.length,
+            };
+          }),
+      };
+    }),
+    dependencies: [ConvexDatabase.Default],
+  }
+) {}
+
+/**
+ * Helper: Get payment configuration
+ */
+const getPaymentConfig = () =>
+  Effect.gen(function* () {
+    return {
+      facilitatorUrl: process.env.X402_FACILITATOR_URL || 'https://facilitator.x402.org',
+      base: {
+        address: process.env.X402_BASE_ADDRESS || '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+        usdcContract: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
+      },
+      ethereum: {
+        address: process.env.X402_ETHEREUM_ADDRESS || '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+        usdcContract: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC on Ethereum
+      },
+      solana: {
+        address: process.env.X402_SOLANA_ADDRESS || 'DYw8jCTfwHNRJhhmFcbXvVDTqWMEVFBX6ZKUmG5CNSKK',
+        usdcMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC on Solana
+      },
+    };
+  });
+```
+
+---
+
+## Part 3: Astro API Route Integration
+
+### X402 Middleware
+
+**File:** `src/pages/api/x402/middleware.ts`
+
+```typescript
+import type { APIRoute } from 'astro';
+import { X402PaymentService } from '@/convex/services/x402-payment';
+import type { PaymentPayload, PaymentRequired } from '@/convex/protocols/x402';
+
+/**
+ * X402 Middleware - Handle payment verification for protected routes
+ */
+export async function x402Middleware(
+  request: Request,
+  resource: string,
+  amount: string,
+  userId?: string
+): Promise<Response | null> {
+  const paymentHeader = request.headers.get('X-PAYMENT');
+
+  // If no payment header, return 402 Payment Required
+  if (!paymentHeader) {
+    const paymentService = new X402PaymentService();
+    const paymentRequired = await paymentService.createPaymentRequest({
+      resource,
+      amount,
+      description: `Access to ${resource}`,
+      userId,
+    });
+
+    return new Response(JSON.stringify(paymentRequired), {
+      status: 402,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-PAYMENT-REQUIRED': 'true',
+      },
+    });
+  }
+
+  // Parse payment payload
+  let paymentPayload: PaymentPayload;
+  try {
+    paymentPayload = JSON.parse(paymentHeader);
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ error: 'Invalid X-PAYMENT header format' }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+
+  // Verify payment
+  const paymentService = new X402PaymentService();
+  const verification = await paymentService.verifyPayment({
+    paymentPayload,
+    requirement: {
+      scheme: paymentPayload.scheme,
+      network: paymentPayload.network,
+      maxAmountRequired: amount,
+      resource,
+      payTo: process.env.X402_BASE_ADDRESS!,
+      asset: 'USDC',
+    },
+    resource,
+    userId,
+  });
+
+  if (!verification.valid) {
+    return new Response(
+      JSON.stringify({ error: verification.error || 'Payment verification failed' }),
+      {
+        status: 402,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-PAYMENT-FAILED': 'true',
+        },
+      }
+    );
+  }
+
+  // Payment verified - return null to continue processing
+  return null;
+}
+```
+
+### Protected API Route Example
+
+**File:** `src/pages/api/agent/execute.ts`
+
+```typescript
+import type { APIRoute } from 'astro';
+import { x402Middleware } from './x402/middleware';
+import { IntelligenceAgent } from '@/convex/services/intelligence-agent';
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  const resource = '/api/agent/execute';
+  const amount = '0.01'; // $0.01 per request
+  const userId = locals.user?.id;
+
+  // X402 payment check
+  const paymentResponse = await x402Middleware(request, resource, amount, userId);
+  if (paymentResponse) {
+    return paymentResponse; // Return 402 or payment error
+  }
+
+  // Payment verified - execute agent task
+  const { taskId, parameters } = await request.json();
+
+  const intelligenceAgent = new IntelligenceAgent();
+  const result = await intelligenceAgent.executeTask({
+    taskId,
+    userId,
+    parameters,
+  });
+
+  return new Response(JSON.stringify(result), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-PAYMENT-VERIFIED': 'true',
+    },
+  });
+};
+```
+
+---
+
+## Part 4: Ontology Integration
+
+### Entity Types
+
+Uses existing types (no new types needed):
+
+```typescript
+// Payment entity (existing)
+| 'payment'
+```
+
+**Payment Properties for X402:**
+```typescript
+{
+  protocol: 'x402',
+  scheme: 'permit' | 'transfer' | 'signature' | 'invoice',
+  network: 'base' | 'ethereum' | 'solana' | 'arbitrum' | 'optimism' | 'polygon',
+  amount: string,           // Decimal amount (e.g., "0.01")
+  asset: string,            // Token symbol (e.g., "USDC")
+  resource: string,         // API endpoint
+  payTo: string,            // Recipient address
+  txHash?: string,          // Blockchain transaction hash
+  paymentId?: string,       // X402 payment ID
+  status: 'pending' | 'verified' | 'settled' | 'failed',
+  userId?: Id<'entities'>,  // Payer user ID
+  verifiedAt?: number,      // Verification timestamp
+  settledAt?: number,       // Settlement timestamp
+  metadata: {
+    blockNumber?: number,
+    confirmations?: number,
+    gasUsed?: string,
+    [key: string]: any,
+  },
+}
+```
+
+### Event Types
+
+Uses existing types:
+
+```typescript
+// Payment requested
+{
+  type: 'payment_requested',  // Existing type
+  actorId: userId,
+  targetId: null,
+  timestamp: Date.now(),
+  metadata: {
+    protocol: 'x402',
+    resource: '/api/agent/execute',
+    amount: '0.01',
+    networks: ['base', 'ethereum', 'solana'],
+  }
+}
+
+// Payment verified
+{
+  type: 'payment_verified',   // Existing type
+  actorId: userId,
+  targetId: paymentId,
+  timestamp: Date.now(),
+  metadata: {
+    protocol: 'x402',
+    resource: '/api/agent/execute',
+    amount: '0.01',
+    scheme: 'permit',
+    network: 'base',
+    txHash: '0x...',
+  }
+}
+
+// Payment failed
+{
+  type: 'payment_failed',     // Existing type
+  actorId: userId,
+  targetId: null,
+  timestamp: Date.now(),
+  metadata: {
+    protocol: 'x402',
+    resource: '/api/agent/execute',
+    error: 'Insufficient balance',
+    scheme: 'permit',
+    network: 'base',
+  }
+}
+```
+
+---
+
+## Part 5: Frontend Integration
+
+### PaymentPrompt Component
+
+**File:** `src/components/payment/PaymentPrompt.tsx`
+
+```tsx
+import React, { useState } from 'react';
+import type { PaymentRequired } from '@/convex/protocols/x402';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Wallet, Check, X } from 'lucide-react';
+
+interface PaymentPromptProps {
+  paymentRequired: PaymentRequired;
+  onPaymentComplete: (paymentPayload: any) => void;
+  onCancel: () => void;
+}
+
+export function PaymentPrompt({ paymentRequired, onPaymentComplete, onCancel }: PaymentPromptProps) {
+  const [selectedNetwork, setSelectedNetwork] = useState(paymentRequired.accepts[0]);
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handlePayment = async () => {
+    setProcessing(true);
+    setError(null);
+
+    try {
+      // Connect wallet (using Web3 provider)
+      const provider = await getWeb3Provider(selectedNetwork.network);
+
+      // Create payment payload based on scheme
+      let paymentPayload;
+      if (selectedNetwork.scheme === 'permit') {
+        paymentPayload = await createPermitPayload(provider, selectedNetwork);
+      } else if (selectedNetwork.scheme === 'transfer') {
+        paymentPayload = await createTransferPayload(provider, selectedNetwork);
+      }
+
+      onPaymentComplete(paymentPayload);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Payment failed');
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  return (
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Wallet className="h-5 w-5" />
+          Payment Required
+        </CardTitle>
+        <CardDescription>
+          This resource requires payment to access
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        {/* Payment amount */}
+        <div className="rounded-lg border bg-muted p-4">
+          <div className="text-sm text-muted-foreground">Amount</div>
+          <div className="text-2xl font-bold">
+            ${selectedNetwork.maxAmountRequired} {selectedNetwork.asset}
+          </div>
+          <div className="text-sm text-muted-foreground">
+            {selectedNetwork.metadata?.description || selectedNetwork.resource}
+          </div>
+        </div>
+
+        {/* Network selection */}
+        <div className="space-y-2">
+          <div className="text-sm font-medium">Select Network</div>
+          <div className="grid gap-2">
+            {paymentRequired.accepts.map((requirement, i) => (
+              <button
+                key={i}
+                onClick={() => setSelectedNetwork(requirement)}
+                className={`flex items-center justify-between rounded-lg border p-3 transition-colors ${
+                  selectedNetwork === requirement
+                    ? 'border-primary bg-primary/10'
+                    : 'hover:border-primary/50'
+                }`}
+              >
+                <div>
+                  <div className="font-medium capitalize">{requirement.network}</div>
+                  <div className="text-xs text-muted-foreground">{requirement.scheme}</div>
+                </div>
+                {selectedNetwork === requirement && (
+                  <Check className="h-4 w-4 text-primary" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Error display */}
+        {error && (
+          <Alert variant="destructive">
+            <X className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+      </CardContent>
+
+      <CardFooter className="flex gap-2">
+        <Button variant="outline" onClick={onCancel} className="flex-1">
+          Cancel
+        </Button>
+        <Button onClick={handlePayment} disabled={processing} className="flex-1">
+          {processing ? 'Processing...' : `Pay $${selectedNetwork.maxAmountRequired}`}
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+// Helper functions (implement with Web3 libraries)
+async function getWeb3Provider(network: string) {
+  // Implementation depends on wallet provider (MetaMask, WalletConnect, etc.)
+  return {} as any;
+}
+
+async function createPermitPayload(provider: any, requirement: any) {
+  // Create ERC-2612 permit signature
+  return {} as any;
+}
+
+async function createTransferPayload(provider: any, requirement: any) {
+  // Create direct transfer transaction
+  return {} as any;
+}
+```
+
+---
+
+## Part 6: Use Cases
+
+### 1. AI Agent Pay-Per-Request
+
+```typescript
+// Protected AI agent endpoint
+// File: src/pages/api/agent/intelligence/analyze.ts
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  // Require $0.01 payment per analysis
+  const paymentCheck = await x402Middleware(
+    request,
+    '/api/agent/intelligence/analyze',
+    '0.01',
+    locals.user?.id
+  );
+
+  if (paymentCheck) return paymentCheck;
+
+  // Execute analysis (payment verified)
+  const { userId, metrics } = await request.json();
+  const result = await intelligenceAgent.analyzeMetrics({ userId, metrics });
+
+  return new Response(JSON.stringify(result), { status: 200 });
+};
+```
+
+### 2. External Agent Integration (ElizaOS)
+
+```typescript
+// Charge for ElizaOS agent collaboration
+// File: src/pages/api/eliza/send-message.ts
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  // Require $0.005 per message to ElizaOS agent
+  const paymentCheck = await x402Middleware(
+    request,
+    '/api/eliza/send-message',
+    '0.005',
+    locals.user?.id
+  );
+
+  if (paymentCheck) return paymentCheck;
+
+  // Send message (payment verified)
+  const { agentId, message } = await request.json();
+  const result = await elizaOSService.sendMessage({ agentId, message });
+
+  return new Response(JSON.stringify(result), { status: 200 });
+};
+```
+
+### 3. N8N Workflow Execution
+
+```typescript
+// Charge for workflow execution
+// File: src/pages/api/workflow/execute.ts
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  const { workflowId } = await request.json();
+
+  // Get workflow pricing
+  const workflow = await getWorkflow(workflowId);
+  const price = workflow.properties.price || '0.10';
+
+  const paymentCheck = await x402Middleware(
+    request,
+    `/api/workflow/execute?id=${workflowId}`,
+    price,
+    locals.user?.id
+  );
+
+  if (paymentCheck) return paymentCheck;
+
+  // Execute workflow (payment verified)
+  const result = await n8nService.executeWorkflow({ workflowId });
+
+  return new Response(JSON.stringify(result), { status: 200 });
+};
+```
+
+### 4. Cloud Storage Access
+
+```typescript
+// Pay-per-GB storage
+// File: src/pages/api/storage/upload.ts
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  const contentLength = request.headers.get('content-length');
+  const sizeGB = parseInt(contentLength || '0') / 1_000_000_000;
+  const price = (sizeGB * 0.05).toFixed(3); // $0.05 per GB
+
+  const paymentCheck = await x402Middleware(
+    request,
+    '/api/storage/upload',
+    price,
+    locals.user?.id
+  );
+
+  if (paymentCheck) return paymentCheck;
+
+  // Upload file (payment verified)
+  const result = await storageService.upload(request.body);
+
+  return new Response(JSON.stringify(result), { status: 200 });
+};
+```
+
+---
+
+## Benefits
+
+### 1. Instant Micropayments
+- Payments settle in ~2 seconds on blockchain
+- No waiting for traditional payment processors
+- Enables pay-per-use business models
+
+### 2. Zero Fees
+- No processing fees for merchants
+- No transaction fees for customers (except gas)
+- Better economics than Stripe, PayPal, etc.
+
+### 3. Global Access
+- No geographic restrictions
+- No account verification needed
+- Crypto wallets work worldwide
+
+### 4. Privacy-Preserving
+- No personal information required
+- Blockchain addresses only
+- GDPR-compliant by design
+
+### 5. Agent-to-Agent Payments
+- AI agents can autonomously pay for services
+- Machine-to-machine transactions
+- Programmable payment logic
+
+---
+
+## Summary
+
+**X402 Protocol Integration:**
+- ✅ HTTP-native payment protocol (402 status code)
+- ✅ Effect.ts services (X402PaymentService)
+- ✅ Astro API middleware (x402Middleware)
+- ✅ Multi-chain support (Base, Ethereum, Solana)
+- ✅ Frontend payment UI (PaymentPrompt component)
+- ✅ Complete type safety (TypeScript protocols)
+
+**Use Cases:**
+- ✅ AI agent API monetization
+- ✅ External agent integration billing
+- ✅ N8N workflow pay-per-execution
+- ✅ Cloud storage pay-per-GB
+- ✅ Content creator micropayments
+
+**Non-Breaking:**
+- Uses existing `payment` entity type
+- Uses existing event types
+- No schema changes needed
+- Append-only integration
+
+🎉 **Result:** Instant, frictionless digital payments for the ONE platform with zero fees and global access.
