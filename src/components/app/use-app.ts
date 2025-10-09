@@ -3,7 +3,7 @@ import { type EntityId, type NavigationView, type StatusFilter, type JourneyStag
 
 type AppState = {
   // Left sidebar navigation
-  activeView: NavigationView        // "messages" | "groups" | "agents" | "tools" | "people"
+  activeView: NavigationView        // "people" | "things" | "connections" | "events" | "knowledge"
 
   // Middle panel filters
   statusFilter: StatusFilter        // "now" | "top" | "todo" | "done"
@@ -18,7 +18,7 @@ type AppState = {
 }
 
 const appStateAtom = atom<AppState>({
-  activeView: "messages",
+  activeView: "people",
   statusFilter: "now",
   journeyStages: [],
   searchQuery: "",

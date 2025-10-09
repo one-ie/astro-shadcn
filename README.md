@@ -41,11 +41,16 @@ Advanced, production-ready Astro starter template with **enterprise-grade authen
 
 ## ✨ What's Inside
 
-### 🏗️ Architecture (The Beautiful Separation)
+### 🏗️ Architecture (Headless Frontend)
 
 ```
-Frontend (Astro + React) → Effect.ts Services → Backend (Hono + Convex)
+Frontend (Astro + React) → Backend Convex → Data Layer
 ```
+
+**⚡ IMPORTANT:** This frontend now connects to a **separate backend Convex deployment**:
+- Frontend: UI/UX only (headless)
+- Backend: `/backend/convex` (authentication, data, business logic)
+- Connection: `https://shocking-falcon-870.convex.cloud`
 
 **Frontend Layer**:
 - **Astro 5.14+** - Lightning-fast SSR with islands architecture
@@ -53,12 +58,14 @@ Frontend (Astro + React) → Effect.ts Services → Backend (Hono + Convex)
 - **shadcn/ui** - 50+ pre-installed components
 - **Tailwind CSS v4** - Modern CSS-based configuration
 - **Content Collections** - Type-safe blog with astro:content
+- **Convex Hooks** - Real-time data from backend
 
-**Backend Layer**:
+**Backend Layer** (separate repo: `/backend`):
 - **Convex** - Real-time database with typed functions
 - **Better Auth** - Authentication with 6 methods (email, OAuth, magic links, 2FA)
 - **@convex-dev/resend** - Transactional emails (password reset, verification)
 - **@convex-dev/rate-limiter** - Brute force protection
+- **4-Table Ontology** - entities, connections, events, knowledge
 
 ### 🎯 Key Features
 
@@ -91,8 +98,10 @@ bun install
 cp .env.example .env.local
 # Edit .env.local with your credentials (see Environment Variables section below)
 
-# 4. Deploy Convex schema
+# 4. Deploy Backend Convex (from backend directory)
+cd ../backend
 bunx convex deploy
+cd ../frontend
 
 # 5. Start development server
 bun run dev

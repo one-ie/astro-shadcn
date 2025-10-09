@@ -1,0 +1,767 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  ArrowRight,
+  Check,
+  Users,
+  Box,
+  GitBranch,
+  Activity,
+  Brain,
+  Network,
+  Sparkles,
+  Code,
+  FileText,
+  Zap,
+  Database,
+  MessageSquare,
+  ChevronDown
+} from 'lucide-react';
+---
+
+<Layout title="ONE Ontology - Understanding the Foundation">
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <!-- Animated gradient background with enhanced effects -->
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-primary/[0.02] to-background"></div>
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-primary/5 to-transparent"></div>
+    <div class="absolute left-1/2 top-0 -z-10 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"></div>
+
+    <div class="mx-auto max-w-full sm:max-w-6xl">
+      <div class="flex flex-col items-center space-y-8 text-center">
+        <Badge variant="outline" className="inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Network className="h-4 w-4" />
+          Canonical Data Model
+        </Badge>
+
+        <div class="space-y-6" data-usal="fade-up duration-700 delay-100">
+          <h1 class="font-heading font-extrabold leading-[1.1] tracking-tight text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
+            <span class="block">The ONE Ontology</span>
+          </h1>
+
+          <p class="mx-auto max-w-3xl text-xl leading-relaxed text-muted-foreground md:text-2xl">
+            ONE reduces the entire platform to five primitives. <strong class="text-foreground">People</strong> declare intent, while <strong class="text-foreground">Things</strong>, <strong class="text-foreground">Connections</strong>, <strong class="text-foreground">Events</strong>, and <strong class="text-foreground">Knowledge</strong> execute, track, and contextualize every move.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3 pt-4" data-usal="fade-up duration-700 delay-200">
+          <span class="text-sm text-muted-foreground">Scroll to explore</span>
+          <ChevronDown className="h-5 w-5 animate-bounce text-muted-foreground" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Five Pillars Showcase -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-6xl">
+      <div class="mb-20 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Network className="h-4 w-4" />
+          The Ontology
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Five Primitives
+          <br />
+          <span class="text-muted-foreground">One Unified Model</span>
+        </h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Every feature the DSL compiles lands in these tables. Master them once and you understand how ONE stores policy, state, and intelligence.
+        </p>
+      </div>
+
+      <!-- All 5 pillars stacked vertically -->
+      <div class="mx-auto max-w-3xl space-y-6">
+        <!-- Pillar 1: People -->
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.01] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
+          <CardHeader className="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
+                <Users className="h-7 w-7 text-primary" />
+              </div>
+              <div class="flex-1">
+                <CardTitle className="text-2xl">People</CardTitle>
+                <CardDescription className="mt-2 leading-relaxed">
+                  Declare goals, set guardrails, and sign off on execution. Humans retain control while agents do the work.
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap gap-2">
+              <Badge variant="secondary" className="border-border/50">Intent</Badge>
+              <Badge variant="secondary" className="border-border/50">Policy</Badge>
+              <Badge variant="secondary" className="border-border/50">Approval</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <!-- Pillar 2: Things -->
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.01] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-150">
+          <CardHeader className="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
+                <Box className="h-7 w-7 text-primary" />
+              </div>
+              <div class="flex-1">
+                <CardTitle className="text-2xl">Things</CardTitle>
+                <CardDescription className="mt-2 leading-relaxed">
+                  Model every entity — agents, audiences, products, tokens, content — with strong typing and versioned schemas.
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap gap-2">
+              <Badge variant="secondary" className="border-border/50">Agents</Badge>
+              <Badge variant="secondary" className="border-border/50">Products</Badge>
+              <Badge variant="secondary" className="border-border/50">Audiences</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <!-- Pillar 3: Connections -->
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.01] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-200">
+          <CardHeader className="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
+                <GitBranch className="h-7 w-7 text-primary" />
+              </div>
+              <div class="flex-1">
+                <CardTitle className="text-2xl">Connections</CardTitle>
+                <CardDescription className="mt-2 leading-relaxed">
+                  Capture relationships — ownership, access, influence, value flows — with directional, metadata-rich edges.
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap gap-2">
+              <Badge variant="secondary" className="border-border/50">Owns</Badge>
+              <Badge variant="secondary" className="border-border/50">Member of</Badge>
+              <Badge variant="secondary" className="border-border/50">Transacted</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <!-- Pillar 4: Events -->
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.01] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-250">
+          <CardHeader className="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
+                <Activity className="h-7 w-7 text-primary" />
+              </div>
+              <div class="flex-1">
+                <CardTitle className="text-2xl">Events</CardTitle>
+                <CardDescription className="mt-2 leading-relaxed">
+                  Chronicle every action — launches, interactions, transactions, insights — as a tamper-proof chronology.
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap gap-2">
+              <Badge variant="secondary" className="border-border/50">Created</Badge>
+              <Badge variant="secondary" className="border-border/50">Purchased</Badge>
+              <Badge variant="secondary" className="border-border/50">Completed</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <!-- Pillar 5: Knowledge -->
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.01] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-300">
+          <CardHeader className="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
+                <Brain className="h-7 w-7 text-primary" />
+              </div>
+              <div class="flex-1">
+                <CardTitle className="text-2xl">Knowledge</CardTitle>
+                <CardDescription className="mt-2 leading-relaxed">
+                  Store semantics — labels, embeddings, summaries — so agents can retrieve context, reason, and learn.
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap gap-2">
+              <Badge variant="secondary" className="border-border/50">Tags</Badge>
+              <Badge variant="secondary" className="border-border/50">Embeddings</Badge>
+              <Badge variant="secondary" className="border-border/50">Context</Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div class="mt-12 text-center">
+        <p class="text-sm text-muted-foreground">
+          Protocol-agnostic clarity • Human oversight • Composable by design
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Representation -->
+  <section class="border-y bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-5xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Network className="h-4 w-4" />
+          Visual Model
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          How The Ontology Works
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          A complete example showing how all five pillars work together in a real feature.
+        </p>
+      </div>
+
+      <div class="space-y-8">
+        <!-- Example: Token Purchase Flow -->
+        <div class="rounded-lg border border-border/50 bg-card/50 p-8 backdrop-blur">
+          <h3 class="mb-8 text-center text-2xl font-bold">Example: Fan Buys Creator Tokens</h3>
+
+          <div class="space-y-6">
+            <!-- Step 1: People -->
+            <div class="flex items-start gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <div class="flex-1 space-y-2">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-semibold">People</h4>
+                  <Badge variant="outline" className="text-xs">Authorization</Badge>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  Fan authorizes the intent: "Buy 100 creator tokens for $10."
+                </p>
+                <div class="rounded-md bg-muted/50 p-3 font-mono text-xs">
+                  actorId: fan_123 → intent: purchase_tokens
+                </div>
+              </div>
+            </div>
+
+            <div class="ml-6 h-8 w-px bg-border"></div>
+
+            <!-- Step 2: Things -->
+            <div class="flex items-start gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Box className="h-6 w-6 text-primary" />
+              </div>
+              <div class="flex-1 space-y-2">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-semibold">Things</h4>
+                  <Badge variant="outline" className="text-xs">Entities Involved</Badge>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  The system resolves the intent to concrete Things: the fan (audience_member) and the creator token (token).
+                </p>
+                <div class="grid gap-2 sm:grid-cols-2">
+                  <div class="rounded-md bg-muted/50 p-3 font-mono text-xs">
+                    <div class="text-primary">fan_123</div>
+                    <div class="text-muted-foreground">type: audience_member</div>
+                  </div>
+                  <div class="rounded-md bg-muted/50 p-3 font-mono text-xs">
+                    <div class="text-primary">token_456</div>
+                    <div class="text-muted-foreground">type: token</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ml-6 h-8 w-px bg-border"></div>
+
+            <!-- Step 3: Connections -->
+            <div class="flex items-start gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <GitBranch className="h-6 w-6 text-primary" />
+              </div>
+              <div class="flex-1 space-y-2">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-semibold">Connections</h4>
+                  <Badge variant="outline" className="text-xs">Relationship Created</Badge>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  ONE asserts a `holds_tokens` relationship and stores live balance metadata.
+                </p>
+                <div class="rounded-md bg-muted/50 p-3 font-mono text-xs">
+                  <div><span class="text-primary">fan_123</span> → <span class="text-primary">token_456</span></div>
+                  <div class="mt-1 text-muted-foreground">relationshipType: holds_tokens</div>
+                  <div class="text-muted-foreground">metadata: &#123; balance: 100 &#125;</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ml-6 h-8 w-px bg-border"></div>
+
+            <!-- Step 4: Events -->
+            <div class="flex items-start gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Activity className="h-6 w-6 text-primary" />
+              </div>
+              <div class="flex-1 space-y-2">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-semibold">Events</h4>
+                  <Badge variant="outline" className="text-xs">Action Recorded</Badge>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  An immutable `tokens_purchased` event records who did what, when, and how much.
+                </p>
+                <div class="rounded-md bg-muted/50 p-3 font-mono text-xs">
+                  <div>type: tokens_purchased</div>
+                  <div class="mt-1 text-muted-foreground">actorId: fan_123</div>
+                  <div class="text-muted-foreground">targetId: token_456</div>
+                  <div class="text-muted-foreground">metadata: &#123; amount: 100, usd: 10 &#125;</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ml-6 h-8 w-px bg-border"></div>
+
+            <!-- Step 5: Knowledge -->
+            <div class="flex items-start gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Brain className="h-6 w-6 text-primary" />
+              </div>
+              <div class="flex-1 space-y-2">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-semibold">Knowledge</h4>
+                  <Badge variant="outline" className="text-xs">Context Added</Badge>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  Knowledge labels give downstream agents context for segmentation, rewards, and recommendations.
+                </p>
+                <div class="rounded-md bg-muted/50 p-3">
+                  <div class="flex flex-wrap gap-2 font-mono text-xs">
+                    <Badge variant="secondary" className="font-mono">payment_method:stripe</Badge>
+                    <Badge variant="secondary" className="font-mono">status:completed</Badge>
+                    <Badge variant="secondary" className="font-mono">audience:engaged</Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+            <p class="text-sm font-medium">
+              <strong class="text-foreground">Result:</strong> <span class="text-muted-foreground">One intent now touches every primitive—authorization, entities, relationships, events, and context—ready for agents to reuse.</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Enhanced Data Flow Diagram -->
+        <div class="rounded-lg border border-border/50 bg-card/50 p-8 backdrop-blur">
+          <h3 class="mb-8 text-center text-xl font-bold">Data Flow Through The Ontology</h3>
+
+          <div class="mx-auto max-w-3xl">
+            <div class="relative space-y-6">
+              <!-- Vertical flow line -->
+              <div class="absolute left-12 top-16 bottom-16 w-px bg-gradient-to-b from-primary/40 via-primary/20 to-primary/40"></div>
+
+              <!-- Step 1: People -->
+              <div class="relative">
+                <div class="flex items-start gap-6">
+                  <div class="relative z-10 flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur">
+                    <div class="text-center">
+                      <Users className="mx-auto h-8 w-8 text-primary" />
+                      <div class="mt-1 text-xs font-medium text-primary">1</div>
+                    </div>
+                  </div>
+                  <div class="flex-1 space-y-2 pt-2">
+                    <h4 class="text-lg font-semibold">People</h4>
+                    <p class="text-sm text-muted-foreground leading-relaxed">
+                      <strong class="text-foreground">Policy Layer:</strong> Humans set outcomes, attach limits, and approve execution. Every workflow starts with explicit intent.
+                    </p>
+                    <div class="flex items-center gap-2 pt-1">
+                      <Badge variant="secondary" className="text-xs">Intent</Badge>
+                      <Badge variant="secondary" className="text-xs">Policy</Badge>
+                      <Badge variant="secondary" className="text-xs">Approval</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="ml-12 mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                  <ArrowRight className="h-3 w-3" />
+                  <span>Triggers system action</span>
+                </div>
+              </div>
+
+              <!-- Step 2: Things -->
+              <div class="relative">
+                <div class="flex items-start gap-6">
+                  <div class="relative z-10 flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border-2 border-border/50 bg-muted/50 backdrop-blur">
+                    <div class="text-center">
+                      <Box className="mx-auto h-8 w-8 text-primary" />
+                      <div class="mt-1 text-xs font-medium text-muted-foreground">2</div>
+                    </div>
+                  </div>
+                  <div class="flex-1 space-y-2 pt-2">
+                    <h4 class="text-lg font-semibold">Things</h4>
+                    <p class="text-sm text-muted-foreground leading-relaxed">
+                      <strong class="text-foreground">Entity Layer:</strong> ONE resolves intent into typed Things—people, agents, offers, content—and versions every change.
+                    </p>
+                    <div class="flex items-center gap-2 pt-1">
+                      <Badge variant="secondary" className="text-xs">66 types</Badge>
+                      <Badge variant="secondary" className="text-xs">Typed</Badge>
+                      <Badge variant="secondary" className="text-xs">Validated</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="ml-12 mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                  <ArrowRight className="h-3 w-3" />
+                  <span>Creates relationships</span>
+                </div>
+              </div>
+
+              <!-- Step 3: Connections -->
+              <div class="relative">
+                <div class="flex items-start gap-6">
+                  <div class="relative z-10 flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border-2 border-border/50 bg-muted/50 backdrop-blur">
+                    <div class="text-center">
+                      <GitBranch className="mx-auto h-8 w-8 text-primary" />
+                      <div class="mt-1 text-xs font-medium text-muted-foreground">3</div>
+                    </div>
+                  </div>
+                  <div class="flex-1 space-y-2 pt-2">
+                    <h4 class="text-lg font-semibold">Connections</h4>
+                    <p class="text-sm text-muted-foreground leading-relaxed">
+                      <strong class="text-foreground">Relationship Layer:</strong> Defines how value moves—ownership, membership, authority—and stores actionable metadata on every edge.
+                    </p>
+                    <div class="flex items-center gap-2 pt-1">
+                      <Badge variant="secondary" className="text-xs">25 types</Badge>
+                      <Badge variant="secondary" className="text-xs">Graph</Badge>
+                      <Badge variant="secondary" className="text-xs">Metadata</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="ml-12 mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                  <ArrowRight className="h-3 w-3" />
+                  <span>Determines permitted actions</span>
+                </div>
+              </div>
+
+              <!-- Step 4: Events -->
+              <div class="relative">
+                <div class="flex items-start gap-6">
+                  <div class="relative z-10 flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border-2 border-border/50 bg-muted/50 backdrop-blur">
+                    <div class="text-center">
+                      <Activity className="mx-auto h-8 w-8 text-primary" />
+                      <div class="mt-1 text-xs font-medium text-muted-foreground">4</div>
+                    </div>
+                  </div>
+                  <div class="flex-1 space-y-2 pt-2">
+                    <h4 class="text-lg font-semibold">Events</h4>
+                    <p class="text-sm text-muted-foreground leading-relaxed">
+                      <strong class="text-foreground">Audit Layer:</strong> Records what happened, when, by whom. Builds the immutable timeline for analytics, compliance, and automation.
+                    </p>
+                    <div class="flex items-center gap-2 pt-1">
+                      <Badge variant="secondary" className="text-xs">67 types</Badge>
+                      <Badge variant="secondary" className="text-xs">Timestamped</Badge>
+                      <Badge variant="secondary" className="text-xs">Immutable</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="ml-12 mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                  <ArrowRight className="h-3 w-3" />
+                  <span>Feeds the knowledge graph</span>
+                </div>
+              </div>
+
+              <!-- Step 5: Knowledge -->
+              <div class="relative">
+                <div class="flex items-start gap-6">
+                  <div class="relative z-10 flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border-2 border-border/50 bg-muted/50 backdrop-blur">
+                    <div class="text-center">
+                      <Brain className="mx-auto h-8 w-8 text-primary" />
+                      <div class="mt-1 text-xs font-medium text-muted-foreground">5</div>
+                    </div>
+                  </div>
+                  <div class="flex-1 space-y-2 pt-2">
+                    <h4 class="text-lg font-semibold">Knowledge</h4>
+                    <p class="text-sm text-muted-foreground leading-relaxed">
+                      <strong class="text-foreground">Intelligence Layer:</strong> Adds labels, embeddings, and summaries so agents can recall, reason, and personalize.
+                    </p>
+                    <div class="flex items-center gap-2 pt-1">
+                      <Badge variant="secondary" className="text-xs">Labels</Badge>
+                      <Badge variant="secondary" className="text-xs">Vectors</Badge>
+                      <Badge variant="secondary" className="text-xs">RAG</Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="mt-10 rounded-lg border border-primary/20 bg-primary/5 p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                  <Check className="h-6 w-6 text-primary" />
+                </div>
+                <div class="space-y-2">
+                  <h4 class="font-semibold text-foreground">Shared Mental Model</h4>
+                  <p class="text-sm text-muted-foreground leading-relaxed">
+                    Plain-English features compile straight into the ontology. You can inspect each primitive, test assumptions, and ship new automations with confidence.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plain English DSL -->
+  <section class="border-y bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-6xl">
+      <div class="mb-20 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <MessageSquare className="h-4 w-4" />
+          Plain English DSL
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Write Features in English
+          <br />
+          <span class="text-muted-foreground">The System Builds Everything</span>
+        </h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Describe what you want in plain English. The compiler checks every line against the ontology, generates TypeScript and tests, and deploys to the edge.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-100">
+          <CardHeader className="space-y-3">
+            <Code className="h-8 w-8 text-primary" />
+            <CardTitle className="text-lg">CREATE</CardTitle>
+            <CardDescription className="text-sm leading-relaxed">
+              Add typed Things—agents, content, tokens, offers—directly into the graph
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-150">
+          <CardHeader className="space-y-3">
+            <GitBranch className="h-8 w-8 text-primary" />
+            <CardTitle className="text-lg">CONNECT</CardTitle>
+            <CardDescription className="text-sm leading-relaxed">
+              Define relationships like owns, follows, powers with metadata and direction
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-200">
+          <CardHeader className="space-y-3">
+            <Activity className="h-8 w-8 text-primary" />
+            <CardTitle className="text-lg">RECORD</CardTitle>
+            <CardDescription className="text-sm leading-relaxed">
+              Append immutable Events for purchases, interactions, completions, insights
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-250">
+          <CardHeader className="space-y-3">
+            <Zap className="h-8 w-8 text-primary" />
+            <CardTitle className="text-lg">CALL</CardTitle>
+            <CardDescription className="text-sm leading-relaxed">
+              Invoke services—OpenAI, Stripe, ElevenLabs—and persist structured outputs
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-300">
+          <CardHeader className="space-y-3">
+            <Check className="h-8 w-8 text-primary" />
+            <CardTitle className="text-lg">CHECK</CardTitle>
+            <CardDescription className="text-sm leading-relaxed">
+              Enforce People-defined guardrails before any action runs
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+
+      <div class="mt-16 rounded-lg border border-border/50 bg-card/50 p-8 backdrop-blur">
+        <h3 class="mb-6 text-center text-2xl font-bold">Example: Chat with AI Clone</h3>
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="space-y-4">
+            <div class="flex items-center gap-2 text-sm font-semibold text-primary">
+              <FileText className="h-5 w-5" />
+              Plain English
+            </div>
+            <pre class="overflow-x-auto rounded bg-muted/50 p-4 text-xs leading-relaxed"><code>{`FEATURE: Let fans chat with my AI
+
+WHEN a fan sends a message
+  CHECK they own tokens
+  GET conversation history
+  CALL OpenAI with my personality
+  RECORD the interaction
+  REWARD fan with 10 tokens
+  GIVE AI response to fan`}</code></pre>
+            <p class="text-xs text-muted-foreground">Seven lines of English. The compiler maps each verb to a primitive and checks it before shipping.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-2 text-sm font-semibold text-primary">
+              <Database className="h-5 w-5" />
+              What Maps to Ontology
+            </div>
+            <div class="space-y-3 text-sm">
+              <div class="flex items-start gap-3 rounded border border-border/50 bg-muted/30 p-3">
+                <Box className="h-5 w-5 shrink-0 text-primary" />
+                <div>
+                  <div class="font-medium">Things Touched</div>
+                  <div class="text-xs text-muted-foreground">fan, ai_clone, message, token — all typed rows</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 rounded border border-border/50 bg-muted/30 p-3">
+                <GitBranch className="h-5 w-5 shrink-0 text-primary" />
+                <div>
+                  <div class="font-medium">Connections Updated</div>
+                  <div class="text-xs text-muted-foreground">fan holds_tokens token, fan interacted_with clone with metadata</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 rounded border border-border/50 bg-muted/30 p-3">
+                <Activity className="h-5 w-5 shrink-0 text-primary" />
+                <div>
+                  <div class="font-medium">Events Logged</div>
+                  <div class="text-xs text-muted-foreground">message_sent, tokens_earned, clone_interaction with timestamps</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 rounded border border-border/50 bg-muted/30 p-3">
+                <Brain className="h-5 w-5 shrink-0 text-primary" />
+                <div>
+                  <div class="font-medium">Knowledge Indexed</div>
+                  <div class="text-xs text-muted-foreground">Clone personality, embeddings, conversation history for retrieval</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <p class="text-base text-muted-foreground">
+          <strong class="text-foreground">Every feature follows this flow.</strong> Write it once in English, the compiler checks it against the ontology, and the edge deploys it everywhere.
+          <br class="hidden sm:block" />
+          If a step breaks the model, you know before it ships.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ontology Summary -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-6xl">
+      <div class="space-y-12 text-center">
+        <Badge variant="outline" className="mb-4 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Sparkles className="h-4 w-4" />
+          The Foundation
+        </Badge>
+
+        <div class="space-y-6" data-usal="fade-up duration-700 delay-100">
+          <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+            Why This Works
+          </h2>
+          <p class="mx-auto max-w-3xl text-xl leading-relaxed text-muted-foreground">
+            The ontology holds the contracts. The DSL speaks those contracts. Together they give <strong class="text-foreground">humans, AI agents, and code the same, inspectable source of truth.</strong>
+          </p>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-3 pt-8">
+          <Card className="border-border/50 bg-card/50 backdrop-blur text-center">
+            <CardHeader className="space-y-4">
+              <Database className="mx-auto h-12 w-12 text-primary" />
+              <CardTitle className="text-2xl">66 Thing Types</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Every entity—users, agents, content, products, tokens—has a canonical, versioned schema
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-border/50 bg-card/50 backdrop-blur text-center">
+            <CardHeader className="space-y-4">
+              <Network className="mx-auto h-12 w-12 text-primary" />
+              <CardTitle className="text-2xl">25 Connection Types</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Directional edges model ownership, access, payouts, and more with structured metadata
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-border/50 bg-card/50 backdrop-blur text-center">
+            <CardHeader className="space-y-4">
+              <Activity className="mx-auto h-12 w-12 text-primary" />
+              <CardTitle className="text-2xl">67 Event Types</CardTitle>
+              <CardDescription className="leading-relaxed">
+                Every action—purchases, completions, interactions—is immutable and ready for analytics
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+
+        <div class="pt-12" data-usal="fade-up duration-700 delay-200">
+          <p class="text-lg text-muted-foreground">
+            <strong class="text-foreground">Clarity scales.</strong>
+            <br class="hidden sm:block" />
+            Your DSL features, agent playbooks, and analytics dashboards stay in sync because they pull from the same ontology.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="relative overflow-hidden border-t bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-4xl space-y-10 text-center">
+      <div class="space-y-6">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl" data-usal="fade-up duration-700">
+          Ready to Build with
+          <br />
+          <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">The Foundation?</span>
+        </h2>
+
+        <p class="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-100">
+          The ontology is complete. The DSL is ready. Ship production features in plain English and watch them flow through the same trusted model.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-center pt-6" data-usal="fade-up duration-700 delay-200">
+        <a href="/">
+          <Button size="lg" className="h-14 w-full sm:w-auto px-10 text-lg">
+            <ArrowRight className="mr-2 h-5 w-5" />
+            Explore the Platform
+          </Button>
+        </a>
+        <a href="https://github.com/one-ie/stack" target="_blank" rel="noopener noreferrer">
+          <Button variant="outline" size="lg" className="h-14 w-full sm:w-auto px-10 text-lg">
+            <Code className="mr-2 h-5 w-5" />
+            View on GitHub
+          </Button>
+        </a>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-6 pt-8 text-sm text-muted-foreground">
+        <span class="flex items-center gap-2">
+          <Check className="h-4 w-4 text-primary" />
+          Protocol agnostic
+        </span>
+        <span class="flex items-center gap-2">
+          <Check className="h-4 w-4 text-primary" />
+          Type safe
+        </span>
+        <span class="flex items-center gap-2">
+          <Check className="h-4 w-4 text-primary" />
+          Future proof
+        </span>
+        <span class="flex items-center gap-2">
+          <Check className="h-4 w-4 text-primary" />
+          Built for scale
+        </span>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,4 +1,4 @@
-import { MessageSquare, Grid3x3, Bot, Wrench, Users } from "lucide-react"
+import { Users, Package, Share2, Sparkles, BookOpen } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { type NavigationView } from "@/data/app-data"
 
@@ -8,11 +8,11 @@ interface MobileNavProps {
 }
 
 const navItems = [
-  { id: "messages" as NavigationView, icon: MessageSquare, label: "Messages" },
-  { id: "groups" as NavigationView, icon: Grid3x3, label: "Groups" },
-  { id: "agents" as NavigationView, icon: Bot, label: "Agents" },
-  { id: "tools" as NavigationView, icon: Wrench, label: "Tools" },
   { id: "people" as NavigationView, icon: Users, label: "People" },
+  { id: "things" as NavigationView, icon: Package, label: "Things" },
+  { id: "connections" as NavigationView, icon: Share2, label: "Connections" },
+  { id: "events" as NavigationView, icon: Sparkles, label: "Events" },
+  { id: "knowledge" as NavigationView, icon: BookOpen, label: "Knowledge" },
 ]
 
 export function MobileNav({ activeView, onViewChange }: MobileNavProps) {

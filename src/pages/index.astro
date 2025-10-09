@@ -7,143 +7,182 @@ import {
   Github,
   Check,
   Rocket,
-  Lock,
-  Mail,
-  Key,
-  RotateCcw,
-  MailOpen,
+  Users,
+  Box,
+  GitBranch,
+  Activity,
+  Brain,
+  Coins,
   Wand2,
   Sparkles,
   Zap,
-  Palette,
-  Atom,
-  FileText,
-  Bot,
+  Globe,
   Shield,
   Target,
-  Moon,
-  Laptop
+  TrendingUp,
+  Code,
+  DollarSign,
+  Network,
+  Bot
 } from 'lucide-react';
 ---
 
-<Layout title="ONE Stack - The Ultimate Astro Starter Template">
+<Layout title="ONE - Build AI Agents, Applications, and Your Audience">
   <!-- Hero Section -->
-  <section class="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 md:px-8 md:py-32 lg:py-40">
-    <!-- Animated gradient background -->
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background"></div>
-    <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent"></div>
+  <section class="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-28 md:px-8 md:py-36 lg:py-48">
+    <!-- Animated gradient background with enhanced effects -->
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-primary/[0.02] to-background"></div>
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-primary/5 to-transparent"></div>
+    <div class="absolute left-1/2 top-0 -z-10 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"></div>
 
-    <div class="mx-auto max-w-full sm:max-w-6xl">
-      <div class="flex flex-col items-center space-y-8 text-center">
-        <Badge variant="secondary" className="inline-flex items-center gap-2 text-sm font-medium" data-usal="fade-down duration-600">
-          <Rocket className="h-4 w-4" />
-          Astro 5 + React 19 + shadcn/ui + Better Auth + Convex
-        </Badge>
+    <div class="mx-auto max-w-full sm:max-w-7xl">
+      <div class="flex flex-col items-center space-y-10 text-center">
+        <!-- Badge with enhanced styling -->
+        <div data-usal="fade-down duration-600">
+          <Badge variant="secondary" className="inline-flex items-center gap-2 border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold shadow-lg shadow-primary/10 backdrop-blur-sm transition-all hover:bg-primary/10 hover:shadow-xl hover:shadow-primary/20">
+            <Sparkles className="h-4 w-4 text-primary" />
+            Free Forever • Deploy in Minutes • Own 100%
+          </Badge>
+        </div>
 
-        <h1 class="font-heading text-4xl font-bold leading-tight tracking-tight sm:text-6xl md:text-7xl lg:text-8xl" data-usal="fade-up duration-700 delay-100">
-          The <span class="text-primary">Ultimate</span> Astro
-          <br />Starter Template
-        </h1>
+        <!-- Main headline with enhanced typography -->
+        <div class="space-y-6" data-usal="fade-up duration-700 delay-100">
+          <h1 class="font-heading font-extrabold leading-[1.1] tracking-tight text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
+            <span class="block">Make Your Ideas</span>
+            <span class="block">Reality With AI</span>
+          </h1>
 
-        <p class="max-w-3xl text-xl leading-relaxed text-muted-foreground sm:text-2xl" data-usal="fade-up duration-700 delay-200">
-          Ship production-ready SaaS apps in hours, not weeks. <strong class="text-foreground">6 authentication methods</strong>,
-          <strong class="text-foreground">50+ components</strong>, real-time backend, and <strong class="text-foreground">perfect Lighthouse scores</strong> — all pre-configured.
-        </p>
+          <p class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-2xl lg:text-3xl">
+             Generate AI agents, apps, content and thriving audiences by speaking English. 
+         Everything you need to run an AI business—free, open source, yours.
+          </p>
+        </div>
 
-        <div class="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center" data-usal="fade-up duration-700 delay-300">
-          <a href="https://github.com/one-ie/stack" target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="h-14 w-full sm:w-auto px-8 text-base font-semibold shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30">
-              <Github className="mr-2 h-5 w-5" />
-              View on GitHub
+        <!-- CTA Buttons with enhanced design -->
+        <div class="flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:gap-6" data-usal="fade-up duration-700 delay-200">
+          <a href="https://github.com/one-ie/stack" target="_blank" rel="noopener noreferrer" class="group">
+            <Button size="lg" className="h-16 w-full sm:w-auto px-10 text-lg font-bold shadow-2xl shadow-primary/30 transition-all hover:scale-105 hover:shadow-[0_20px_60px_-15px] hover:shadow-primary/40">
+              <Github className="mr-3 h-6 w-6 transition-transform group-hover:rotate-12" />
+              Download Free
             </Button>
           </a>
-          <a href="/account/signup">
-            <Button variant="outline" size="lg" className="h-14 w-full sm:w-auto px-8 text-base font-semibold">
-              Try Live Demo
+          <a href="/account/signup" class="group">
+            <Button variant="outline" size="lg" className="h-16 w-full sm:w-auto border-2 border-primary/20 px-10 text-lg font-bold transition-all hover:scale-105 hover:border-primary/40 hover:bg-primary/5">
+              <Rocket className="mr-3 h-6 w-6 transition-transform group-hover:-translate-y-1" />
+              Start Building Now
             </Button>
           </a>
         </div>
 
-        <div class="flex flex-wrap items-center justify-center gap-6 pt-2 text-sm text-muted-foreground" data-usal="fade-in duration-700 delay-400">
-          <span class="flex items-center gap-1.5">
-            <Check className="h-4 w-4 text-green-500" />
-            100/100 Lighthouse
+        <!-- Quick value props with enhanced styling -->
+        <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-6 text-base font-medium sm:text-lg" data-usal="fade-in duration-700 delay-300">
+          <span class="flex items-center gap-2.5 transition-colors hover:text-primary">
+            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-green-500/20">
+              <Check className="h-4 w-4 text-green-500" />
+            </div>
+            <span>No credit card</span>
           </span>
-          <span class="flex items-center gap-1.5">
-            <Check className="h-4 w-4 text-green-500" />
-            TypeScript Strict Mode
+          <span class="flex items-center gap-2.5 transition-colors hover:text-primary">
+            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-green-500/20">
+              <Check className="h-4 w-4 text-green-500" />
+            </div>
+            <span>Deploy in 5 min</span>
           </span>
-          <span class="flex items-center gap-1.5">
-            <Check className="h-4 w-4 text-green-500" />
-            MIT License
+          <span class="flex items-center gap-2.5 transition-colors hover:text-primary">
+            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-green-500/20">
+              <Check className="h-4 w-4 text-green-500" />
+            </div>
+            <span>Unlimited edge requests</span>
           </span>
-          <span class="flex items-center gap-1.5">
-            <Check className="h-4 w-4 text-green-500" />
-            Production Ready
+          <span class="flex items-center gap-2.5 transition-colors hover:text-primary">
+            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-green-500/20">
+              <Check className="h-4 w-4 text-green-500" />
+            </div>
+            <span>Own your data</span>
           </span>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="flex flex-wrap items-center justify-center gap-6 pt-8 opacity-60" data-usal="fade-in duration-700 delay-400">
+          <div class="flex items-center gap-2 text-sm font-medium">
+            <Shield className="h-5 w-5" />
+            <span>Enterprise Ready</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm font-medium">
+            <Zap className="h-5 w-5" />
+            <span>Edge Native</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm font-medium">
+            <Globe className="h-5 w-5" />
+            <span>Open Source</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Stats Section -->
-  <section class="border-y bg-muted/50 px-4 py-16 sm:px-6 md:px-8">
-    <div class="mx-auto max-w-full sm:max-w-6xl">
-      <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-100">
-          <div class="text-5xl font-bold text-primary">6</div>
-          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Auth Methods</div>
-        </div>
-        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-200">
-          <div class="text-5xl font-bold text-primary">50+</div>
-          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">UI Components</div>
-        </div>
-        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-300">
-          <div class="text-5xl font-bold text-primary">100</div>
-          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Lighthouse Score</div>
-        </div>
-        <div class="space-y-2 text-center" data-usal="fade-up duration-600 delay-400">
-          <div class="text-5xl font-bold text-primary">3</div>
-          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">MCP Servers</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Authentication Showcase -->
+  <!-- Five Pillars Showcase -->
   <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
     <div class="mx-auto max-w-full sm:max-w-6xl">
       <div class="mb-20 space-y-4 text-center">
         <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
-          <Lock className="h-4 w-4" />
-          Enterprise Authentication
+          <Network className="h-4 w-4" />
+          The Ontology
         </Badge>
         <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
-          6 Authentication Methods
+          Five Pillars
           <br />
-          <span class="text-muted-foreground">Pre-Configured & Production-Ready</span>
+          <span class="text-muted-foreground">One Unified Model</span>
         </h2>
-        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
-          Most templates give you nothing. We give you everything. Email/password, OAuth, magic links, 2FA, password reset, and email verification — all working out of the box.
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Everything in ONE maps to five simple tables. This ontology makes AI agents intelligent, features composable, and your business scalable.
         </p>
       </div>
 
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <!-- People at the top -->
+      <div class="mb-8 flex justify-center" data-usal="fade-up duration-600 delay-100">
+        <Card className="group w-full max-w-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10">
+          <CardHeader className="space-y-4 text-center">
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-primary/20 transition-colors group-hover:bg-primary/30">
+              <Users className="h-8 w-8 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">People</CardTitle>
+            <CardDescription className="text-base leading-relaxed">
+              Set intent, govern outcomes, authorize every action. Humans remain in command while agents execute.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap justify-center gap-2">
+              <Badge variant="secondary" className="border-border/50">Intent</Badge>
+              <Badge variant="secondary" className="border-border/50">Governance</Badge>
+              <Badge variant="secondary" className="border-border/50">Authorization</Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <!-- Visual connector -->
+      <div class="relative mb-8 flex justify-center" data-usal="fade-in duration-600 delay-200">
+        <div class="h-12 w-px bg-gradient-to-b from-primary/40 via-primary/20 to-transparent"></div>
+      </div>
+
+      <!-- Four foundational pillars -->
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Mail className="h-6 w-6 text-primary" />
+              <Box className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">Email/Password</CardTitle>
+            <CardTitle className="text-xl">Things</CardTitle>
             <CardDescription className="leading-relaxed">
-              Secure password hashing, session management, HttpOnly cookies. Password strength indicator included.
+              Every entity — agents, products, audiences, tokens, courses. 66 types out of the box.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">SHA-256</Badge>
-              <Badge variant="secondary" className="border-border/50">30-day sessions</Badge>
-              <Badge variant="secondary" className="border-border/50">Auto cleanup</Badge>
+              <Badge variant="secondary" className="border-border/50">Agents</Badge>
+              <Badge variant="secondary" className="border-border/50">Products</Badge>
+              <Badge variant="secondary" className="border-border/50">Audiences</Badge>
             </div>
           </CardContent>
         </Card>
@@ -151,18 +190,18 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-200">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Key className="h-6 w-6 text-primary" />
+              <GitBranch className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">OAuth Social Login</CardTitle>
+            <CardTitle className="text-xl">Connections</CardTitle>
             <CardDescription className="leading-relaxed">
-              GitHub and Google OAuth pre-configured. Add more providers in minutes. Seamless session management.
+              Express relationships — ownership, memberships, revenue flows. Powers collaboration and value exchange.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">GitHub</Badge>
-              <Badge variant="secondary" className="border-border/50">Google</Badge>
-              <Badge variant="secondary" className="border-border/50">State validation</Badge>
+              <Badge variant="secondary" className="border-border/50">Owns</Badge>
+              <Badge variant="secondary" className="border-border/50">Member of</Badge>
+              <Badge variant="secondary" className="border-border/50">Transacted</Badge>
             </div>
           </CardContent>
         </Card>
@@ -170,75 +209,37 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-300">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <RotateCcw className="h-6 w-6 text-primary" />
+              <Activity className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">Password Reset</CardTitle>
+            <CardTitle className="text-xl">Events</CardTitle>
             <CardDescription className="leading-relaxed">
-              Email-based password reset with secure tokens. Custom HTML templates. 1-hour expiry for security.
+              Chronicle every action — launches, interactions, transactions, insights. Full audit trail built-in.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">Resend emails</Badge>
-              <Badge variant="secondary" className="border-border/50">1-hour expiry</Badge>
-              <Badge variant="secondary" className="border-border/50">Rate limited</Badge>
+              <Badge variant="secondary" className="border-border/50">Created</Badge>
+              <Badge variant="secondary" className="border-border/50">Purchased</Badge>
+              <Badge variant="secondary" className="border-border/50">Completed</Badge>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-400">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <MailOpen className="h-6 w-6 text-primary" />
+              <Brain className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">Email Verification</CardTitle>
+            <CardTitle className="text-xl">Knowledge</CardTitle>
             <CardDescription className="leading-relaxed">
-              Automated verification emails on sign-up. 24-hour tokens. Beautiful email templates with Resend.
+              Store semantics — labels, chunks, embeddings. Makes agents intelligent and enables rich context.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">Auto-send</Badge>
-              <Badge variant="secondary" className="border-border/50">24-hour tokens</Badge>
-              <Badge variant="secondary" className="border-border/50">Custom templates</Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-200">
-          <CardHeader className="space-y-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Wand2 className="h-6 w-6 text-primary" />
-            </div>
-            <CardTitle className="text-xl">Magic Links</CardTitle>
-            <CardDescription className="leading-relaxed">
-              Passwordless authentication. One-click sign-in via email. 15-minute expiry. One-time use only.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">Passwordless</Badge>
-              <Badge variant="secondary" className="border-border/50">15-min expiry</Badge>
-              <Badge variant="secondary" className="border-border/50">One-time use</Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-300">
-          <CardHeader className="space-y-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Lock className="h-6 w-6 text-primary" />
-            </div>
-            <CardTitle className="text-xl">Two-Factor Auth (TOTP)</CardTitle>
-            <CardDescription className="leading-relaxed">
-              Google Authenticator, Authy, 1Password compatible. QR code setup. 10 backup codes for recovery.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">TOTP</Badge>
-              <Badge variant="secondary" className="border-border/50">QR code</Badge>
-              <Badge variant="secondary" className="border-border/50">Backup codes</Badge>
+              <Badge variant="secondary" className="border-border/50">Tags</Badge>
+              <Badge variant="secondary" className="border-border/50">Embeddings</Badge>
+              <Badge variant="secondary" className="border-border/50">Context</Badge>
             </div>
           </CardContent>
         </Card>
@@ -246,7 +247,295 @@ import {
 
       <div class="mt-12 text-center">
         <p class="text-sm text-muted-foreground">
-          + Rate limiting on all endpoints • Session management • Security best practices built-in
+          Protocol-agnostic clarity • Human oversight • Composable by design
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="border-y bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-6xl">
+      <div class="mb-20 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Zap className="h-4 w-4" />
+          How It Works
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          English → Code → Reality
+          <br />
+          <span class="text-muted-foreground">In Minutes, Not Months</span>
+        </h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Describe your feature in plain English. The system validates it against the ontology, compiles to TypeScript, generates tests, and deploys to the edge.
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-100">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-2xl font-bold text-primary">1</div>
+            <CardTitle className="text-xl">Write in English</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Describe what you want: "CREATE ai clone", "CALL OpenAI", "RECORD purchase". Use 15 simple commands anyone can understand.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-200">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-2xl font-bold text-primary">2</div>
+            <CardTitle className="text-xl">System Validates</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Checks against the ontology: Do these entity types exist? Are connections valid? Are services available? Instant feedback.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-300">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-2xl font-bold text-primary">3</div>
+            <CardTitle className="text-xl">Code Generated</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Compiles to production TypeScript with Effect.ts, Convex functions, React components, full test suite. Type-safe, tested, ready.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur" data-usal="fade-up duration-600 delay-400">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-2xl font-bold text-primary">4</div>
+            <CardTitle className="text-xl">Deploy to Edge</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Push to Cloudflare's global network. Unlimited requests, instant updates, zero configuration. Live in 60 seconds.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+
+      <div class="mt-16 rounded-lg border border-border/50 bg-card/50 p-8 backdrop-blur">
+        <h3 class="mb-6 text-center text-2xl font-bold">Complete Example: AI Clone Feature</h3>
+        <div class="grid gap-8 lg:grid-cols-3">
+          <div class="space-y-3">
+            <div class="flex items-center gap-2 text-sm font-semibold text-primary">
+              <div class="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs">1</div>
+              You Write
+            </div>
+            <pre class="overflow-x-auto rounded bg-muted/50 p-3 text-xs leading-relaxed"><code>{`FEATURE: Create AI clone
+
+CHECK videos exist
+CALL ElevenLabs clone voice
+CALL OpenAI analyze style
+CREATE ai clone
+CONNECT creator owns clone
+RECORD clone created`}</code></pre>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center gap-2 text-sm font-semibold text-primary">
+              <div class="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs">2</div>
+              System Generates
+            </div>
+            <pre class="overflow-x-auto rounded bg-muted/50 p-3 text-xs leading-relaxed"><code>{`export const createClone =
+  mutation(async (ctx, args) => {
+  // Validation
+  // Service calls
+  // Database updates
+  // Event logging
+  // All typed & tested
+});`}</code></pre>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center gap-2 text-sm font-semibold text-primary">
+              <div class="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs">3</div>
+              You Get
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center gap-2">
+                <Check className="h-4 w-4 text-green-500" />
+                <span>Backend API endpoints</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <Check className="h-4 w-4 text-green-500" />
+                <span>React UI components</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <Check className="h-4 w-4 text-green-500" />
+                <span>Complete test suite</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <Check className="h-4 w-4 text-green-500" />
+                <span>Database schema</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <Check className="h-4 w-4 text-green-500" />
+                <span>Edge deployment</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <Check className="h-4 w-4 text-green-500" />
+                <span>Full documentation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <p class="text-base text-muted-foreground">
+          <strong class="text-foreground">Every feature follows this flow.</strong> Write once in English, deploy everywhere.
+          <br class="hidden sm:block" />
+          The ontology ensures consistency. The compiler ensures quality. The edge ensures performance.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Agents Section -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-full sm:max-w-6xl">
+      <div class="mb-20 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
+          <Bot className="h-4 w-4" />
+          AI Agents in English
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
+          Build Autonomous Agents
+          <br />
+          <span class="text-muted-foreground">With Plain English Commands</span>
+        </h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Define AI agents that work like teammates—specialized, coordinated, and always learning. No AI expertise required.
+        </p>
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-2">
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="text-2xl">Sales Agent</CardTitle>
+            <CardDescription>Qualifies leads, answers questions, books meetings</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <pre class="overflow-x-auto rounded bg-muted/50 p-4 text-sm leading-relaxed"><code>{`AGENT: Sales Agent
+
+WHEN lead sends message:
+  GET lead's history
+  CALL OpenAI to qualify intent
+
+  IF interested in demo:
+    CALL Calendar API to find slots
+    GIVE 3 available times
+
+  IF asking about pricing:
+    GET pricing for their size
+    CALL OpenAI to explain value
+
+  RECORD interaction
+  NOTIFY me if hot lead`}</code></pre>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <Badge variant="secondary">Auto-qualifies</Badge>
+              <Badge variant="secondary">Books meetings</Badge>
+              <Badge variant="secondary">24/7 available</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="text-2xl">Content Agent</CardTitle>
+            <CardDescription>Generates posts, schedules publishing, analyzes performance</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <pre class="overflow-x-auto rounded bg-muted/50 p-4 text-sm leading-relaxed"><code>{`AGENT: Content Agent
+
+EVERY DAY at 8am:
+  GET my writing style
+  GET trending topics in my niche
+  GET top performing posts
+
+  FOR EACH platform:
+    CALL OpenAI to generate post
+    CALL OpenAI to generate image
+    SCHEDULE post for peak time
+
+  TRACK performance
+  LEARN from engagement
+  ADJUST strategy weekly`}</code></pre>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <Badge variant="secondary">Daily automation</Badge>
+              <Badge variant="secondary">Multi-platform</Badge>
+              <Badge variant="secondary">Self-improving</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="text-2xl">Support Agent</CardTitle>
+            <CardDescription>Answers customer questions using your knowledge base</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <pre class="overflow-x-auto rounded bg-muted/50 p-4 text-sm leading-relaxed"><code>{`AGENT: Support Agent
+
+WHEN customer asks question:
+  SEARCH my knowledge base
+  GET relevant docs
+  GET similar past answers
+
+  CALL OpenAI with context
+  GIVE helpful answer
+
+  IF can't answer confidently:
+    NOTIFY support team
+    SAVE for knowledge base
+
+  RECORD interaction
+  REWARD with tokens`}</code></pre>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <Badge variant="secondary">Instant answers</Badge>
+              <Badge variant="secondary">Learns from docs</Badge>
+              <Badge variant="secondary">Escalates smartly</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="text-2xl">Research Agent</CardTitle>
+            <CardDescription>Monitors trends, analyzes competitors, finds opportunities</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <pre class="overflow-x-auto rounded bg-muted/50 p-4 text-sm leading-relaxed"><code>{`AGENT: Research Agent
+
+EVERY WEEK:
+  SEARCH web for my keywords
+  ANALYZE competitor content
+  TRACK industry trends
+
+  CALL OpenAI to summarize
+  FIND content gaps
+  SPOT opportunities
+
+  CREATE weekly report
+  SUGGEST content ideas
+  NOTIFY me of insights
+
+  SAVE to knowledge base`}</code></pre>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <Badge variant="secondary">Weekly reports</Badge>
+              <Badge variant="secondary">Competitive intel</Badge>
+              <Badge variant="secondary">Opportunity finder</Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div class="mt-16 rounded-lg border border-primary/20 bg-primary/5 p-8 text-center backdrop-blur">
+        <h3 class="mb-4 text-2xl font-bold">Agents Work Together</h3>
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+          Sales Agent books a demo → Content Agent creates follow-up → Support Agent answers questions → Research Agent finds their pain points.
+          <br class="mt-2 block" />
+          <strong class="text-foreground">They coordinate through the shared ontology, learning from every interaction.</strong>
         </p>
       </div>
     </div>
@@ -258,12 +547,12 @@ import {
       <div class="mb-20 space-y-4 text-center">
         <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
           <Sparkles className="h-4 w-4" />
-          Everything You Need
+          Three Pillars of Growth
         </Badge>
         <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
-          Production-Ready
+          AI That Works
           <br />
-          <span class="text-muted-foreground">From Day One</span>
+          <span class="text-muted-foreground">For You</span>
         </h2>
       </div>
 
@@ -271,11 +560,11 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Zap className="h-6 w-6 text-primary" />
+              <Wand2 className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">Real-time Backend</CardTitle>
+            <CardTitle className="text-xl">AI Agents That Work Like Teammates</CardTitle>
             <CardDescription className="leading-relaxed">
-              Convex database with typed functions, subscriptions, and automatic API generation. Zero backend code needed.
+              Clone your expertise into specialized agents that coordinate through shared ontology. Always-on intelligence that learns from every interaction.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -283,11 +572,11 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-200">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Palette className="h-6 w-6 text-primary" />
+              <Code className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">50+ UI Components</CardTitle>
+            <CardTitle className="text-xl">Applications That Ship Themselves</CardTitle>
             <CardDescription className="leading-relaxed">
-              Complete shadcn/ui library pre-installed. Buttons, forms, dialogs, tables, charts — everything you need.
+              Compose frontends, APIs, and automations from ontology-backed data. Deploy to Cloudflare's edge — free, unlimited, sub-second.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -295,11 +584,11 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-300">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Atom className="h-6 w-6 text-primary" />
+              <TrendingUp className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">React 19 on Edge</CardTitle>
+            <CardTitle className="text-xl">Grow and Activate Your Audience</CardTitle>
             <CardDescription className="leading-relaxed">
-              The "impossible" achievement — Full React 19 SSR on Cloudflare Workers using react-dom/server.edge.
+              Model every member with rich properties. Track relationships and engagement. Trigger personalized journeys that reward participation.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -307,11 +596,11 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <FileText className="h-6 w-6 text-primary" />
+              <DollarSign className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">Advanced Blog System</CardTitle>
+            <CardTitle className="text-xl">Tokenize and Trade Knowledge</CardTitle>
             <CardDescription className="leading-relaxed">
-              Multi-view layouts, real-time search, auto-generated ToC, social sharing, RSS feed. Content collections with Zod.
+              Package validated insights as tokens with scarcity and pricing. Monetize knowledge bundles with AI agents and maintain provenance.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -319,35 +608,35 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-200">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Bot className="h-6 w-6 text-primary" />
+              <Globe className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">MCP Integration</CardTitle>
+            <CardTitle className="text-xl">Own, Whitelabel, and Resell</CardTitle>
             <CardDescription className="leading-relaxed">
-              3 pre-configured MCP servers for AI-assisted development. Component installation, deployment, and docs — all automated.
+              Download and run locally. Own 100% of data and agents. Acquire platform tokens for whitelabel rights. Resell under your brand.
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-300">
-          <CardHeader className="space-y-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Mail className="h-6 w-6 text-primary" />
-            </div>
-            <CardTitle className="text-xl">Email System</CardTitle>
-            <CardDescription className="leading-relaxed">
-              @convex-dev/resend component for transactional emails. Password reset, verification, magic links — all configured.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
               <Shield className="h-6 w-6 text-primary" />
             </div>
             <CardTitle className="text-xl">Enterprise Security</CardTitle>
             <CardDescription className="leading-relaxed">
-              Rate limiting, session management, HttpOnly cookies, CSRF protection. Built-in brute force prevention.
+              Separation of concerns through ontology. Auditable events. Governance-ready metadata. Protocol-agnostic by design.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Zap className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Edge Native Platform</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Unlimited usage on frontend, always-on from Cloudflare's edge. Support REST, MCP, AP2, X402 by storing details in metadata.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -357,9 +646,9 @@ import {
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
               <Target className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">Perfect Lighthouse</CardTitle>
+            <CardTitle className="text-xl">Open by Design</CardTitle>
             <CardDescription className="leading-relaxed">
-              100/100 across all metrics. Performance, accessibility, best practices, SEO — all perfect out of the box.
+              Everything lives in human-readable files so agents and teams co-create in plain English. Protocol-agnostic architecture.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -367,11 +656,11 @@ import {
         <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-300">
           <CardHeader className="space-y-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Moon className="h-6 w-6 text-primary" />
+              <Sparkles className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-xl">Dark Mode</CardTitle>
+            <CardTitle className="text-xl">From Idea to Reality</CardTitle>
             <CardDescription className="leading-relaxed">
-              Beautiful dark mode with no FOUC. Tailwind v4 CSS-based configuration. LocalStorage persistence.
+              Define vision as things, wire relationships with connections, instrument with events, enrich with knowledge. Speaks English, compiles to reality.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -384,91 +673,111 @@ import {
     <div class="mx-auto max-w-6xl">
       <div class="mb-20 space-y-4 text-center">
         <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
-          <Laptop className="h-4 w-4" />
-          Developer Experience
+          <Wand2 className="h-4 w-4" />
+          Plain English DSL
         </Badge>
         <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
-          Beautiful Code
+          Describe in English
           <br />
-          <span class="text-muted-foreground">TypeScript Strict Mode</span>
+          <span class="text-muted-foreground">Deploy in Minutes</span>
         </h2>
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          Write what you want in plain English. The system compiles it to production-ready code.
+        </p>
       </div>
 
       <div class="grid gap-8 lg:grid-cols-2">
         <div class="group" data-usal="fade-right duration-700 delay-100">
-          <h3 class="mb-4 text-xl font-semibold">Sign Up — 3 Lines of Code</h3>
+          <h3 class="mb-4 text-xl font-semibold">Create Your AI Clone</h3>
           <div class="overflow-hidden rounded-lg border border-border/50 bg-card/50 backdrop-blur transition-all group-hover:border-primary/20 group-hover:bg-card group-hover:shadow-lg group-hover:shadow-primary/5">
             <div class="border-b border-border/50 bg-muted/50 px-4 py-2 text-xs text-muted-foreground">
-              src/components/auth/SimpleSignUpForm.tsx
+              Plain English → Working Feature
             </div>
-            <pre class="overflow-x-auto p-4 text-sm"><code class="language-typescript">{`const result = await authClient.signUp.email({
-  email,
-  password,
-  name,
-});`}</code></pre>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code class="language-text">{`FEATURE: Create my AI voice clone
+
+CHECK videos exist (at least 3)
+CALL ElevenLabs to clone voice
+CALL OpenAI to analyze personality
+CREATE ai clone
+CONNECT creator to clone as owner
+RECORD clone created
+GIVE clone ID`}</code></pre>
           </div>
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
-            That's it. Email verification, rate limiting, password hashing — all handled.
+            That's it. Seven lines of English. The system generates the entire feature—backend, frontend, tests, deployment.
           </p>
         </div>
 
         <div class="group" data-usal="fade-left duration-700 delay-100">
-          <h3 class="mb-4 text-xl font-semibold">Real-time Queries — Fully Typed</h3>
+          <h3 class="mb-4 text-xl font-semibold">Let Fans Buy Tokens</h3>
           <div class="overflow-hidden rounded-lg border border-border/50 bg-card/50 backdrop-blur transition-all group-hover:border-primary/20 group-hover:bg-card group-hover:shadow-lg group-hover:shadow-primary/5">
             <div class="border-b border-border/50 bg-muted/50 px-4 py-2 text-xs text-muted-foreground">
-              convex/auth.ts
+              Plain English → E-commerce Ready
             </div>
-            <pre class="overflow-x-auto p-4 text-sm"><code class="language-typescript">{`export const getCurrentUser = query({
-  args: { token: v.optional(v.string()) },
-  handler: async (ctx, args) => {
-    // Fully typed, reactive query
-  },
-});`}</code></pre>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code class="language-text">{`FEATURE: Let fans buy my tokens
+
+CHECK fan has valid payment
+DO TOGETHER:
+  - CALL Stripe to charge payment
+  - CALL Blockchain to mint tokens
+RECORD the purchase
+UPDATE balance
+GIVE confirmation`}</code></pre>
           </div>
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Convex provides full TypeScript types and real-time reactivity automatically.
+            Payments, blockchain, database—fully integrated. Atomic transactions with automatic rollback on failure.
           </p>
         </div>
 
         <div class="group" data-usal="fade-right duration-700 delay-200">
-          <h3 class="mb-4 text-xl font-semibold">shadcn/ui Components</h3>
+          <h3 class="mb-4 text-xl font-semibold">Chat with AI</h3>
           <div class="overflow-hidden rounded-lg border border-border/50 bg-card/50 backdrop-blur transition-all group-hover:border-primary/20 group-hover:bg-card group-hover:shadow-lg group-hover:shadow-primary/5">
             <div class="border-b border-border/50 bg-muted/50 px-4 py-2 text-xs text-muted-foreground">
-              src/pages/index.astro
+              Plain English → Real-time Chat
             </div>
-            <pre class="overflow-x-auto p-4 text-sm"><code class="language-astro">{`<Button client:load size="lg">
-  Click me!
-</Button>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code class="language-text">{`FEATURE: Let fans chat with my AI
 
-<Card>
-  <CardHeader>
-    <CardTitle>Beautiful Card</CardTitle>
-  </CardHeader>
-</Card>`}</code></pre>
+CHECK user has tokens
+GET conversation history
+CALL OpenAI with my personality
+RECORD interaction
+REWARD user with 10 tokens
+GIVE response`}</code></pre>
           </div>
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
-            50+ components ready to use. Dark mode, variants, animations — all included.
+            Personalized AI interactions with token rewards. History tracking, context awareness, and engagement metrics built-in.
           </p>
         </div>
 
         <div class="group" data-usal="fade-left duration-700 delay-200">
-          <h3 class="mb-4 text-xl font-semibold">MCP AI Assistance</h3>
+          <h3 class="mb-4 text-xl font-semibold">Generate Daily Content</h3>
           <div class="overflow-hidden rounded-lg border border-border/50 bg-card/50 backdrop-blur transition-all group-hover:border-primary/20 group-hover:bg-card group-hover:shadow-lg group-hover:shadow-primary/5">
             <div class="border-b border-border/50 bg-muted/50 px-4 py-2 text-xs text-muted-foreground">
-              Chat with Claude Code
+              Plain English → Auto-pilot Content
             </div>
-            <pre class="overflow-x-auto p-4 text-sm"><code class="language-bash">{`You: "Add the calendar component"
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code class="language-text">{`FEATURE: Generate daily content
 
-Claude: [Uses shadcn MCP]
-✓ Added calendar component
-✓ Installed dependencies
-✓ Updated imports
-✓ Here's an example...`}</code></pre>
+GET my content style
+GET top performing topics
+FOR EACH platform (Twitter, Instagram):
+  - CALL OpenAI to generate post
+  - CREATE content
+  - PUBLISH at 9am
+RECORD published
+GIVE success`}</code></pre>
           </div>
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
-            AI assistant can install components, deploy, and access docs — all automatically.
+            Automated content across platforms. Your voice, your style, your schedule—all on autopilot.
           </p>
         </div>
+      </div>
+
+      <div class="mt-16 text-center">
+        <p class="text-base text-muted-foreground">
+          <strong class="text-foreground">No coding required.</strong> Write features in English, deploy production apps.
+          <br class="hidden sm:block" />
+          AI agents and non-technical founders can build enterprise software.
+        </p>
       </div>
     </div>
   </section>
@@ -478,10 +787,10 @@ Claude: [Uses shadcn MCP]
     <div class="mx-auto max-w-6xl">
       <div class="mb-16 space-y-4 text-center">
         <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700">
-          Built with the Best
+          Built on the Edge
         </h2>
         <p class="text-lg text-muted-foreground" data-usal="fade-up duration-700 delay-100">
-          Modern, battle-tested technologies that scale
+          Modern stack designed for AI-native applications
         </p>
       </div>
 
@@ -545,147 +854,287 @@ Claude: [Uses shadcn MCP]
     </div>
   </section>
 
-  <!-- Comparison Section -->
+  <!-- Why ONE Section -->
   <section class="px-6 py-24 md:px-8 md:py-32">
     <div class="mx-auto max-w-6xl">
-      <div class="mb-16 space-y-4 text-center">
+      <div class="mb-16 space-y-6 text-center">
         <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-          Why ONE Stack?
+          The Viral Flywheel
         </h2>
-        <p class="text-lg text-muted-foreground">
-          Most templates give you a skeleton. We give you a complete application.
+        <p class="mx-auto max-w-3xl text-xl text-muted-foreground">
+          Own it. Whitelabel it. Resell it. Earn from it. Build once, monetize infinitely.
         </p>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full border-collapse text-sm">
-          <thead>
-            <tr class="border-b">
-              <th class="p-4 text-left font-semibold">Feature</th>
-              <th class="p-4 text-center font-semibold text-primary">ONE Stack</th>
-              <th class="p-4 text-center font-semibold text-muted-foreground">Other Templates</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y">
-            <tr>
-              <td class="p-4">Authentication</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">6 methods</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">0-1 methods</td>
-            </tr>
-            <tr class="bg-muted/50">
-              <td class="p-4">Backend</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">Convex (real-time)</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">Static only</td>
-            </tr>
-            <tr>
-              <td class="p-4">UI Components</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">50+ shadcn/ui</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">0-10 components</td>
-            </tr>
-            <tr class="bg-muted/50">
-              <td class="p-4">React Version</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">React 19 (SSR)</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">React 18</td>
-            </tr>
-            <tr>
-              <td class="p-4">MCP Integration</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">3 servers</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">None</td>
-            </tr>
-            <tr class="bg-muted/50">
-              <td class="p-4">Email System</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">Built-in (Resend)</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">Manual setup</td>
-            </tr>
-            <tr>
-              <td class="p-4">Lighthouse Score</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">100/100</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">70-100</td>
-            </tr>
-            <tr class="bg-muted/50">
-              <td class="p-4">Documentation</td>
-              <td class="p-4 text-center">
-                <Badge variant="default">41 docs</Badge>
-              </td>
-              <td class="p-4 text-center text-muted-foreground">Basic README</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Timeline: From Idea to Reality -->
+      <div class="mb-16 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 to-background p-8 md:p-12">
+        <h3 class="mb-8 text-center text-2xl font-bold">From Idea to Reality in Minutes</h3>
+        <div class="grid gap-6 md:grid-cols-4">
+          <div class="space-y-3 text-center">
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+              0:30
+            </div>
+            <h4 class="font-semibold">Download & Install</h4>
+            <p class="text-sm text-muted-foreground">
+              Clone repo, install dependencies, configure keys
+            </p>
+          </div>
+          <div class="space-y-3 text-center">
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+              5:00
+            </div>
+            <h4 class="font-semibold">Write in English</h4>
+            <p class="text-sm text-muted-foreground">
+              Describe your AI clone, sales agent, or content system
+            </p>
+          </div>
+          <div class="space-y-3 text-center">
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+              2:00
+            </div>
+            <h4 class="font-semibold">System Generates</h4>
+            <p class="text-sm text-muted-foreground">
+              TypeScript, tests, UI components, edge functions—all validated
+            </p>
+          </div>
+          <div class="space-y-3 text-center">
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+              3:00
+            </div>
+            <h4 class="font-semibold">Deploy to Edge</h4>
+            <p class="text-sm text-muted-foreground">
+              Global CDN, unlimited requests, live in production
+            </p>
+          </div>
+        </div>
+        <div class="mt-8 text-center">
+          <p class="text-lg font-semibold text-primary">
+            Total: ~10 minutes from zero to live AI business
+          </p>
+        </div>
+      </div>
+
+      <!-- What You Can Build -->
+      <div class="mb-16 space-y-8">
+        <h3 class="text-center text-2xl font-bold">What You Can Build Right Now</h3>
+        <div class="grid gap-6 md:grid-cols-3">
+          <Card className="border-border/50 bg-card/50 backdrop-blur">
+            <CardHeader className="space-y-3">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                <Bot className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-xl">AI Clones</CardTitle>
+              <CardDescription className="text-sm leading-relaxed">
+                Voice clones, personality models, autonomous content creators.
+                Your digital twin working 24/7.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-border/50 bg-card/50 backdrop-blur">
+            <CardHeader className="space-y-3">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                <DollarSign className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-xl">Token Economies</CardTitle>
+              <CardDescription className="text-sm leading-relaxed">
+                Launch creator tokens, subscription plans, NFT drops.
+                Instant payment processing.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-border/50 bg-card/50 backdrop-blur">
+            <CardHeader className="space-y-3">
+              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                <Network className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-xl">Multi-Agent Systems</CardTitle>
+              <CardDescription className="text-sm leading-relaxed">
+                Sales, support, content, research agents coordinating
+                through shared ontology.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+      </div>
+
+      <!-- The Flywheel -->
+      <div class="grid gap-8 md:grid-cols-2">
+        <Card className="group border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10">
+          <CardHeader className="space-y-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 transition-colors group-hover:bg-primary/30">
+              <Target className="h-7 w-7 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">Own Everything You Build</CardTitle>
+            <CardDescription className="text-base leading-relaxed">
+              Download free. Install locally. No vendor lock-in, no recurring fees, no limits.
+              The code is yours. The data is yours. The business is yours.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10">
+          <CardHeader className="space-y-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 transition-colors group-hover:bg-primary/30">
+              <Wand2 className="h-7 w-7 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">Whitelabel & Resell Anywhere</CardTitle>
+            <CardDescription className="text-base leading-relaxed">
+              Rebrand as your own product. Set your own pricing. Sell to your audience.
+              Keep 100% of revenue. Built-in viral distribution through shared ontology.
+            </CardDescription>
+          </CardHeader>
+        </Card>
       </div>
     </div>
   </section>
 
   <!-- CTA Section -->
-  <section class="relative overflow-hidden px-4 py-24 sm:px-6 sm:py-28 md:px-8 md:py-40">
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-background via-primary/5 to-background"></div>
+  <section class="relative overflow-hidden px-4 py-24 sm:px-6 sm:py-32 md:px-8 md:py-40">
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-b from-background via-primary/10 to-background"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.15),transparent_50%)]"></div>
+    </div>
 
-    <div class="mx-auto max-w-full sm:max-w-3xl md:max-w-4xl space-y-10 sm:space-y-12 text-center">
+    <div class="mx-auto max-w-full sm:max-w-4xl md:max-w-5xl space-y-12 sm:space-y-16 text-center">
       <div class="space-y-8">
-        <Badge variant="secondary" className="inline-flex items-center gap-2 text-sm font-medium" data-usal="fade-down duration-600">
-          <Rocket className="h-4 w-4" />
-          Ready to Ship
+        <Badge variant="secondary" className="inline-flex items-center gap-2 text-base font-medium px-6 py-2" data-usal="fade-down duration-600">
+          <Sparkles className="h-5 w-5" />
+          Your Next 10 Minutes Could Change Everything
         </Badge>
 
-        <h2 class="text-5xl font-bold leading-tight tracking-tight sm:text-6xl" data-usal="fade-up duration-700 delay-100">
-          Stop Building Boilerplate.
-          <br />
-          <span class="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Start Shipping Features.</span>
+        <h2 class="text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl md:text-7xl" data-usal="fade-up duration-700 delay-100">
+          <span class="block">Download Free.</span>
+          <span class="block bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+            Deploy Now.
+          </span>
+          <span class="block">Own Forever.</span>
         </h2>
 
-        <p class="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
-          Clone the repo. Run <code class="rounded bg-muted px-2 py-1 text-sm">bun install</code>. Deploy to Cloudflare.
+        <p class="mx-auto max-w-3xl text-xl sm:text-2xl leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
+          No credit card. No trial limits. No vendor lock-in.
           <br />
-          <strong class="text-foreground">Your production-ready SaaS is live in 10&nbsp;minutes.</strong>
+          <strong class="text-foreground">Just you, your ideas, and infinite possibilities.</strong>
         </p>
       </div>
 
+      <!-- Quick Start Preview -->
+      <div class="rounded-2xl border border-primary/30 bg-card/50 p-8 backdrop-blur" data-usal="fade-up duration-700 delay-250">
+        <h3 class="mb-6 text-2xl font-bold">Your First 10 Minutes</h3>
+        <div class="grid gap-4 text-left sm:grid-cols-3">
+          <div class="space-y-2">
+            <div class="font-mono text-sm text-primary">$ git clone</div>
+            <p class="text-sm text-muted-foreground">Clone the repo, run install, you're live locally</p>
+          </div>
+          <div class="space-y-2">
+            <div class="font-mono text-sm text-primary">$ FEATURE: AI Clone</div>
+            <p class="text-sm text-muted-foreground">Write 7 lines of English, system generates full stack</p>
+          </div>
+          <div class="space-y-2">
+            <div class="font-mono text-sm text-primary">$ deploy</div>
+            <p class="text-sm text-muted-foreground">Push to edge, live globally, start earning</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary CTAs -->
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-center" data-usal="fade-up duration-700 delay-300">
-        <a href="https://github.com/one-ie/stack" target="_blank" rel="noopener noreferrer">
-          <Button size="lg" className="h-16 w-full sm:w-auto px-10 text-lg font-semibold shadow-2xl shadow-primary/30 transition-all hover:shadow-primary/40">
-            <Github className="mr-2 h-6 w-6" />
-            Get Started on GitHub
+        <a href="https://github.com/one-ie/stack" target="_blank" rel="noopener noreferrer" class="group">
+          <Button size="lg" className="h-18 w-full sm:w-auto px-12 text-lg font-bold shadow-2xl shadow-primary/30 transition-all hover:scale-105 hover:shadow-primary/50">
+            <Github className="mr-3 h-7 w-7 transition-transform group-hover:rotate-12" />
+            <span>
+              Download Free
+              <span class="block text-xs font-normal opacity-90">Start building in 30 seconds</span>
+            </span>
           </Button>
         </a>
-        <a href="/account/signup">
-          <Button variant="outline" size="lg" className="h-16 w-full sm:w-auto px-10 text-lg font-semibold">
-            Try Live Demo
+        <a href="/account/signup" class="group">
+          <Button variant="outline" size="lg" className="h-18 w-full sm:w-auto px-12 text-lg font-bold border-2 transition-all hover:scale-105 hover:border-primary hover:bg-primary/10">
+            <Rocket className="mr-3 h-7 w-7 transition-transform group-hover:translate-y-[-4px]" />
+            <span>
+              Deploy to Edge
+              <span class="block text-xs font-normal opacity-90">Go live in minutes</span>
+            </span>
           </Button>
         </a>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-8 pt-4 text-sm text-muted-foreground" data-usal="fade-in duration-700 delay-400">
-        <span>✓ MIT License</span>
-        <span>✓ Free Forever</span>
-        <span>✓ No&nbsp;Vendor Lock-in</span>
-        <span>✓ Deploy Anywhere</span>
+      <!-- Trust Indicators -->
+      <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 pt-6 text-base font-medium text-muted-foreground" data-usal="fade-in duration-700 delay-400">
+        <span class="flex items-center gap-2">
+          <Check className="h-5 w-5 text-primary" />
+          Open Source Forever
+        </span>
+        <span class="flex items-center gap-2">
+          <Check className="h-5 w-5 text-primary" />
+          100% Revenue Yours
+        </span>
+        <span class="flex items-center gap-2">
+          <Check className="h-5 w-5 text-primary" />
+          Whitelabel Rights Included
+        </span>
+        <span class="flex items-center gap-2">
+          <Check className="h-5 w-5 text-primary" />
+          Deploy Anywhere
+        </span>
       </div>
 
-      <div class="flex items-center justify-center gap-8 border-t border-border pt-12">
-        <a href="/blog" class="text-sm text-muted-foreground transition-colors hover:text-foreground">
+      <!-- What You Get -->
+      <div class="rounded-2xl border border-border/50 bg-background/50 p-8 backdrop-blur" data-usal="fade-up duration-700 delay-450">
+        <h3 class="mb-6 text-xl font-bold">Everything You Need, Day One</h3>
+        <div class="grid gap-4 text-sm sm:grid-cols-2 md:grid-cols-4">
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ Complete Frontend</div>
+            <div class="text-muted-foreground">Astro + React 19 + shadcn/ui</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ Real-time Backend</div>
+            <div class="text-muted-foreground">Convex + Better Auth + Effect.ts</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ AI Integration</div>
+            <div class="text-muted-foreground">OpenAI + ElevenLabs + Agents</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ Payment Ready</div>
+            <div class="text-muted-foreground">Stripe + Tokens + Subscriptions</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ Edge Deployment</div>
+            <div class="text-muted-foreground">Cloudflare + Global CDN</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ Plain English DSL</div>
+            <div class="text-muted-foreground">15 commands → Full stack code</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ 66 Thing Types</div>
+            <div class="text-muted-foreground">Pre-built ontology models</div>
+          </div>
+          <div class="space-y-1">
+            <div class="font-semibold text-foreground">✓ Protocol Support</div>
+            <div class="text-muted-foreground">A2A + MCP + AP2 + X402</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Links -->
+      <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-8 border-t border-border pt-10" data-usal="fade-in duration-700 delay-500">
+        <a href="/blog" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
           Blog
         </a>
-        <a href="https://github.com/one-ie/stack/blob/main/plans/landing.md" target="_blank" rel="noopener noreferrer" class="text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <a href="https://github.com/one-ie/stack/blob/main/plans/landing.md" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
           Documentation
         </a>
-        <a href="https://github.com/one-ie/stack/issues" target="_blank" rel="noopener noreferrer" class="text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <a href="https://github.com/one-ie/stack/issues" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
           Support
         </a>
-        <a href="https://one.ie" target="_blank" rel="noopener noreferrer" class="text-sm text-muted-foreground transition-colors hover:text-foreground">
-          About
+        <a href="https://github.com/one-ie/stack/discussions" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          Community
+        </a>
+        <a href="https://one.ie" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          About ONE
         </a>
       </div>
     </div>

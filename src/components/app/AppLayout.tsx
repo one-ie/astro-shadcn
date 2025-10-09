@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Search, MessageSquare, Grid3x3, Bot, Wrench, Users } from "lucide-react"
+import { Search, Users, Package, Share2, Sparkles, BookOpen } from "lucide-react"
 import { Toaster } from "sonner"
 
 import { cn } from "@/lib/utils"
@@ -20,7 +20,7 @@ import { StatusTabs } from "./StatusTabs"
 import { MobileNav } from "./MobileNav"
 import { FloatingActionButton } from "./FloatingActionButton"
 import { CommandPalette } from "./CommandPalette"
-import { mockEntities, type NavigationView, JOURNEY_STAGES } from "@/data/app-data"
+import { mockEntities, viewCounts, type NavigationView, JOURNEY_STAGES } from "@/data/app-data"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
 interface AppLayoutProps {
@@ -34,72 +34,43 @@ export function AppLayout({
   const isMobile = useMediaQuery("(max-width: 768px)")
   const [commandPaletteOpen, setCommandPaletteOpen] = React.useState(false)
 
-  // Navigation items matching Figma
+  // Navigation items grounded in the ontology pillars
   const navigationItems: NavigationItem[] = [
-    {
-      id: "messages",
-      icon: MessageSquare,
-      label: "Messages",
-      count: 128,
-    },
-    {
-      id: "groups",
-      icon: Grid3x3,
-      label: "Groups",
-      count: 9,
-    },
-    {
-      id: "agents",
-      icon: Bot,
-      label: "Agents",
-      count: 20,
-    },
-    {
-      id: "tools",
-      icon: Wrench,
-      label: "Tools",
-      count: 10,
-    },
     {
       id: "people",
       icon: Users,
       label: "People",
-      count: 128,
+      count: viewCounts.people,
+    },
+    {
+      id: "things",
+      icon: Package,
+      label: "Things",
+      count: viewCounts.things,
+    },
+    {
+      id: "connections",
+      icon: Share2,
+      label: "Connections",
+      count: viewCounts.connections,
+    },
+    {
+      id: "events",
+      icon: Sparkles,
+      label: "Events",
+      count: viewCounts.events,
+    },
+    {
+      id: "knowledge",
+      icon: BookOpen,
+      label: "Knowledge",
+      count: viewCounts.knowledge,
     },
   ]
 
   // Filter entities based on current state
   const filteredEntities = React.useMemo(() => {
-    let filtered = mockEntities
-
-    // Filter by navigation view
-    switch (app.activeView) {
-      case "messages":
-        // Show all entities (default)
-        break
-      case "groups":
-        // Show organization/group related entities
-        filtered = filtered.filter(e =>
-          e.type === "project" || e.type === "meeting" || e.type === "strategy"
-        )
-        break
-      case "agents":
-        // Show only AI agents
-        filtered = filtered.filter(e => e.type === "agent")
-        break
-      case "tools":
-        // Show tools, integrations, technical items
-        filtered = filtered.filter(e =>
-          e.type === "task" || e.tags.includes("Technical")
-        )
-        break
-      case "people":
-        // Show people-related entities
-        filtered = filtered.filter(e =>
-          e.type === "message" || e.type === "meeting"
-        )
-        break
-    }
+    let filtered = mockEntities.filter(entity => entity.kind === app.activeView)
 
     // Filter by status
     filtered = filtered.filter(e => e.status === app.statusFilter)
@@ -176,7 +147,7 @@ export function AppLayout({
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search messages, tasks, and more..."
+                placeholder="Search people, things, connections..."
                 className="pl-10 h-10 shadow-sm"
                 value={app.searchQuery}
                 onChange={(e) => setApp({ ...app, searchQuery: e.target.value })}
@@ -288,7 +259,7 @@ export function AppLayout({
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search messages, tasks, and more..."
+                  placeholder="Search people, things, connections..."
                   className="pl-10 h-10 shadow-sm"
                   value={app.searchQuery}
                   onChange={(e) => setApp({ ...app, searchQuery: e.target.value })}
