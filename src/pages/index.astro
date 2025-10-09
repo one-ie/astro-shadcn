@@ -121,128 +121,249 @@ import {
     </div>
   </section>
 
-  <!-- Five Pillars Showcase -->
+  <!-- Five Pillars Showcase: User Journey Flow -->
   <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
-    <div class="mx-auto max-w-full sm:max-w-6xl">
+    <div class="mx-auto max-w-full sm:max-w-4xl">
       <div class="mb-20 space-y-4 text-center">
         <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
           <Network className="h-4 w-4" />
-          The Ontology
+          The User Journey
         </Badge>
         <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
-          Five Pillars
+          Five Layers
           <br />
-          <span class="text-muted-foreground">One Unified Model</span>
+          <span class="text-muted-foreground">One Data Flow</span>
         </h2>
         <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
-          Everything in ONE maps to five simple tables. This ontology makes AI agents intelligent, features composable, and your business scalable.
+          Every interaction flows through five layers. Each layer enriches AI understanding, making your agents smarter with every action.
         </p>
       </div>
 
-      <!-- People at the top -->
-      <div class="mb-8 flex justify-center" data-usal="fade-up duration-600 delay-100">
-        <Card className="group w-full max-w-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10">
-          <CardHeader className="space-y-4 text-center">
-            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-primary/20 transition-colors group-hover:bg-primary/30">
-              <Users className="h-8 w-8 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">People</CardTitle>
-            <CardDescription className="text-base leading-relaxed">
-              Set intent, govern outcomes, authorize every action. Humans remain in command while agents execute.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap justify-center gap-2">
-              <Badge variant="secondary" className="border-border/50">Intent</Badge>
-              <Badge variant="secondary" className="border-border/50">Governance</Badge>
-              <Badge variant="secondary" className="border-border/50">Authorization</Badge>
-            </div>
-          </CardContent>
-        </Card>
+      <!-- Single Column: People → Things → Connections → Events → Knowledge -->
+      <div class="space-y-6">
+
+        <!-- 1. People Layer -->
+        <div class="flex justify-center" data-usal="fade-up duration-600 delay-100">
+          <Card className="group w-full border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10">
+            <CardHeader className="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-primary/20 transition-colors group-hover:bg-primary/30">
+                  <Users className="h-8 w-8 text-primary" />
+                </div>
+                <div class="flex-1 space-y-3">
+                  <CardTitle className="text-2xl">People</CardTitle>
+                  <CardDescription className="text-base leading-relaxed">
+                    Set intent, govern outcomes, authorize every action. Humans remain in command while agents execute.
+                  </CardDescription>
+                  <div class="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="border-border/50">Intent</Badge>
+                    <Badge variant="secondary" className="border-border/50">Governance</Badge>
+                    <Badge variant="secondary" className="border-border/50">Authorization</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div class="rounded-lg border border-primary/20 bg-primary/5 p-4">
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-semibold text-foreground">AI Customization:</span> Your preferences, writing style, brand voice, and approval rules
+                  teach agents how to work exactly the way you want.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Flow Arrow Down -->
+        <div class="flex justify-center" data-usal="fade-in duration-400 delay-150">
+          <div class="flex flex-col items-center gap-2">
+            <div class="h-8 w-px bg-gradient-to-b from-primary/60 to-primary/30"></div>
+            <div class="text-xs font-medium text-primary">Defines & Creates</div>
+            <div class="h-8 w-px bg-gradient-to-b from-primary/30 to-primary/60"></div>
+          </div>
+        </div>
+
+        <!-- 2. Things Layer -->
+        <div class="flex justify-center" data-usal="fade-up duration-600 delay-200">
+          <Card className="group w-full border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5">
+            <CardHeader className="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+                  <Box className="h-7 w-7 text-primary" />
+                </div>
+                <div class="flex-1 space-y-3">
+                  <CardTitle className="text-xl">Things</CardTitle>
+                  <CardDescription className="leading-relaxed">
+                    Every entity — agents, products, audiences, tokens, courses. 66 types out of the box.
+                  </CardDescription>
+                  <div class="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="border-border/50">Agents</Badge>
+                    <Badge variant="secondary" className="border-border/50">Products</Badge>
+                    <Badge variant="secondary" className="border-border/50">Audiences</Badge>
+                    <Badge variant="secondary" className="border-border/50">Tokens</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div class="rounded-lg border border-border/50 bg-muted/30 p-4">
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-semibold text-foreground">AI Customization:</span> Rich properties store context about each entity—
+                  sales agent knows lead history, content agent knows top topics, support agent knows customer issues.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Flow Arrow Down -->
+        <div class="flex justify-center" data-usal="fade-in duration-400 delay-250">
+          <div class="flex flex-col items-center gap-2">
+            <div class="h-8 w-px bg-gradient-to-b from-primary/60 to-primary/30"></div>
+            <div class="text-xs font-medium text-primary">Relates & Connects</div>
+            <div class="h-8 w-px bg-gradient-to-b from-primary/30 to-primary/60"></div>
+          </div>
+        </div>
+
+        <!-- 3. Connections Layer -->
+        <div class="flex justify-center" data-usal="fade-up duration-600 delay-300">
+          <Card className="group w-full border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5">
+            <CardHeader className="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+                  <GitBranch className="h-7 w-7 text-primary" />
+                </div>
+                <div class="flex-1 space-y-3">
+                  <CardTitle className="text-xl">Connections</CardTitle>
+                  <CardDescription className="leading-relaxed">
+                    Express relationships — ownership, memberships, revenue flows. Powers collaboration and value exchange.
+                  </CardDescription>
+                  <div class="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="border-border/50">Owns</Badge>
+                    <Badge variant="secondary" className="border-border/50">Member of</Badge>
+                    <Badge variant="secondary" className="border-border/50">Follows</Badge>
+                    <Badge variant="secondary" className="border-border/50">Transacted</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div class="rounded-lg border border-border/50 bg-muted/30 p-4">
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-semibold text-foreground">AI Customization:</span> Relationship metadata reveals engagement levels,
+                  loyalty patterns, collaboration history—agents prioritize hot leads, reward superfans, coordinate team workflows.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Flow Arrow Down -->
+        <div class="flex justify-center" data-usal="fade-in duration-400 delay-350">
+          <div class="flex flex-col items-center gap-2">
+            <div class="h-8 w-px bg-gradient-to-b from-primary/60 to-primary/30"></div>
+            <div class="text-xs font-medium text-primary">Tracks & Records</div>
+            <div class="h-8 w-px bg-gradient-to-b from-primary/30 to-primary/60"></div>
+          </div>
+        </div>
+
+        <!-- 4. Events Layer -->
+        <div class="flex justify-center" data-usal="fade-up duration-600 delay-400">
+          <Card className="group w-full border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5">
+            <CardHeader className="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+                  <Activity className="h-7 w-7 text-primary" />
+                </div>
+                <div class="flex-1 space-y-3">
+                  <CardTitle className="text-xl">Events</CardTitle>
+                  <CardDescription className="leading-relaxed">
+                    Chronicle every action — launches, interactions, transactions, insights. Full audit trail built-in.
+                  </CardDescription>
+                  <div class="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="border-border/50">Created</Badge>
+                    <Badge variant="secondary" className="border-border/50">Purchased</Badge>
+                    <Badge variant="secondary" className="border-border/50">Viewed</Badge>
+                    <Badge variant="secondary" className="border-border/50">Completed</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div class="rounded-lg border border-border/50 bg-muted/30 p-4">
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-semibold text-foreground">AI Customization:</span> Event streams reveal behavior patterns—
+                  what content performs best, which features drive engagement, when users convert. Agents learn and adapt continuously.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Flow Arrow Down -->
+        <div class="flex justify-center" data-usal="fade-in duration-400 delay-450">
+          <div class="flex flex-col items-center gap-2">
+            <div class="h-8 w-px bg-gradient-to-b from-primary/60 to-primary/30"></div>
+            <div class="text-xs font-medium text-primary">Learns & Enriches</div>
+            <div class="h-8 w-px bg-gradient-to-b from-primary/30 to-primary/60"></div>
+          </div>
+        </div>
+
+        <!-- 5. Knowledge Layer -->
+        <div class="flex justify-center" data-usal="fade-up duration-600 delay-500">
+          <Card className="group w-full border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5">
+            <CardHeader className="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+                  <Brain className="h-7 w-7 text-primary" />
+                </div>
+                <div class="flex-1 space-y-3">
+                  <CardTitle className="text-xl">Knowledge</CardTitle>
+                  <CardDescription className="leading-relaxed">
+                    Store semantics — labels, chunks, embeddings. Makes agents intelligent and enables rich context.
+                  </CardDescription>
+                  <div class="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="border-border/50">Tags</Badge>
+                    <Badge variant="secondary" className="border-border/50">Embeddings</Badge>
+                    <Badge variant="secondary" className="border-border/50">Context</Badge>
+                    <Badge variant="secondary" className="border-border/50">Search</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div class="rounded-lg border border-border/50 bg-muted/30 p-4">
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-semibold text-foreground">AI Customization:</span> Vector embeddings power semantic search,
+                  document understanding, intelligent recommendations. Your knowledge base becomes liquid intelligence agents can query instantly.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
       </div>
 
-      <!-- Visual connector -->
-      <div class="relative mb-8 flex justify-center" data-usal="fade-in duration-600 delay-200">
-        <div class="h-12 w-px bg-gradient-to-b from-primary/40 via-primary/20 to-transparent"></div>
-      </div>
-
-      <!-- Four foundational pillars -->
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-100">
-          <CardHeader className="space-y-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Box className="h-6 w-6 text-primary" />
-            </div>
-            <CardTitle className="text-xl">Things</CardTitle>
-            <CardDescription className="leading-relaxed">
-              Every entity — agents, products, audiences, tokens, courses. 66 types out of the box.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">Agents</Badge>
-              <Badge variant="secondary" className="border-border/50">Products</Badge>
-              <Badge variant="secondary" className="border-border/50">Audiences</Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-200">
-          <CardHeader className="space-y-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <GitBranch className="h-6 w-6 text-primary" />
-            </div>
-            <CardTitle className="text-xl">Connections</CardTitle>
-            <CardDescription className="leading-relaxed">
-              Express relationships — ownership, memberships, revenue flows. Powers collaboration and value exchange.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">Owns</Badge>
-              <Badge variant="secondary" className="border-border/50">Member of</Badge>
-              <Badge variant="secondary" className="border-border/50">Transacted</Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-300">
-          <CardHeader className="space-y-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Activity className="h-6 w-6 text-primary" />
-            </div>
-            <CardTitle className="text-xl">Events</CardTitle>
-            <CardDescription className="leading-relaxed">
-              Chronicle every action — launches, interactions, transactions, insights. Full audit trail built-in.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">Created</Badge>
-              <Badge variant="secondary" className="border-border/50">Purchased</Badge>
-              <Badge variant="secondary" className="border-border/50">Completed</Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20 hover:bg-card hover:shadow-lg hover:shadow-primary/5" data-usal="fade-up duration-600 delay-400">
-          <CardHeader className="space-y-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <Brain className="h-6 w-6 text-primary" />
-            </div>
-            <CardTitle className="text-xl">Knowledge</CardTitle>
-            <CardDescription className="leading-relaxed">
-              Store semantics — labels, chunks, embeddings. Makes agents intelligent and enables rich context.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="border-border/50">Tags</Badge>
-              <Badge variant="secondary" className="border-border/50">Embeddings</Badge>
-              <Badge variant="secondary" className="border-border/50">Context</Badge>
-            </div>
-          </CardContent>
-        </Card>
+      <!-- Complete Journey Summary -->
+      <div class="mt-16 rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-primary/5 to-background p-8 backdrop-blur" data-usal="fade-up duration-700 delay-600">
+        <h3 class="mb-6 text-center text-2xl font-bold">The Complete Flow</h3>
+        <div class="space-y-4 text-center">
+          <p class="text-lg leading-relaxed text-muted-foreground">
+            <strong class="text-foreground">You (Person)</strong> create an
+            <strong class="text-foreground">AI Agent (Thing)</strong> that
+            <strong class="text-foreground">follows your customers (Connection)</strong>,
+            <strong class="text-foreground">tracks every interaction (Event)</strong>, and
+            <strong class="text-foreground">learns from your docs (Knowledge)</strong>.
+          </p>
+          <p class="text-base text-muted-foreground">
+            Each layer adds context. Every interaction makes agents smarter. The ontology ensures nothing is lost—
+            <br class="hidden sm:block" />
+            your AI gets more personalized, more accurate, more valuable over time.
+          </p>
+          <Badge variant="secondary" className="mt-4 text-sm">
+            5 Tables × Infinite Possibilities = Your AI Business
+          </Badge>
+        </div>
       </div>
 
       <div class="mt-12 text-center">
