@@ -23,7 +23,8 @@ import {
   Code,
   DollarSign,
   Network,
-  Bot
+  Bot,
+  Building2
 } from 'lucide-react';
 ---
 
@@ -113,28 +114,68 @@ import {
     </div>
   </section>
 
-  <!-- Five Pillars Showcase: User Journey Flow -->
+  <!-- Six Dimensions Showcase: Complete Ontology Flow -->
   <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
     <div class="mx-auto max-w-full sm:max-w-4xl">
       <div class="mb-20 space-y-4 text-center">
         <Badge variant="outline" className="mb-2 inline-flex items-center gap-2" data-usal="fade-down duration-600">
           <Network className="h-4 w-4" />
-          The User Journey
+          The Foundation
         </Badge>
         <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl" data-usal="fade-up duration-700 delay-100">
-          Five Layers
+          Six Dimensions
           <br />
-          <span class="text-muted-foreground">One Data Flow</span>
+          <span class="text-muted-foreground">One Unified Model</span>
         </h2>
         <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" data-usal="fade-up duration-700 delay-200">
-          Every interaction flows through five layers. Each layer enriches AI understanding, making your agents smarter with every action.
+          Every feature maps to six dimensions. Organizations partition for scale, People authorize intent, while Things, Connections, Events, and Knowledge execute, track, and contextualize every move.
         </p>
       </div>
 
-      <!-- Single Column: People → Things → Connections → Events → Knowledge -->
+      <!-- Single Column: Organizations → People → Things → Connections → Events → Knowledge -->
       <div class="space-y-6">
 
-        <!-- 1. People Layer -->
+        <!-- 1. Organizations Layer -->
+        <div class="flex justify-center" data-usal="fade-up duration-600 delay-50">
+          <Card className="group w-full border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10">
+            <CardHeader className="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-primary/20 transition-colors group-hover:bg-primary/30">
+                  <Building2 className="h-8 w-8 text-primary" />
+                </div>
+                <div class="flex-1 space-y-3">
+                  <CardTitle className="text-2xl">Organizations</CardTitle>
+                  <CardDescription className="text-base leading-relaxed">
+                    Partition the system for multi-tenant scale. Each org owns its graph—perfect isolation, zero data leakage.
+                  </CardDescription>
+                  <div class="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="border-border/50">Multi-tenant</Badge>
+                    <Badge variant="secondary" className="border-border/50">Isolation</Badge>
+                    <Badge variant="secondary" className="border-border/50">Enterprise Ready</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div class="rounded-lg border border-primary/20 bg-primary/5 p-4">
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-semibold text-foreground">AI Customization:</span> Each organization has its own agents, knowledge bases, and training data—creating perfect isolation for white-label deployments and enterprise compliance.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Flow Arrow Down -->
+        <div class="flex justify-center" data-usal="fade-in duration-400 delay-75">
+          <div class="flex flex-col items-center gap-2">
+            <div class="h-8 w-px bg-gradient-to-b from-primary/60 to-primary/30"></div>
+            <div class="text-xs font-medium text-primary">Contains & Isolates</div>
+            <div class="h-8 w-px bg-gradient-to-b from-primary/30 to-primary/60"></div>
+          </div>
+        </div>
+
+        <!-- 2. People Layer -->
         <div class="flex justify-center" data-usal="fade-up duration-600 delay-100">
           <Card className="group w-full border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10">
             <CardHeader className="space-y-4">
@@ -341,19 +382,20 @@ import {
         <h3 class="mb-6 text-center text-2xl font-bold">The Complete Flow</h3>
         <div class="space-y-4 text-center">
           <p class="text-lg leading-relaxed text-muted-foreground">
-            <strong class="text-foreground">You (Person)</strong> create an
+            <strong class="text-foreground">Your Organization</strong> contains
+            <strong class="text-foreground">You (Person)</strong> who creates an
             <strong class="text-foreground">AI Agent (Thing)</strong> that
             <strong class="text-foreground">follows your customers (Connection)</strong>,
             <strong class="text-foreground">tracks every interaction (Event)</strong>, and
             <strong class="text-foreground">learns from your docs (Knowledge)</strong>.
           </p>
           <p class="text-base text-muted-foreground">
-            Each layer adds context. Every interaction makes agents smarter. The ontology ensures nothing is lost—
+            Each dimension adds context. Every interaction makes agents smarter. The ontology ensures nothing is lost—
             <br class="hidden sm:block" />
             your AI gets more personalized, more accurate, more valuable over time.
           </p>
           <Badge variant="secondary" className="mt-4 text-sm">
-            5 Tables × Infinite Possibilities = Your AI Business
+            6 Dimensions × Infinite Possibilities = Your AI Business
           </Badge>
         </div>
       </div>
