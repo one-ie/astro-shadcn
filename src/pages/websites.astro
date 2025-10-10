@@ -1,0 +1,678 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import {
+  Globe,
+  Zap,
+  Code2,
+  Sparkles,
+  Rocket,
+  Github,
+  ArrowRight,
+  Lock,
+  Mail,
+  Key,
+  RotateCcw,
+  MailOpen,
+  Wand2,
+  Shield,
+  Target,
+  FileText,
+  Bot,
+  Check,
+  Palette,
+  Atom,
+  Moon
+} from 'lucide-react';
+---
+
+<Layout title="Build Websites with English Commands" description="Create blazing-fast Astro websites that run at the edge using plain English commands">
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[80vh] flex items-center justify-center px-4 py-20 sm:px-6 lg:px-8">
+    <div class="w-full max-w-6xl mx-auto">
+      <div class="text-center space-y-8">
+        <Badge variant="outline" className="mb-4 inline-flex items-center gap-2">
+          <Globe className="h-4 w-4" />
+          Edge-First Websites
+        </Badge>
+
+        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold !leading-[1.1] tracking-tight">
+          Build Websites
+          <br />
+          <span class="opacity-70">With English Commands</span>
+        </h1>
+
+        <p class="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          Create blazing-fast Astro websites that run at the edge. Deploy globally in seconds. No complex configuration.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+          <a href="https://github.com/one-ie/stack" target="_blank" rel="noopener noreferrer">
+            <Button size="lg" className="h-14 px-8 text-lg font-semibold">
+              <Github className="mr-2 h-5 w-5" />
+              Start Building
+            </Button>
+          </a>
+          <a href="#examples">
+            <Button variant="outline" size="lg" className="h-14 px-8 text-lg font-semibold">
+              See Examples
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="border-y bg-muted/50 px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          From Idea to Production
+          <br />
+          <span class="text-muted-foreground">In English</span>
+        </h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground">
+          Write what you want in plain English. The system validates, generates production code, and deploys to the edge.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader className="space-y-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+              <Code2 className="h-7 w-7 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Write Commands</CardTitle>
+            <CardDescription className="leading-relaxed">
+              "CREATE landing page", "ADD contact form", "STYLE with dark mode"
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader className="space-y-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+              <Sparkles className="h-7 w-7 text-primary" />
+            </div>
+            <CardTitle className="text-xl">System Validates</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Checks components exist, validates data structure, ensures best practices
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader className="space-y-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+              <Zap className="h-7 w-7 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Code Generated</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Production Astro + React + TypeScript with full type safety and tests
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50 backdrop-blur">
+          <CardHeader className="space-y-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+              <Rocket className="h-7 w-7 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Deploy Global</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Cloudflare's 330+ edge locations. Live in 60 seconds worldwide
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="border-y bg-muted/50 px-4 py-16 sm:px-6 md:px-8">
+    <div class="mx-auto max-w-6xl">
+      <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="space-y-2 text-center">
+          <div class="text-5xl font-bold text-primary">6</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Auth Methods</div>
+        </div>
+        <div class="space-y-2 text-center">
+          <div class="text-5xl font-bold text-primary">50+</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">UI Components</div>
+        </div>
+        <div class="space-y-2 text-center">
+          <div class="text-5xl font-bold text-primary">100</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Lighthouse Score</div>
+        </div>
+        <div class="space-y-2 text-center">
+          <div class="text-5xl font-bold text-primary">330+</div>
+          <div class="text-sm font-medium uppercase tracking-wide text-muted-foreground">Edge Locations</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Authentication Showcase -->
+  <section class="px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2">
+          <Lock className="h-4 w-4" />
+          Enterprise Authentication
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          6 Authentication Methods
+          <br />
+          <span class="text-muted-foreground">Pre-Configured & Ready</span>
+        </h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground">
+          Email/password, OAuth, magic links, 2FA, password reset, and email verification — all working out of the box with plain English commands.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Mail className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Email/Password</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Secure password hashing, session management, HttpOnly cookies built-in.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Key className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">OAuth Social Login</CardTitle>
+            <CardDescription className="leading-relaxed">
+              GitHub and Google OAuth pre-configured. Add more providers in minutes.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <RotateCcw className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Password Reset</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Email-based reset with secure tokens. Custom HTML templates included.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <MailOpen className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Email Verification</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Automated verification emails on sign-up with beautiful templates.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Wand2 className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Magic Links</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Passwordless authentication. One-click sign-in via email link.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Lock className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Two-Factor Auth</CardTitle>
+            <CardDescription className="leading-relaxed">
+              TOTP with Google Authenticator, Authy, 1Password. QR code setup.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Production Features -->
+  <section class="border-y bg-muted/50 px-4 py-20 sm:px-6 sm:py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <Badge variant="outline" className="mb-2 inline-flex items-center gap-2">
+          <Sparkles className="h-4 w-4" />
+          Everything Included
+        </Badge>
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          Production-Ready Features
+          <br />
+          <span class="text-muted-foreground">From Day One</span>
+        </h2>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Palette className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">50+ UI Components</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Complete shadcn/ui library. Buttons, forms, dialogs, tables, charts — everything you need.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Atom className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">React 19 on Edge</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Full React 19 SSR on Cloudflare Workers using react-dom/server.edge.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <FileText className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Advanced Blog System</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Multi-view layouts, real-time search, auto-generated ToC, social sharing, RSS feed.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Shield className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Enterprise Security</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Rate limiting, session management, HttpOnly cookies, CSRF protection built-in.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Target className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Perfect Lighthouse</CardTitle>
+            <CardDescription className="leading-relaxed">
+              100/100 across all metrics. Performance, accessibility, best practices, SEO.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all hover:scale-[1.02] hover:border-primary/20">
+          <CardHeader className="space-y-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <Moon className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-xl">Dark Mode</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Beautiful dark mode with no FOUC. Tailwind v4 CSS-based configuration.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Examples Section -->
+  <section id="examples" class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          Build Anything
+          <br />
+          <span class="text-muted-foreground">With Simple Commands</span>
+        </h2>
+      </div>
+
+      <div class="space-y-12">
+        <!-- Example 1: Landing Page -->
+        <Card className="overflow-hidden border-primary/20">
+          <div class="grid gap-8 lg:grid-cols-2">
+            <CardHeader className="space-y-4 p-8">
+              <Badge variant="outline" className="w-fit">Landing Page</Badge>
+              <CardTitle className="text-2xl">Marketing Site in Minutes</CardTitle>
+              <CardDescription className="text-base leading-relaxed">
+                Build a complete landing page with hero section, features grid, pricing table, and contact form.
+              </CardDescription>
+              <div class="pt-4 space-y-3 text-sm">
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Hero with gradient background</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Feature cards with icons</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Pricing tiers with CTAs</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Contact form with validation</span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="bg-muted/50 p-8 flex items-center">
+              <pre class="text-sm leading-relaxed text-muted-foreground w-full overflow-x-auto"><code>WEBSITE: Marketing Site
+
+CREATE landing page
+  HERO "Launch Your Product"
+  FEATURES grid 3 columns
+  PRICING table 3 tiers
+  CONTACT form email name message
+
+STYLE modern gradient
+DEPLOY edge global</code></pre>
+            </CardContent>
+          </div>
+        </Card>
+
+        <!-- Example 2: Blog -->
+        <Card className="overflow-hidden border-primary/20">
+          <div class="grid gap-8 lg:grid-cols-2">
+            <CardHeader className="space-y-4 p-8">
+              <Badge variant="outline" className="w-fit">Blog Platform</Badge>
+              <CardTitle className="text-2xl">Content-Rich Blog</CardTitle>
+              <CardDescription className="text-base leading-relaxed">
+                Full-featured blog with search, categories, tags, RSS feed, and SEO optimization.
+              </CardDescription>
+              <div class="pt-4 space-y-3 text-sm">
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Real-time search</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Multi-view layouts (list/grid)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Auto-generated ToC</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">RSS feed & sitemap</span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="bg-muted/50 p-8 flex items-center">
+              <pre class="text-sm leading-relaxed text-muted-foreground w-full overflow-x-auto"><code>WEBSITE: Tech Blog
+
+CREATE blog posts
+  SEARCH real-time
+  CATEGORIES tech startup design
+  TAGS unlimited
+  LAYOUT list grid-2 grid-3
+
+ADD table of contents
+ADD social sharing
+GENERATE rss sitemap
+OPTIMIZE seo lighthouse</code></pre>
+            </CardContent>
+          </div>
+        </Card>
+
+        <!-- Example 3: Dashboard -->
+        <Card className="overflow-hidden border-primary/20">
+          <div class="grid gap-8 lg:grid-cols-2">
+            <CardHeader className="space-y-4 p-8">
+              <Badge variant="outline" className="w-fit">SaaS Dashboard</Badge>
+              <CardTitle className="text-2xl">User Dashboard</CardTitle>
+              <CardDescription className="text-base leading-relaxed">
+                Protected dashboard with authentication, real-time data, charts, and settings.
+              </CardDescription>
+              <div class="pt-4 space-y-3 text-sm">
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">6 auth methods (email, OAuth, 2FA)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Real-time data updates</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">Interactive charts</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <div class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></div>
+                  <span class="text-muted-foreground">User settings & profile</span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="bg-muted/50 p-8 flex items-center">
+              <pre class="text-sm leading-relaxed text-muted-foreground w-full overflow-x-auto"><code>WEBSITE: SaaS Dashboard
+
+REQUIRE auth email oauth
+  PROVIDERS github google
+  ENABLE 2fa magic-links
+
+CREATE dashboard
+  CHARTS revenue users growth
+  TABLES data-grid sortable
+  SETTINGS profile billing team
+
+CONNECT convex real-time
+PROTECT all routes</code></pre>
+            </CardContent>
+          </div>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="border-y bg-muted/50 px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          Built on Modern Tech
+          <br />
+          <span class="text-muted-foreground">Zero Configuration</span>
+        </h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground">
+          Production-ready stack with best practices built-in. No setup, no config files, just results.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="border-border/50 bg-card/50">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-lg">Astro 5.14+</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Lightning-fast SSR with islands architecture. 100/100 Lighthouse scores.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-lg">React 19</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Edge-compatible server rendering. The "impossible" Cloudflare Workers setup.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-lg">shadcn/ui</CardTitle>
+            <CardDescription className="leading-relaxed">
+              50+ pre-installed accessible components. Beautiful dark mode included.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-lg">Tailwind CSS v4</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Modern CSS-based configuration. Zero runtime overhead.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-lg">Convex Backend</CardTitle>
+            <CardDescription className="leading-relaxed">
+              Real-time database with typed functions and automatic subscriptions.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border/50 bg-card/50">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-lg">Cloudflare Pages</CardTitle>
+            <CardDescription className="leading-relaxed">
+              330+ edge locations worldwide. Deploy globally in 60 seconds.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-16 space-y-4 text-center">
+        <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          Why ONE Stack?
+        </h2>
+        <p class="text-lg text-muted-foreground">
+          Most templates give you a skeleton. We give you a complete application.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b">
+              <th class="p-4 text-left font-semibold">Feature</th>
+              <th class="p-4 text-center font-semibold text-primary">ONE Stack</th>
+              <th class="p-4 text-center font-semibold text-muted-foreground">Other Templates</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr>
+              <td class="p-4">Authentication</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">6 methods</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">0-1 methods</td>
+            </tr>
+            <tr class="bg-muted/50">
+              <td class="p-4">Backend</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">Convex (real-time)</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">Static only</td>
+            </tr>
+            <tr>
+              <td class="p-4">UI Components</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">50+ shadcn/ui</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">0-10 components</td>
+            </tr>
+            <tr class="bg-muted/50">
+              <td class="p-4">React Version</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">React 19 (SSR)</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">React 18</td>
+            </tr>
+            <tr>
+              <td class="p-4">English Commands</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">Built-in DSL</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">None</td>
+            </tr>
+            <tr class="bg-muted/50">
+              <td class="p-4">Lighthouse Score</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">100/100</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">70-100</td>
+            </tr>
+            <tr>
+              <td class="p-4">Edge Deployment</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">330+ locations</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">Limited</td>
+            </tr>
+            <tr class="bg-muted/50">
+              <td class="p-4">Documentation</td>
+              <td class="p-4 text-center">
+                <Badge variant="default">41 docs</Badge>
+              </td>
+              <td class="p-4 text-center text-muted-foreground">Basic README</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="px-6 py-24 md:px-8 md:py-32">
+    <div class="mx-auto max-w-4xl text-center space-y-8">
+      <h2 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+        Start Building Today
+      </h2>
+      <p class="text-xl text-muted-foreground leading-relaxed">
+        Join founders, engineers, and creators building the future with English commands.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+        <a href="https://github.com/one-ie/stack" target="_blank" rel="noopener noreferrer">
+          <Button size="lg" className="h-14 px-8 text-lg font-semibold">
+            <Github className="mr-2 h-5 w-5" />
+            Get Started Free
+          </Button>
+        </a>
+        <a href="/readme">
+          <Button variant="outline" size="lg" className="h-14 px-8 text-lg font-semibold">
+            Read Documentation
+          </Button>
+        </a>
+      </div>
+      <p class="text-sm text-muted-foreground pt-8">
+        Maximum freedom. Zero restrictions. <a href="https://one.ie/free-license" target="_blank" rel="noopener noreferrer" class="underline hover:text-foreground">View License</a>
+      </p>
+    </div>
+  </section>
+
+</Layout>

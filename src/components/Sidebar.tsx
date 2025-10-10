@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Home, FileText, Scale, Book, Mail, PanelLeft, ChevronsUpDown, LogOut, UserPlus, LogIn, LayoutDashboard, Settings } from "lucide-react"
+import { Scale, Book, PanelLeft, ChevronsUpDown, LogOut, UserPlus, LogIn, LayoutDashboard, Settings, Palette, Code2, Network, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -17,11 +17,12 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { siteConfig } from "@/config/site"
 
 const iconMap = {
-  '/': Home,
+  '/ontology': Network,
+  '/software': Code2,
+  '/design': Palette,
   '/blog': Book,
-  '/mail': Mail,
   '/readme': FileText,
-  '/mit-license': Scale,
+  'https://one.ie/free-license': Scale,
 } as const
 
 const navItems = siteConfig.navigation.map((item) => ({
@@ -167,6 +168,7 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
             {navItems.map((item) => {
               const Icon = item.icon
               const isActive = currentPath === item.url
+              const isExternal = item.url.startsWith('http')
               return (
                 <a
                   key={item.url}
@@ -175,6 +177,8 @@ export function Sidebar({ children }: SimpleSidebarLayoutProps) {
                     isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
                   }`}
                   title={collapsed ? item.title : undefined}
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
                 >
                   <Icon className="h-6 w-6 shrink-0" />
                   {!collapsed && <span>{item.title}</span>}

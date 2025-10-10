@@ -42,10 +42,11 @@ export const siteConfig: SiteConfig = {
   },
 
   navigation: [
-    { title: 'Home', path: '/' },
+    { title: 'Ontology', path: '/ontology' },
+    { title: 'Software', path: '/software' },
+    { title: 'Design', path: '/design' },
     { title: 'Blog', path: '/blog' },
-    { title: 'Mail', path: '/mail' },
     { title: 'README', path: '/readme' },
-    { title: 'License', path: '/mit-license' },
+    { title: 'License', path: 'https://one.ie/free-license' },
   ],
 };

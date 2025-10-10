@@ -1,29 +1,135 @@
-# 🚀 ONE Stack - The Ultimate Astro Shadcn Better Auth Convex Template
+# ONE - Bring Your Ideas to Life
 
-**Astro 5 + React 19 + shadcn/ui + Tailwind 4 + Better Auth + Convex**
+## English → Code → Reality
 
-Advanced, production-ready Astro starter template with **enterprise-grade authentication**, real-time backend, and beautiful UI components. Built for developers who want to ship fast without compromising on quality. Ready to deploy on Cloudflare Pages, Vercel, Netlify, or any other platform.
+**ONE transforms ideas into living, AI-powered businesses through plain English commands.**
 
-[![Deploy to Cloudflare Pages](https://img.shields.io/badge/Deploy%20to-Cloudflare%20Pages-orange)](https://pages.cloudflare.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Astro](https://img.shields.io/badge/Astro-5.14+-purple)](https://astro.build)
-[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev)
+Built with love by humans and AI working together, ONE was made for founders, engineers, creators and educators.
 
-## 🌟 Why ONE Stack?
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue)](https://stack.one.ie)
+[![License](https://img.shields.io/badge/License-ONE-green)](https://one.ie/free-license)
+[![Deploy](https://img.shields.io/badge/Deploy-Cloudflare-orange)](https://pages.cloudflare.com/)
 
-✅ **6 Authentication Methods** - Email/password, OAuth (GitHub/Google), magic links, 2FA, password reset, email verification
-✅ **Real-time Backend** - Convex database with typed functions and subscriptions
-✅ **50+ UI Components** - Complete shadcn/ui library pre-installed and configured
-✅ **React 19 SSR on Cloudflare** - Edge rendering with the "impossible" React 19 + Cloudflare Workers setup
-✅ **MCP Integration** - 3 pre-configured MCP servers for AI-assisted development
-✅ **Advanced Blog System** - Multi-view layouts, real-time search, ToC, social sharing
-✅ **Enterprise Security** - Rate limiting, session management, encrypted passwords
-✅ **Perfect Lighthouse Scores** - 100/100 across all metrics
-✅ **Production Ready** - TypeScript strict mode, ESLint, Prettier, comprehensive docs
+---
 
-📋 **[View Complete Feature List](./plans/landing.md)** - Comprehensive documentation of all 100+ features
+## ✨ How It Works
 
-### Comparison with Other Astro Templates
+### Write in English
+Simple commands anyone can understand. "CREATE sales agent", "CALL OpenAI", "RECORD interaction".
+
+### System Validates
+Validates against ontology: entity types, connections, services. Instant feedback on errors.
+
+### Code Generated
+Production TypeScript with Effect.ts, Convex, React, tests. Type-safe and ready to deploy.
+
+### Deploy to Edge
+Cloudflare's global network. Unlimited requests, zero config. Live in 60 seconds.
+
+---
+
+## 🧬 The ONE Ontology
+
+Every interaction flows through five layers. Each layer enriches AI understanding, making your agents smarter with every action.
+
+### 1. **People** - Intent, Governance, Authorization
+Set intent, govern outcomes, authorize every action. Humans remain in command while agents execute.
+
+**AI Customization:** Your preferences, writing style, brand voice, and approval rules teach agents how to work exactly the way you want.
+
+### 2. **Things** - Every Entity
+Every entity — agents, products, audiences, tokens, courses. 66 types out of the box.
+
+**AI Customization:** Rich properties store context about each entity—sales agent knows lead history, content agent knows top topics.
+
+### 3. **Connections** - Relationships
+Express relationships — ownership, memberships, revenue flows. Powers collaboration and value exchange.
+
+**AI Customization:** Relationship metadata reveals engagement levels, loyalty patterns, collaboration history.
+
+### 4. **Events** - Chronicle Actions
+Chronicle every action — launches, interactions, transactions, insights. Full audit trail built-in.
+
+**AI Customization:** Event streams reveal behavior patterns—what content performs best, which features drive engagement.
+
+### 5. **Knowledge** - Semantics & Search
+Store semantics — labels, chunks, embeddings. Makes agents intelligent and enables rich context.
+
+**AI Customization:** Vector embeddings power semantic search, document understanding, intelligent recommendations.
+
+---
+
+## 🤖 Build AI Agents in Plain English
+
+Define AI agents that work like teammates—specialized, coordinated, and always learning. No AI expertise required.
+
+### Sales Agent
+```
+AGENT: Sales Agent
+
+WHEN lead messages:
+  GET lead history
+  CALL OpenAI qualify
+  IF interested:
+    BOOK meeting
+  RECORD interaction
+```
+
+### Content Agent
+```
+AGENT: Content Agent
+
+EVERY DAY at 8am:
+  GET my writing style
+  GET trending topics
+  CALL OpenAI generate post
+  SCHEDULE post
+  TRACK performance
+```
+
+**Agents coordinate through the shared ontology, learning from every interaction.**
+
+---
+
+## 📋 Maximum Freedom, Zero Restrictions
+
+Complete commercial freedom to use, modify, sell, and resell. No usage limits. No royalty fees.
+
+- ✅ **Unlimited Rights** - Use, modify, distribute, sell, resell without restrictions
+- ✅ **Commercial Use** - Build SaaS, products, derivative works
+- ✅ **Perpetual License** - Rights granted forever
+- ✅ **License Compatible** - Works with MIT, Apache, GPL, BSD, Mozilla
+- ✅ **No Fees Ever** - Zero usage limits, zero royalties
+- ✅ **One Requirement** - Display "Powered by ONE" in footer
+
+[Read Full License →](https://one.ie/free-license)
+
+---
+
+## 🚀 Technical Stack
+
+**Modern, production-ready foundation:**
+
+- **Astro 5.14+** - Lightning-fast SSR with islands architecture
+- **React 19** - Edge-compatible server rendering (the "impossible" setup)
+- **shadcn/ui** - 50+ pre-installed, accessible components
+- **Tailwind CSS v4** - Modern CSS-based configuration
+- **Convex** - Real-time database with typed functions
+- **Better Auth** - 6 authentication methods (email, OAuth, magic links, 2FA)
+- **TypeScript 5.9+** - Strict mode, full type safety
+- **Cloudflare Pages** - Global edge deployment
+
+### 🌟 Why ONE Stack?
+
+✅ **Complete Auth System** - 6 methods: email/password, GitHub, Google, magic links, 2FA, password reset
+✅ **Real-time Backend** - Convex with typed functions and subscriptions
+✅ **AI-Powered DSL** - Plain English commands compile to production code
+✅ **50+ UI Components** - Complete shadcn/ui library ready to use
+✅ **Perfect Lighthouse** - 100/100 across all metrics
+✅ **Maximum Freedom** - Use, modify, sell without restrictions
+✅ **Production Ready** - Rate limiting, sessions, encryption built-in
+
+### Comparison with Other Templates
 
 | Feature | ONE Stack | Other Templates |
 |---------|-----------|-----------------|
